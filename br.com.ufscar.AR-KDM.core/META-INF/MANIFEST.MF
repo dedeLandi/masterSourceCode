@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Core
 Bundle-SymbolicName: br.ufscar.AR-KDM.core
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: br.com.ufscar.ar_kdm.core.Activator
+Bundle-Activator: br.ufscar.ar_kdm.core.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
