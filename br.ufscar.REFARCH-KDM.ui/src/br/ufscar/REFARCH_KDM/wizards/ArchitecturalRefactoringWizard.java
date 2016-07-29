@@ -7,6 +7,8 @@ import br.ufscar.REFARCH_KDM.wizardsPage.Page01Introduction;
 import br.ufscar.REFARCH_KDM.wizardsPage.Page02SelectFileWithDrift;
 import br.ufscar.REFARCH_KDM.wizardsPage.Page03SelectDrift;
 import br.ufscar.REFARCH_KDM.wizardsPage.Page04ProcessAnalisis;
+import br.ufscar.REFARCH_KDM.wizardsPage.Page05FillRefactoringCatalog;
+import br.ufscar.REFARCH_KDM.wizardsPage.Page05ProcessFillRefactoringCatalog;
 import br.ufscar.REFARCH_KDM.wizardsPage.Page06SelectRefactoringToDo;
 import br.ufscar.REFARCH_KDM.wizardsPage.Page07ProcessEffectRefactor;
 import br.ufscar.REFARCH_KDM.wizardsPage.Page08SaveAndFinish;
@@ -22,8 +24,8 @@ public class ArchitecturalRefactoringWizard extends Wizard {
 	private Page07ProcessEffectRefactor page7 = new Page07ProcessEffectRefactor();
 	private Page08SaveAndFinish page8 = new Page08SaveAndFinish();
 	
-//	private Page05FillRefactoringCatalog page5_1 = new Page05FillRefactoringCatalog();
-//	private Page05ProcessFillRefactoringCatalog page5_2 = new Page05ProcessFillRefactoringCatalog();
+	private Page05ProcessFillRefactoringCatalog page5_1 = new Page05ProcessFillRefactoringCatalog();
+	private Page05FillRefactoringCatalog page5_2 = new Page05FillRefactoringCatalog();
 
 	public ArchitecturalRefactoringWizard() {
 		setWindowTitle("Architectural Refactoring Wizard");
@@ -36,6 +38,8 @@ public class ArchitecturalRefactoringWizard extends Wizard {
 		addPage(page2);
 		addPage(page3);
 		addPage(page4);
+		addPage(page5_1);
+		addPage(page5_2);
 		addPage(page6);
 		addPage(page7);
 		addPage(page8);
