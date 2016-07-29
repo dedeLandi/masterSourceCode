@@ -8,7 +8,9 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -40,9 +42,22 @@ public class Page06SelectRefactoringToDo extends WizardPage {
 		scRecommendation.setExpandHorizontal(true);
 		scRecommendation.setExpandVertical(true);
 		
-		tRecommendation = new Table(scRecommendation, SWT.BORDER | SWT.FULL_SELECTION);
+		tRecommendation = new Table(scRecommendation, SWT.BORDER | SWT.CHECK | SWT.FULL_SELECTION);
 		tRecommendation.setHeaderVisible(true);
 		tRecommendation.setLinesVisible(true);
+		tRecommendation.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				for (TableItem item : tRecommendation.getItems()) {
+					item.setChecked(false);
+				}
+				
+				if(event.detail != SWT.CHECK){
+					((TableItem) event.item).setChecked(true);
+				}
+
+
+			}
+		});
 		
 		TableColumn tcDescription = new TableColumn(tRecommendation, SWT.NONE);
 		tcDescription.setWidth(260);
