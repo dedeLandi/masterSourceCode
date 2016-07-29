@@ -22,7 +22,7 @@ public class Page03SelectDrift extends WizardPage {
 	 * Create the wizard.
 	 */
 	public Page03SelectDrift() {
-		super("wizardPage");
+		super("page03");
 		setTitle("Architectural Refactoring Wizard");
 		setDescription("Select the drift that you want to solve.");
 	}
