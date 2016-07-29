@@ -20,7 +20,7 @@ public class Page07ProcessEffectRefactor extends WizardPage {
 	 * Create the wizard.
 	 */
 	public Page07ProcessEffectRefactor() {
-		super("wizardPage");
+		super("page07");
 		setTitle("Architectural Refactoring Wizard");
 		setDescription("Executing the recommendation.");
 	}
