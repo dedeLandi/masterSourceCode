@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
@@ -15,12 +16,14 @@ import org.eclipse.swt.widgets.Label;
 public class Page04ProcessAnalisis extends WizardPage {
 
 	private boolean canFlip = false;
+	private boolean analisisComplete = false;
+	
 
 	/**
 	 * Create the wizard.
 	 */
 	public Page04ProcessAnalisis() {
-		super("wizardPage");
+		super("page04");
 		setTitle("Architectural Refactoring Wizard");
 		setDescription("Processing the recommendation.");
 	}
@@ -75,6 +78,7 @@ public class Page04ProcessAnalisis extends WizardPage {
 					monitor.done();
 
 					setCanFlip(true);
+					setAnalisisComplete(true);
 					
 				}
 			});
@@ -84,6 +88,15 @@ public class Page04ProcessAnalisis extends WizardPage {
 			ex.printStackTrace();
 		} catch (InterruptedException ex) {
 			ex.printStackTrace();
+		}
+	}
+	
+	@Override
+	public IWizardPage getNextPage() {
+		if(isAnalisisComplete()){
+			return getWizard().getPage("page06");
+		}else{
+			return getWizard().getPage("page05_1");
 		}
 	}
 	
@@ -98,6 +111,14 @@ public class Page04ProcessAnalisis extends WizardPage {
 
 	public void setCanFlip(boolean canFlip) {
 		this.canFlip = canFlip;
+	}
+
+	public boolean isAnalisisComplete() {
+		return analisisComplete;
+	}
+
+	public void setAnalisisComplete(boolean analisisComplete) {
+		this.analisisComplete = analisisComplete;
 	}
 
 }
