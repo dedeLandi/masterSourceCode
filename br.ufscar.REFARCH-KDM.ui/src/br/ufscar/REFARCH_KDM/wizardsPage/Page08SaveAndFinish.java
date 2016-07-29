@@ -14,7 +14,7 @@ public class Page08SaveAndFinish extends WizardPage {
 	 * Create the wizard.
 	 */
 	public Page08SaveAndFinish() {
-		super("wizardPage");
+		super("page08");
 		setTitle("Architectural Refactoring Wizard");
 		setDescription("Process complete.");
 	}
