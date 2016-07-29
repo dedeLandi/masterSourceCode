@@ -16,7 +16,7 @@ public class Page02SelectFileWithDrift extends WizardPage {
 	 * Create the wizard.
 	 */
 	public Page02SelectFileWithDrift() {
-		super("wizardPage");
+		super("page02");
 		setTitle("Architectural Refactoring Wizard");
 		setDescription("Select the file containing the architectural drifts.");
 	}
