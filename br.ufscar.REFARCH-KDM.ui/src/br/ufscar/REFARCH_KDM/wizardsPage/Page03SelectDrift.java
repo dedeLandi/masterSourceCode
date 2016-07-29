@@ -46,15 +46,14 @@ public class Page03SelectDrift extends WizardPage {
 		tDrifts.setLinesVisible(true);
 		tDrifts.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
+				for (TableItem item : tDrifts.getItems()) {
+					item.setChecked(false);
+				}
 				
-				if(event.detail == SWT.CHECK){
-					((TableItem) event.item).setChecked(false);
-				}else{
+				if(event.detail != SWT.CHECK){
 					((TableItem) event.item).setChecked(true);
 				}
 
-				String string = event.detail == SWT.CHECK ? "Checked" : "Selected";
-				System.out.println(event.item + " " + string);
 
 			}
 		});
