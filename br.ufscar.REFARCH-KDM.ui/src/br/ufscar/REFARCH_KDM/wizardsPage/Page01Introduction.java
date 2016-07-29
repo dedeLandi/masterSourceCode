@@ -11,7 +11,7 @@ public class Page01Introduction extends WizardPage {
 	 * Create the wizard.
 	 */
 	public Page01Introduction() {
-		super("wizardPage");
+		super("page01");
 		setPageComplete(false);
 		setMessage("");
 		
