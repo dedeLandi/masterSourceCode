@@ -23,7 +23,7 @@ public class Page06SelectRefactoringToDo extends WizardPage {
 	 * Create the wizard.
 	 */
 	public Page06SelectRefactoringToDo() {
-		super("wizardPage");
+		super("page06");
 		setTitle("Architectural Refactoring Wizard");
 		setDescription("Select the recommendation that you want to apply.");
 	}
