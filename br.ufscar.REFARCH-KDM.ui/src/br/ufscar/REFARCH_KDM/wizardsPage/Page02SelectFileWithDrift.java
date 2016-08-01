@@ -2,6 +2,8 @@ package br.ufscar.REFARCH_KDM.wizardsPage;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -12,8 +14,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
+
+import br.ufscar.REFARCH_KDM.readDrifts.ReadDriftsAlgorithm;
 
 public class Page02SelectFileWithDrift extends WizardPage {
 
@@ -91,10 +93,15 @@ public class Page02SelectFileWithDrift extends WizardPage {
         	System.out.println(selected);
         	tPathFileDrifts.setText(selected);
         }
+        getWizard().getContainer().updateButtons();
 	}
 
 	private void fillCbAlgorithm(Combo combo) {
-		combo.add("ARCH-KDM Algorihm");
+		
+		for (ReadDriftsAlgorithm algo : ReadDriftsAlgorithm.values()) {
+			combo.add(algo.getDescription());
+		}
+		
 	}
 	
 	private boolean validateCbAlgorithm() {
