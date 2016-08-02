@@ -40,7 +40,7 @@ public class Page02SelectFileWithDrift extends WizardPage {
 
 		setControl(container);
 		container.setLayout(new GridLayout(3, false));
-		
+
 		Label lblSelectionOfThe = new Label(container, SWT.NONE);
 		lblSelectionOfThe.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 3, 1));
 		lblSelectionOfThe.setText("Selection of the algorithm to process the file containing the architectural drifts. ");
@@ -77,33 +77,40 @@ public class Page02SelectFileWithDrift extends WizardPage {
 		});
 		bSearch.setText("Search");
 
-		fillCbAlgorithm(cbAlgorithm);
+		fillCbAlgorithm();
 	}
 
 	protected void chooseFile() {
-		FileDialog fd = new FileDialog(getShell(), SWT.OPEN);
-        fd.setText("Open");
-        fd.setFilterPath("C:/");
-        String[] filterExt = { "*.xmi" };
-        fd.setFilterExtensions(filterExt);
-        String selected = fd.open();
-        if(selected == null){
-        	tPathFileDrifts.setText("");
-        }else{
-        	System.out.println(selected);
-        	tPathFileDrifts.setText(selected);
-        }
-        getWizard().getContainer().updateButtons();
+
+		if(cbAlgorithm.getSelectionIndex() == -1){
+			setErrorMessage("Select one type of algorithm to continue.");
+		}else{	
+			setErrorMessage(null); // clear error message. 
+
+			FileDialog fd = new FileDialog(getShell(), SWT.OPEN);
+			fd.setText("Open");
+			fd.setFilterPath("C:/");
+			String[] filterExt = ReadDriftsAlgorithm.valueOf(cbAlgorithm.getText()).getExtensions();
+			fd.setFilterExtensions(filterExt);
+			String selected = fd.open();
+			if(selected == null){
+				tPathFileDrifts.setText("");
+			}else{
+				System.out.println("Path of the XMI file:" + selected);
+				tPathFileDrifts.setText(selected);
+			}
+		}
+		getWizard().getContainer().updateButtons();
 	}
 
-	private void fillCbAlgorithm(Combo combo) {
-		
+	private void fillCbAlgorithm() {
+		cbAlgorithm.removeAll();
 		for (ReadDriftsAlgorithm algo : ReadDriftsAlgorithm.values()) {
-			combo.add(algo.getDescription());
+			cbAlgorithm.add(algo.getDescription());
 		}
-		
+
 	}
-	
+
 	private boolean validateCbAlgorithm() {
 		if(cbAlgorithm.getSelectionIndex() == -1) {  
 			setErrorMessage("Select one type of algorithm to continue.");
@@ -113,7 +120,7 @@ public class Page02SelectFileWithDrift extends WizardPage {
 			return true;
 		}
 	}
-	
+
 	private boolean validateTPathFileDrifts() {
 		if("".equalsIgnoreCase(tPathFileDrifts.getText())) { 
 			setErrorMessage("Select one file to continue.");
@@ -123,10 +130,18 @@ public class Page02SelectFileWithDrift extends WizardPage {
 			return true;
 		}
 	}
-	
+
 	@Override
 	public boolean canFlipToNextPage() {
 		return validateCbAlgorithm() && validateTPathFileDrifts();
 	}
 
+	public String getPathKDMFile() {
+		return tPathFileDrifts.getText();
+	}
+	
+	public ReadDriftsAlgorithm getAlgorithmType(){
+		return ReadDriftsAlgorithm.valueOf(cbAlgorithm.getText());
+	}
+	
 }
