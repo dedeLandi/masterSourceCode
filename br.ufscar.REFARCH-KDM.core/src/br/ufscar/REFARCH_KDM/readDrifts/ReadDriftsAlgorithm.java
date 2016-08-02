@@ -15,7 +15,6 @@ public enum ReadDriftsAlgorithm implements ReadDriftsAlgorithmStrategy{
 			Segment KDMTree = (Segment) KDMFile;
 			
 			
-			
 			return driftsRead;
 		}
 	},
