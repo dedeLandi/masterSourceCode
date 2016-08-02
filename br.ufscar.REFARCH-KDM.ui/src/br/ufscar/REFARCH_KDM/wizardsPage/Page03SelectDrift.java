@@ -15,6 +15,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import br.ufscar.REFARCH_KDM.readDrifts.ReadDriftsAlgorithm;
+import br.ufscar.REFARCH_KDM.readDrifts.ReadDriftsFromKDMFile;
+
 public class Page03SelectDrift extends WizardPage {
 	private Table tDrifts;
 
@@ -108,6 +111,13 @@ public class Page03SelectDrift extends WizardPage {
 	}
 
 	private void fillTDrifts() {
+		
+		String KDMFilePath = ((Page02SelectFileWithDrift) getWizard().getPage("page02")).getPathKDMFile();
+		ReadDriftsAlgorithm algorithmType = ((Page02SelectFileWithDrift) getWizard().getPage("page02")).getAlgorithmType();
+		
+		ReadDriftsFromKDMFile readDrifts = new ReadDriftsFromKDMFile(KDMFilePath, algorithmType);
+		Object KDMFileRead = readDrifts.getKDMDriftsRead();
+		
 		for (int i = 0; i < 20; i++) {
 			TableItem item = new TableItem(tDrifts, SWT.NONE);
 
