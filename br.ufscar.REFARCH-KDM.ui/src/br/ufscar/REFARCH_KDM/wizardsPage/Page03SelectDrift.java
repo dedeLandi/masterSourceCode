@@ -1,5 +1,7 @@
 package br.ufscar.REFARCH_KDM.wizardsPage;
 
+import java.util.List;
+
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -15,6 +17,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import br.ufscar.REFARCH_KDM.readDrifts.ArchitecturalDrift;
 import br.ufscar.REFARCH_KDM.readDrifts.ReadDriftsAlgorithm;
 import br.ufscar.REFARCH_KDM.readDrifts.ReadDriftsFromKDMFile;
 
@@ -116,12 +119,13 @@ public class Page03SelectDrift extends WizardPage {
 		ReadDriftsAlgorithm algorithmType = ((Page02SelectFileWithDrift) getWizard().getPage("page02")).getAlgorithmType();
 		
 		ReadDriftsFromKDMFile readDrifts = new ReadDriftsFromKDMFile(KDMFilePath, algorithmType);
-		Object KDMFileRead = readDrifts.getKDMDriftsRead();
+		List<ArchitecturalDrift> drifts = readDrifts.getKDMDriftsRead();
 		
-		for (int i = 0; i < 20; i++) {
+		for (ArchitecturalDrift architecturalDrift : drifts) {
+			
 			TableItem item = new TableItem(tDrifts, SWT.NONE);
 
-			item.setText(new String[]{"Drift " + i});
+			item.setText(new String[]{architecturalDrift.getDescription()});
 		}
 		tDrifts.setRedraw(true);
 	}
