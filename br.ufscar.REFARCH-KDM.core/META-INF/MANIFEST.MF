@@ -5,3 +5,5 @@ Bundle-SymbolicName: br.ufscar.REFARCH-KDM.core
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: br.ufscar.REFARCH_KDM.readDrifts
+Require-Bundle: org.eclipse.gmt.modisco.omg.kdm,
+ br.ufscar.KDM-MANAGEMENT.core;bundle-version="1.0.0"
