@@ -8,7 +8,7 @@ import org.eclipse.gmt.modisco.omg.kdm.kdm.Segment;
 public enum ReadDriftsAlgorithm implements ReadDriftsAlgorithmStrategy{
 	
 	
-	ALGORITHM_KDM_ARCH_KDM(1, "ARCH-KDM Algorihm", new String[]{"*.xmi"}){
+	ALGORITHM_ARCH_KDM_FROM_SEGMENT(1, "ARCH-KDM Algorihm (using Segment)", new String[]{"*.xmi"}){
 		@Override
 		public List<ArchitecturalDrift> readDrifts(Object KDMFile) {
 			List<ArchitecturalDrift> driftsRead = new ArrayList<>();
@@ -17,6 +17,13 @@ public enum ReadDriftsAlgorithm implements ReadDriftsAlgorithmStrategy{
 			
 			
 			return driftsRead;
+		}
+	},
+	ALGORITHM_ARCH_KDM_FROM_XPATH(1, "ARCH-KDM Algorihm (using XPath) - not implemented", new String[]{"*.xmi"}){
+		@Override
+		public List<ArchitecturalDrift> readDrifts(Object KDMFile) {
+			//TODO Implement the Algorithm
+			return null;
 		}
 	};
 

@@ -10,7 +10,7 @@ public class ReadDriftsFromKDMFile {
 	private String KDMPath = "";
 
 	public ReadDriftsFromKDMFile(String KDMPath) {
-		this.algorithmType = ReadDriftsAlgorithm.ALGORITHM_KDM_ARCH_KDM;
+		this.algorithmType = ReadDriftsAlgorithm.ALGORITHM_ARCH_KDM_FROM_SEGMENT;
 	}
 
 	public ReadDriftsFromKDMFile(String KDMPath, ReadDriftsAlgorithm algorithmType) {
