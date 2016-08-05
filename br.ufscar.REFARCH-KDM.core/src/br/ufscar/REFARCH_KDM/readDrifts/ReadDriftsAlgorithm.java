@@ -15,10 +15,20 @@ public enum ReadDriftsAlgorithm implements ReadDriftsAlgorithmStrategy{
 			Segment KDMTree = (Segment) KDMFile;
 			
 			
+			
+			driftsRead.add(new ArchitecturalDrift().setDescription("Drift 1"));
+			driftsRead.add(new ArchitecturalDrift().setDescription("Drift 2"));
+			driftsRead.add(new ArchitecturalDrift().setDescription("Drift 3"));
+			driftsRead.add(new ArchitecturalDrift().setDescription("Drift 4"));
+			driftsRead.add(new ArchitecturalDrift().setDescription("Drift 5"));
+			driftsRead.add(new ArchitecturalDrift().setDescription("Drift 6"));
+			driftsRead.add(new ArchitecturalDrift().setDescription("Drift 7"));
+			driftsRead.add(new ArchitecturalDrift().setDescription("Drift 8"));
+			driftsRead.add(new ArchitecturalDrift().setDescription("Drift 9"));
 			return driftsRead;
 		}
 	},
-	ALGORITHM_ARCH_KDM_FROM_XPATH(1, "ARCH-KDM Algorihm (using XPath) - not implemented", new String[]{"*.xmi"}){
+	ALGORITHM_ARCH_KDM_FROM_XPATH(1, "ARCH-KDM Algorihm (using XPath) - not implemented", new String[]{"*.txt"}){
 		@Override
 		public List<ArchitecturalDrift> readDrifts(Object KDMFile) {
 			//TODO Implement the Algorithm
@@ -48,5 +58,15 @@ public enum ReadDriftsAlgorithm implements ReadDriftsAlgorithmStrategy{
 		return extensions;
 	}
 
+	public static ReadDriftsAlgorithm getEnumObject(String description) {
+		for (ReadDriftsAlgorithm enumValue : ReadDriftsAlgorithm.values()) {
+			if(enumValue.getDescription().equalsIgnoreCase(description)){
+				return enumValue;
+			}
+		}
+		return null;
+	}
 
+	
+	
 }
