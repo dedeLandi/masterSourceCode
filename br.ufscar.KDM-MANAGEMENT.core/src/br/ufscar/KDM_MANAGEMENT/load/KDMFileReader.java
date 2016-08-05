@@ -48,6 +48,8 @@ public class KDMFileReader {
 	}
 
 	private Segment readToSegment(String KDMModelFullPath) throws KDMFileException {
+
+		KDMModelFullPath = "file:///" + KDMModelFullPath;
 		System.err.println("KDM Path: " + KDMModelFullPath);
 
 		if("".equalsIgnoreCase(KDMModelFullPath)){
@@ -57,7 +59,7 @@ public class KDMFileReader {
 
 			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 			Map<String, Object> m = reg.getExtensionToFactoryMap();
-			m.put("fer", new XMIResourceFactoryImpl());
+			m.put("xmi", new XMIResourceFactoryImpl());
 
 			// Obtain a new resource set
 			ResourceSet resSet = new ResourceSetImpl();
