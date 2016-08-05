@@ -18,8 +18,9 @@ public class ArchitecturalDrift {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public ArchitecturalDrift setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 	
 	
