@@ -20,21 +20,11 @@ import org.eclipse.gmt.modisco.omg.kdm.ui.UIModel;
 
 public class KDMModelReader {
 
-	public static final String BUILD_MODEL = "BuildModel";
-	public static final String CODE_MODEL = "CodeModel";
-	public static final String CONCEPTUAL_MODEL = "ConceptualModel";
-	public static final String DATA_MODEL = "DataModel";
-	public static final String EVENT_MODEL = "EventModel";
-	public static final String INVENTORY_MODEL = "InventoryModel";
-	public static final String PLATFORM_MODEL = "PlatformModel";
-	public static final String STRUCTURE_MODEL = "StructureModel";
-	public static final String UI_MODEL = "UIModel";
-
 	private Segment segmentMain;
 	private static Map<String, Map<String, List<KDMModel>>> models = null; 
 
-	public KDMModelReader(Segment segmentMain) {
-		this.segmentMain = segmentMain;
+	public KDMModelReader(Segment KDMTree) {
+		this.segmentMain = KDMTree;
 	}
 
 	public Map<String, Map<String, List<KDMModel>>> getAllModels() {
@@ -43,53 +33,53 @@ public class KDMModelReader {
 		
 		EList<KDMModel> kdmModelASIS = segmentMain.getModel();
 
-		models.put(BUILD_MODEL, null);
-		models.put(CODE_MODEL, null);
-		models.put(CONCEPTUAL_MODEL, null);
-		models.put(DATA_MODEL, null);
-		models.put(EVENT_MODEL, null);
-		models.put(INVENTORY_MODEL, null);
-		models.put(PLATFORM_MODEL, null);
-		models.put(STRUCTURE_MODEL, null);
-		models.put(UI_MODEL, null);
+		models.put(KDMModelType.BUILD_MODEL.getTypeModel(), null);
+		models.put(KDMModelType.CODE_MODEL.getTypeModel(), null);
+		models.put(KDMModelType.CONCEPTUAL_MODEL.getTypeModel(), null);
+		models.put(KDMModelType.DATA_MODEL.getTypeModel(), null);
+		models.put(KDMModelType.EVENT_MODEL.getTypeModel(), null);
+		models.put(KDMModelType.INVENTORY_MODEL.getTypeModel(), null);
+		models.put(KDMModelType.PLATFORM_MODEL.getTypeModel(), null);
+		models.put(KDMModelType.STRUCTURE_MODEL.getTypeModel(), null);
+		models.put(KDMModelType.UI_MODEL.getTypeModel(), null);
 
 		for (KDMModel kdmModel : kdmModelASIS) {
 
 			if(kdmModel instanceof BuildModel){
 
-				includeModelInMap(kdmModel, BUILD_MODEL);
+				includeModelInMap(kdmModel, KDMModelType.BUILD_MODEL);
 
 			}else if(kdmModel instanceof CodeModel){
 
-				includeModelInMap(kdmModel, CODE_MODEL);
+				includeModelInMap(kdmModel, KDMModelType.CODE_MODEL);
 
 			}else if(kdmModel instanceof ConceptualModel){
 
-				includeModelInMap(kdmModel, CONCEPTUAL_MODEL);
+				includeModelInMap(kdmModel, KDMModelType.CONCEPTUAL_MODEL);
 
 			}else if(kdmModel instanceof DataModel){
 
-				includeModelInMap(kdmModel, DATA_MODEL);
+				includeModelInMap(kdmModel, KDMModelType.DATA_MODEL);
 
 			}else if(kdmModel instanceof EventModel){
 
-				includeModelInMap(kdmModel, EVENT_MODEL);
+				includeModelInMap(kdmModel, KDMModelType.EVENT_MODEL);
 
 			}else if(kdmModel instanceof InventoryModel){
 
-				includeModelInMap(kdmModel, INVENTORY_MODEL);
+				includeModelInMap(kdmModel, KDMModelType.INVENTORY_MODEL);
 
 			}else if(kdmModel instanceof PlatformModel){
 
-				includeModelInMap(kdmModel, PLATFORM_MODEL);
+				includeModelInMap(kdmModel, KDMModelType.PLATFORM_MODEL);
 
 			}else if (kdmModel instanceof StructureModel) {
 
-				includeModelInMap(kdmModel, STRUCTURE_MODEL);
+				includeModelInMap(kdmModel, KDMModelType.STRUCTURE_MODEL);
 
 			}else if(kdmModel instanceof UIModel){
 
-				includeModelInMap(kdmModel, UI_MODEL);
+				includeModelInMap(kdmModel, KDMModelType.UI_MODEL);
 				
 			}
 		}
@@ -98,20 +88,20 @@ public class KDMModelReader {
 	}
 
 	@SuppressWarnings("serial")
-	private void includeModelInMap(KDMModel kdmModel, String modelType) {
-		if(models.get(modelType) == null){
+	private void includeModelInMap(KDMModel kdmModel, KDMModelType modelType) {
+		if(models.get(modelType.getTypeModel()) == null){
 
-			models.put(modelType, new HashMap<String, List<KDMModel>>());
-			models.get(modelType).put(kdmModel.getName(), new ArrayList<KDMModel>(){{ add(kdmModel);}});
+			models.put(modelType.getTypeModel(), new HashMap<String, List<KDMModel>>());
+			models.get(modelType.getTypeModel()).put(kdmModel.getName(), new ArrayList<KDMModel>(){{ add(kdmModel);}});
 
 		}else{
-			if(models.get(modelType).get(kdmModel.getName()) == null){
+			if(models.get(modelType.getTypeModel()).get(kdmModel.getName()) == null){
 
-				models.get(modelType).put(kdmModel.getName(), new ArrayList<KDMModel>(){{ add(kdmModel);}});
+				models.get(modelType.getTypeModel()).put(kdmModel.getName(), new ArrayList<KDMModel>(){{ add(kdmModel);}});
 
 			}else {
 
-				models.get(modelType).get(kdmModel.getName()).add(kdmModel);
+				models.get(modelType.getTypeModel()).get(kdmModel.getName()).add(kdmModel);
 			}
 		}
 	}
@@ -120,28 +110,28 @@ public class KDMModelReader {
 		if(models == null){
 			getAllModels();
 		}
-		return models.get(STRUCTURE_MODEL);
+		return models.get(KDMModelType.STRUCTURE_MODEL.getTypeModel());
 	}
 	
 	public Map<String, List<KDMModel>> getAllCodeModel(){
 		if(models == null){
 			getAllModels();
 		}
-		return models.get(CODE_MODEL);
+		return models.get(KDMModelType.CODE_MODEL.getTypeModel());
 	}
 	
 	public List<KDMModel> getStructureModel(String name){
 		if(models == null){
 			getAllModels();
 		}
-		return models.get(STRUCTURE_MODEL).get(name);
+		return models.get(KDMModelType.STRUCTURE_MODEL.getTypeModel()).get(name);
 	}
 	
 	public List<KDMModel> getCodeModel(String name){
 		if(models == null){
 			getAllModels();
 		}
-		return models.get(CODE_MODEL).get(name);
+		return models.get(KDMModelType.CODE_MODEL.getTypeModel()).get(name);
 	}
 	
 }
