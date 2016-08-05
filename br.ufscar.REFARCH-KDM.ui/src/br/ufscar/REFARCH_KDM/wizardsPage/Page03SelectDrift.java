@@ -110,11 +110,10 @@ public class Page03SelectDrift extends WizardPage {
 		scrolledComposite.setContent(composite);
 		scrolledComposite.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
-		fillTDrifts();
 	}
 
-	private void fillTDrifts() {
-		
+	public void fillTDrifts() {
+		tDrifts.removeAll();
 		String KDMFilePath = ((Page02SelectFileWithDrift) getWizard().getPage("page02")).getPathKDMFile();
 		ReadDriftsAlgorithm algorithmType = ((Page02SelectFileWithDrift) getWizard().getPage("page02")).getAlgorithmType();
 		
