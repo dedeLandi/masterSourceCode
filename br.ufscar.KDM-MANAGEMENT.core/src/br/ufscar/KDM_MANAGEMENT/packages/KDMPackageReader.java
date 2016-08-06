@@ -12,13 +12,14 @@ import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.KDMModel;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.Segment;
 
+import br.ufscar.KDM_MANAGEMENT.exception.KDMModelTypeException;
 import br.ufscar.KDM_MANAGEMENT.models.KDMModelReader;
 
 
 public class KDMPackageReader {
 
 	private Segment segmentMain = null;
-	private KDMModel modelMain = null;
+	private CodeModel modelMain = null;
 
 	private Map<String, List<Package>> packagesPerModel = null;
 
@@ -27,9 +28,14 @@ public class KDMPackageReader {
 		this.modelMain = null;
 	}
 
-	public KDMPackageReader(KDMModel KDMModel) {
-		this.segmentMain = null;
-		this.modelMain = KDMModel;
+	public KDMPackageReader(KDMModel kdmModel) throws KDMModelTypeException {
+		if(kdmModel instanceof CodeModel){
+			this.segmentMain = null;
+			this.modelMain = (CodeModel) kdmModel;
+		}else{
+			throw new KDMModelTypeException();
+		}
+		
 	}
 
 	public Map<String, List<Package>> getAllPackages() {
@@ -59,7 +65,7 @@ public class KDMPackageReader {
 
 				EList<AbstractCodeElement> elements = codeModel.getCodeElement();
 
-				for (int i = 0; i < elements.size() - 1; i++) {
+				for (int i = 0; i < elements.size() ; i++) {
 
 					if (elements.get(i) instanceof Package) {
 
@@ -90,7 +96,7 @@ public class KDMPackageReader {
 
 		EList<AbstractCodeElement> elements = codeModel.getCodeElement();
 
-		for (int i = 0; i < elements.size() - 1; i++) {
+		for (int i = 0; i < elements.size() ; i++) {
 
 			if (elements.get(i) instanceof Package) {
 
