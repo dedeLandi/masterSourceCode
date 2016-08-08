@@ -89,7 +89,7 @@ public class ReadingKDMFile {
 	private ArrayList<HasValue> allHasValues = new ArrayList<HasValue>();
 
 	private Segment targetArchitecture = null;
-
+//ok
 	/** 
 	 * Retorna um segmento passando como parametro o caminho completo de um arquivo KDM.
 	 * 
@@ -612,7 +612,7 @@ public class ReadingKDMFile {
 
 	}
 
-
+//ok
 	/** 
 	 * Esse metodo e responsavel por obter todos os pacotes da instancia do KDM
 	 * @param segment, representa uma instancia do KDM
@@ -643,7 +643,7 @@ public class ReadingKDMFile {
 
 		return allPackages;
 	}
-
+//ok
 	/** 
 	 * Esse metodo e responsavel por obter todos os pacotes da instancia do KDM
 	 * @param packageToGet, o pacote para obter
@@ -678,7 +678,7 @@ public class ReadingKDMFile {
 		EList<AbstractCodeElement> allClassesAndInterfaces = auxPackage.getCodeElement();
 		return allClassesAndInterfaces;
 	}
-
+//ok
 	/** 
 	 * Esse metodo e responsavel por obter todas as classes da instancia do KDM
 	 * @param segment, o segment que representa a instancia do modelo
@@ -709,7 +709,7 @@ public class ReadingKDMFile {
 		return allClasses;
 
 	}
-
+//ok
 	/** 
 	 * Esse metodo e responsavel por obter todas as Interfaces da instancia do KDM
 	 * @param segment, o segment que representa a instancia do modelo
@@ -740,7 +740,7 @@ public class ReadingKDMFile {
 		return allInterface;
 
 	}
-
+//ok
 	/** 
 	 * Esse metodo e responsavel por obter todas as classes da instancia do KDM
 	 * @param elements, representa todos os elementos
@@ -765,7 +765,7 @@ public class ReadingKDMFile {
 		}
 
 	}
-
+//ok
 	/** 
 	 * Esse metodo e responsavel por obter todas as classes da instancia do KDM
 	 * @param elements, representa todos os elementos
@@ -925,7 +925,7 @@ public class ReadingKDMFile {
 		return hasValue;
 
 	}
-
+//ok
 	public ClassUnit getClassUnit (Segment segment, String name) {
 
 		ArrayList<ClassUnit> allClasses = this.getAllClasses(segment);
@@ -944,7 +944,7 @@ public class ReadingKDMFile {
 		return classToReturn;
 
 	}
-
+//ok
 	public InterfaceUnit getInterfaceUnit (Segment segment, String name) {
 
 		ArrayList<InterfaceUnit> allInterface = this.getAllInterfaces(segment);
@@ -1552,112 +1552,112 @@ public class ReadingKDMFile {
 
 		return callableUnits;
 	}
-
+//ok
 	public Segment getSegmentMain() {
 		return segmentMain;
 	}
-
+//ok
 	public void setSegmentMain(Segment segmentMain) {
 		this.segmentMain = segmentMain;
 	}
-
+//ok
 	public ArrayList<ClassUnit> getAllClassUnits() {
 		return allClassUnits;
 	}
-
+//ok
 	public void setAllClassUnits(ArrayList<ClassUnit> allClassUnits) {
 		this.allClassUnits = allClassUnits;
 	}
-
+//ok
 	public ArrayList<MethodUnit> getAllMethodUnits() {
 		return allMethodUnits;
 	}
-
+//ok
 	public void setAllMethodUnits(ArrayList<MethodUnit> allMethodUnits) {
 		this.allMethodUnits = allMethodUnits;
 	}
-
+//ok
 	public ArrayList<InterfaceUnit> getAllInterfaceUnit() {
 		return allInterfaceUnit;
 	}
-
+//ok
 	public void setAllInterfaceUnit(ArrayList<InterfaceUnit> allInterfaceUnit) {
 		this.allInterfaceUnit = allInterfaceUnit;
 	}
-
+//ok
 	public ArrayList<StorableUnit> getAllStorableUnits() {
 		return allStorableUnits;
 	}
-
+//ok
 	public void setAllStorableUnits(ArrayList<StorableUnit> allStorableUnits) {
 		this.allStorableUnits = allStorableUnits;
 	}
-
+//ok
 	public ArrayList<Package> getAllPackages() {
 		return allPackages;
 	}
-
+//ok
 	public void setAllPackages(ArrayList<Package> allPackages) {
 		this.allPackages = allPackages;
 	}
-
+//ok
 	public ArrayList<BlockUnit> getAllBlockUnits() {
 		return allBlockUnits;
 	}
-
+//ok
 	public void setAllBlockUnits(ArrayList<BlockUnit> allBlockUnits) {
 		this.allBlockUnits = allBlockUnits;
 	}
-
+//ok
 	public ArrayList<Calls> getAllCalls() {
 		return allCalls;
 	}
-
+//ok
 	public void setAllCalls(ArrayList<Calls> allCalls) {
 		this.allCalls = allCalls;
 	}
-
+//ok
 	public ArrayList<Layer> getAllLayers() {
 		return allLayers;
 	}
-
+//ok
 	public void setAllLayers(ArrayList<Layer> allLayers) {
 		this.allLayers = allLayers;
 	}
-
+//ok
 	public ArrayList<KDMRelationship> getAllRelationships() {
 		return allRelationships;
 	}
-
+//ok
 	public void setAllRelationships(ArrayList<KDMRelationship> allRelationships) {
 		this.allRelationships = allRelationships;
 	}
-
+//ok
 	public ArrayList<HasType> getAllHasType() {
 		return allHasType;
 	}
-
+//ok
 	public void setAllHasType(ArrayList<HasType> allHasType) {
 		this.allHasType = allHasType;
 	}
-
+//ok
 	public ArrayList<AbstractActionRelationship> getAllAbstractActionRelationships() {
 		return allAbstractActionRelationships;
 	}
-
+//ok
 	public void setAllAbstractActionRelationships(
 			ArrayList<AbstractActionRelationship> allAbstractActionRelationships) {
 		this.allAbstractActionRelationships = allAbstractActionRelationships;
 	}
-
+//ok
 	public ArrayList<HasValue> getAllHasValues() {
 		return allHasValues;
 	}
-
+//ok
 	public void setAllHasValues(ArrayList<HasValue> allHasValues) {
 		this.allHasValues = allHasValues;
 	}
-
+//ok
 	public Segment getTargetArchitecture() {
 		return targetArchitecture;
 	}
