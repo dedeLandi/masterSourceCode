@@ -1,4 +1,4 @@
-package br.ufscar.KDM_MANAGEMENT.classes;
+package br.ufscar.KDM_MANAGEMENT.models.code.classes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
