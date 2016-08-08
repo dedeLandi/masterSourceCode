@@ -8,7 +8,7 @@ import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.KDMModel;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.Segment;
 
-import br.ufscar.KDM_MANAGEMENT.classes.KDMClassesReader;
+import br.ufscar.KDM_MANAGEMENT.classes.KDMClassReader;
 import br.ufscar.KDM_MANAGEMENT.exception.KDMModelTypeException;
 import br.ufscar.KDM_MANAGEMENT.load.KDMFileReader;
 import br.ufscar.KDM_MANAGEMENT.models.KDMModelReader;
@@ -20,31 +20,39 @@ public class TestesComKDM {
 		try {
 			String KDMpathDrifts = "C:\\TestsPlug-in\\labSystemKDMComdesvios.xmi";
 
-			System.out.println("-----------------------------Read KDM--------------------------------");
+			System.out.println("\n-----------------------------Read KDM--------------------------------");
 
 			Object KDMFile = new KDMFileReader(KDMpathDrifts, KDMFileReader.READ_KDM_TO_SEGMENT).getKdmRead();
 
-			System.out.println("-----------------------------All Models--------------------------------");
+			System.err.println("\n-----------------------------All Models--------------------------------");
 
 			getKDMModels(KDMFile);
 
-			System.out.println("-----------------------------All Packages--------------------------------");
+			System.err.println("\n-----------------------------All Packages--------------------------------");
 
 			getKDMPackages(KDMFile);
-
-			System.out.println("-----------------------------Model Packages--------------------------------");
-
+			
+			System.err.println("\n-----------------------------Model Packages--------------------------------");
+			
 			getKDMPackagesByModel(KDMFile);
+			
+			System.err.println("\n-----------------------------All Packages Name--------------------------------");
+			
+			getKDMPackagesName(KDMFile);
 
-			System.out.println("-----------------------------All Classes--------------------------------");
+			System.err.println("\n-----------------------------Model Packages Name--------------------------------");
+
+			getKDMPackagesByModelName(KDMFile);
+
+			System.err.println("\n-----------------------------All Classes--------------------------------");
 
 			getKDMClasses(KDMFile);
 			
-			System.out.println("-----------------------------Model Classes--------------------------------");
+			System.err.println("\n-----------------------------Model Classes--------------------------------");
 			
 			getKDMClassesByModel(KDMFile);
 
-			System.out.println("-----------------------------Package Classes--------------------------------");
+			System.err.println("\n-----------------------------Package Classes--------------------------------");
 
 			getKDMClassesByPackage(KDMFile);
 
@@ -56,6 +64,46 @@ public class TestesComKDM {
 
 	}
 
+	private static void getKDMPackagesByModelName(Object kDMFile) throws KDMModelTypeException {
+		Segment KDMTree = (Segment) kDMFile;
+
+		Map<String, List<KDMModel>> allCodeModels = new KDMModelReader(KDMTree).getAllCodeModel();
+
+		Map<String, List<Package>> packagesPerCodeModel = new KDMPackageReader(allCodeModels.get("LabSys").get(0)).getPackageByName("nonExist");
+
+		for (String nameCodeModel : packagesPerCodeModel.keySet()) {
+
+			List<Package> packages = packagesPerCodeModel.get(nameCodeModel);
+
+			String packagesString = "";
+
+			for (Package pack : packages) {
+				packagesString = packagesString.concat(pack.getName() + ";");
+			}
+
+			System.out.println("Code Model:" + nameCodeModel + " - Packages: " + packagesString);
+		}
+	}
+
+	private static void getKDMPackagesName(Object kDMFile) {
+		Segment KDMTree = (Segment) kDMFile;
+
+		Map<String, List<Package>> packagesPerCodeModel = new KDMPackageReader(KDMTree).getPackageByName("security");
+
+		for (String nameCodeModel : packagesPerCodeModel.keySet()) {
+
+			List<Package> packages = packagesPerCodeModel.get(nameCodeModel);
+
+			String packagesString = "";
+
+			for (Package pack : packages) {
+				packagesString = packagesString.concat(pack.getName() + ";");
+			}
+
+			System.out.println("Code Model:" + nameCodeModel + " - Packages: " + packagesString);
+		}
+	}
+
 	private static void getKDMClassesByPackage(Object kDMFile) throws KDMModelTypeException {
 		
 		Segment KDMTree = (Segment) kDMFile;
@@ -64,7 +112,7 @@ public class TestesComKDM {
 		
 		Map<String, List<Package>> allPackages = new KDMPackageReader(allCodeModels.get("LabSys").get(0)).getAllPackages();
 
-		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassesReader(allPackages.get("LabSys").get(0)).getAllClasses();
+		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReader(allPackages.get("LabSys").get(0)).getAllClasses();
 		
 		
 		for (String nameCodeModel : classesPerCodeModel.keySet()) {
@@ -86,7 +134,7 @@ public class TestesComKDM {
 
 		Map<String, List<KDMModel>> allCodeModels = new KDMModelReader(KDMTree).getAllCodeModel();
 
-		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassesReader(allCodeModels.get("LabSys").get(0)).getAllClasses();
+		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReader(allCodeModels.get("LabSys").get(0)).getAllClasses();
 
 		for (String nameCodeModel : classesPerCodeModel.keySet()) {
 
@@ -105,7 +153,7 @@ public class TestesComKDM {
 	private static void getKDMClasses(Object kDMFile) {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassesReader(KDMTree).getAllClasses();
+		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReader(KDMTree).getAllClasses();
 
 		for (String nameCodeModel : classesPerCodeModel.keySet()) {
 
