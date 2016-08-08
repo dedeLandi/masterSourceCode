@@ -16,27 +16,27 @@ import org.eclipse.gmt.modisco.omg.kdm.kdm.Segment;
 import br.ufscar.KDM_MANAGEMENT.exception.KDMModelTypeException;
 import br.ufscar.KDM_MANAGEMENT.models.KDMModelReader;
 
-public class KDMClassesReader {
+public class KDMClassReader {
 
 	
-	private Segment segmentMain;
-	private CodeModel modelMain;
-	private Package packageMain;
+	private Segment segmentMain = null;
+	private CodeModel modelMain = null;
+	private Package packageMain = null;
 	
 	private Map<String, List<ClassUnit>> classesPerModel = null;
 	
 	
-	public KDMClassesReader(Segment KDMTree) {
+	public KDMClassReader(Segment KDMTree) {
 		this.segmentMain = KDMTree;
 	}
-	public KDMClassesReader(KDMModel kdmModel) throws KDMModelTypeException {
+	public KDMClassReader(KDMModel kdmModel) throws KDMModelTypeException {
 		if(kdmModel instanceof CodeModel){
 			this.modelMain = (CodeModel) kdmModel;
 		}else{
 			throw new KDMModelTypeException();
 		}
 	}
-	public KDMClassesReader(Package kdmPackage) {
+	public KDMClassReader(Package kdmPackage) {
 		this.packageMain = kdmPackage;
 	}
 	
