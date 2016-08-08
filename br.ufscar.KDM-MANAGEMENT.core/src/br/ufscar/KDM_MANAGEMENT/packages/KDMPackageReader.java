@@ -21,21 +21,17 @@ public class KDMPackageReader {
 	private Segment segmentMain = null;
 	private CodeModel modelMain = null;
 
-	private Map<String, List<Package>> packagesPerModel = null;
-
 	public KDMPackageReader(Segment KDMTree) {
 		this.segmentMain = KDMTree;
-		this.modelMain = null;
 	}
 
 	public KDMPackageReader(KDMModel kdmModel) throws KDMModelTypeException {
 		if(kdmModel instanceof CodeModel){
-			this.segmentMain = null;
 			this.modelMain = (CodeModel) kdmModel;
 		}else{
 			throw new KDMModelTypeException();
 		}
-		
+
 	}
 
 	public Map<String, List<Package>> getAllPackages() {
@@ -51,7 +47,7 @@ public class KDMPackageReader {
 
 	private Map<String, List<Package>> getAllPackagesSegment() {
 
-		this.packagesPerModel = new HashMap<String, List<Package>>();
+		Map<String, List<Package>> packagesPerModel = new HashMap<String, List<Package>>();
 
 		Map<String, List<KDMModel>> models = new KDMModelReader(segmentMain).getAllCodeModel(); 
 
@@ -78,17 +74,17 @@ public class KDMPackageReader {
 
 				}
 
-				this.packagesPerModel.put(nameCodeModel, allPackages);
+				packagesPerModel.put(nameCodeModel, allPackages);
 			}
 
 		}
 
-		return this.packagesPerModel;
+		return packagesPerModel;
 	}
 
 	private Map<String, List<Package>> getAllPackagesModel() {
 
-		this.packagesPerModel = new HashMap<String, List<Package>>();
+		Map<String, List<Package>> packagesPerModel = new HashMap<String, List<Package>>();
 
 		List<Package> allPackages = new ArrayList<Package>();
 
@@ -109,9 +105,9 @@ public class KDMPackageReader {
 
 		}
 
-		this.packagesPerModel.put(this.modelMain.getName(), allPackages);
+		packagesPerModel.put(this.modelMain.getName(), allPackages);
 
-		return this.packagesPerModel;
+		return packagesPerModel;
 	}
 
 	/**
@@ -139,4 +135,102 @@ public class KDMPackageReader {
 		return allPackages;
 	}
 
+	public Map<String, List<Package>> getPackageByName(String namePackage){
+
+		if(segmentMain != null){
+			return getPackageByNameSegment(namePackage);
+		}else if (modelMain != null){
+			return getPackageByNameModel(namePackage);
+		}else{
+			return null;
+		}
+	}
+
+	private Map<String, List<Package>> getPackageByNameModel(String namePackage) {
+		Map<String, List<Package>> packagesPerModel = new HashMap<String, List<Package>>();
+
+		List<Package> allPackages = new ArrayList<Package>();
+
+		CodeModel codeModel = (CodeModel) this.modelMain;
+
+		EList<AbstractCodeElement> elements = codeModel.getCodeElement();
+
+		for (int i = 0; i < elements.size() ; i++) {
+
+			if (elements.get(i) instanceof Package) {
+
+				Package packageKDM = (Package) elements.get(i);
+
+				allPackages = (List<Package>) this.getAllPackagesNamed(namePackage, packageKDM, allPackages);
+
+			}
+
+		}
+
+		packagesPerModel.put(this.modelMain.getName(), allPackages);
+
+		return packagesPerModel;
+	}
+
+	private Map<String, List<Package>> getPackageByNameSegment(String namePackage) {
+		Map<String, List<Package>> packageNamed = new HashMap<String, List<Package>>();
+
+		Map<String, List<KDMModel>> models = new KDMModelReader(segmentMain).getAllCodeModel(); 
+
+		for (String nameCodeModel : models.keySet()) {
+
+			List<Package> packagesFound = new ArrayList<Package>();
+
+			for (KDMModel kdmModel : models.get(nameCodeModel)) {
+
+				CodeModel codeModel = (CodeModel) kdmModel;
+
+				EList<AbstractCodeElement> elements = codeModel.getCodeElement();
+
+				for (int i = 0; i < elements.size() ; i++) {
+
+					if (elements.get(i) instanceof Package) {
+
+						Package packageKDM = (Package) elements.get(i);
+
+						packagesFound = (List<Package>) this.getAllPackagesNamed(namePackage, packageKDM, packagesFound);
+
+					}
+				}
+			}
+			
+			packageNamed.put(nameCodeModel, packagesFound);
+		}
+
+		return packageNamed;
+	}
+
+	/**
+	 * Recursive search for packages named 
+	 * @param namePackage
+	 * @param packageToGet
+	 * @param packagesFound
+	 * @return
+	 */
+	private List<Package> getAllPackagesNamed(String namePackage, Package packageToGet, List<Package> packagesFound) {
+		EList<AbstractCodeElement> elements = packageToGet.getCodeElement();
+
+		for (AbstractCodeElement abstractCodeElement : elements) {
+
+			if (abstractCodeElement instanceof Package){
+				packagesFound = getAllPackagesNamed(namePackage, (Package) abstractCodeElement,
+						packagesFound);
+			}else {
+				if(namePackage.equalsIgnoreCase(packageToGet.getName())){
+					packagesFound.add(packageToGet);
+				}
+				return packagesFound;
+			}
+
+		}
+		if(namePackage.equalsIgnoreCase(packageToGet.getName())){
+			packagesFound.add(packageToGet);
+		}
+		return packagesFound;
+	}
 }
