@@ -14,7 +14,7 @@ import br.ufscar.KDM_MANAGEMENT.load.KDMFileReader;
 import br.ufscar.KDM_MANAGEMENT.models.KDMModelReader;
 import br.ufscar.KDM_MANAGEMENT.packages.KDMPackageReader;
 
-public class TestesComKDM {
+public class ExampleOfUse {
 
 	public static void main(String[] args) {
 		try {
@@ -43,18 +43,30 @@ public class TestesComKDM {
 			System.err.println("\n-----------------------------Model Packages Name--------------------------------");
 
 			getKDMPackagesByModelName(KDMFile);
-
+			
 			System.err.println("\n-----------------------------All Classes--------------------------------");
-
+			
 			getKDMClasses(KDMFile);
 			
 			System.err.println("\n-----------------------------Model Classes--------------------------------");
 			
 			getKDMClassesByModel(KDMFile);
-
+			
 			System.err.println("\n-----------------------------Package Classes--------------------------------");
-
+			
 			getKDMClassesByPackage(KDMFile);
+
+			System.err.println("\n-----------------------------All Classes Name--------------------------------");
+
+			getKDMClassesName(KDMFile);
+			
+			System.err.println("\n-----------------------------Model Classes Name--------------------------------");
+			
+			getKDMClassesByModelName(KDMFile);
+
+			System.err.println("\n-----------------------------Package Classes Name--------------------------------");
+
+			getKDMClassesByPackageName(KDMFile);
 
 
 		} catch (KDMModelTypeException e) {
@@ -62,6 +74,71 @@ public class TestesComKDM {
 		}
 
 
+	}
+
+	private static void getKDMClassesByPackageName(Object kDMFile) throws KDMModelTypeException {
+		Segment KDMTree = (Segment) kDMFile;
+
+		Map<String, List<KDMModel>> allCodeModels = new KDMModelReader(KDMTree).getAllCodeModel();
+		
+		Map<String, List<Package>> allPackages = new KDMPackageReader(allCodeModels.get("LabSys").get(0)).getAllPackages();
+
+		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReader(allPackages.get("LabSys").get(0)).getClassByName("PatrimonyRepository");
+		
+		
+		for (String nameCodeModel : classesPerCodeModel.keySet()) {
+
+			List<ClassUnit> classes = classesPerCodeModel.get(nameCodeModel);
+
+			String classesString = "";
+
+			for (ClassUnit cls : classes) {
+				classesString = classesString.concat(cls.getName() + ";");
+			}
+
+			System.out.println("Code Model:" + nameCodeModel + " - Classes: " + classesString);
+		}
+		
+	}
+
+	private static void getKDMClassesByModelName(Object kDMFile) throws KDMModelTypeException {
+		Segment KDMTree = (Segment) kDMFile;
+
+		Map<String, List<KDMModel>> allCodeModels = new KDMModelReader(KDMTree).getAllCodeModel();
+
+		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReader(allCodeModels.get("LabSys").get(0)).getClassByName("Token");
+
+		for (String nameCodeModel : classesPerCodeModel.keySet()) {
+
+			List<ClassUnit> classes = classesPerCodeModel.get(nameCodeModel);
+
+			String classesString = "";
+
+			for (ClassUnit cls : classes) {
+				classesString = classesString.concat(cls.getName() + ";");
+			}
+
+			System.out.println("Code Model:" + nameCodeModel + " - Classes: " + classesString);
+		}
+	}
+
+	private static void getKDMClassesName(Object kDMFile) {
+		Segment KDMTree = (Segment) kDMFile;
+
+		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReader(KDMTree).getClassByName("ChartBean");
+
+		for (String nameCodeModel : classesPerCodeModel.keySet()) {
+
+			List<ClassUnit> classes = classesPerCodeModel.get(nameCodeModel);
+
+			String classesString = "";
+
+			for (ClassUnit cls : classes) {
+				classesString = classesString.concat(cls.getName() + ";");
+			}
+
+			System.out.println("Code Model:" + nameCodeModel + " - Classes: " + classesString);
+		}
 	}
 
 	private static void getKDMPackagesByModelName(Object kDMFile) throws KDMModelTypeException {
