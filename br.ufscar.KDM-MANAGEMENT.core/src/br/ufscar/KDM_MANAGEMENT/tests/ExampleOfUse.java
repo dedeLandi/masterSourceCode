@@ -8,11 +8,11 @@ import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.KDMModel;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.Segment;
 
-import br.ufscar.KDM_MANAGEMENT.classes.KDMClassReader;
 import br.ufscar.KDM_MANAGEMENT.exception.KDMModelTypeException;
 import br.ufscar.KDM_MANAGEMENT.load.KDMFileReader;
 import br.ufscar.KDM_MANAGEMENT.models.KDMModelReader;
-import br.ufscar.KDM_MANAGEMENT.packages.KDMPackageReader;
+import br.ufscar.KDM_MANAGEMENT.models.code.classes.KDMClassReader;
+import br.ufscar.KDM_MANAGEMENT.models.code.packages.KDMPackageReader;
 
 public class ExampleOfUse {
 
@@ -72,8 +72,6 @@ public class ExampleOfUse {
 		} catch (KDMModelTypeException e) {
 			e.printStackTrace();
 		}
-
-
 	}
 
 	private static void getKDMClassesByPackageName(Object kDMFile) throws KDMModelTypeException {
