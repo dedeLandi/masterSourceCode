@@ -20,7 +20,7 @@ import org.eclipse.gmt.modisco.omg.kdm.ui.UIModel;
 
 public class KDMModelReader {
 
-	private Segment segmentMain;
+	private Segment segmentMain = null;
 	private static Map<String, Map<String, List<KDMModel>>> models = null; 
 
 	public KDMModelReader(Segment KDMTree) {
@@ -133,5 +133,21 @@ public class KDMModelReader {
 		}
 		return models.get(KDMModelType.CODE_MODEL.getTypeModel()).get(name);
 	}
+	
+	public List<KDMModel> getModelByName(String nameModel) {
+		List<KDMModel> modelsNamed = new ArrayList<KDMModel>();
+		
+		EList<KDMModel> kdmModelASIS = segmentMain.getModel();
+		
+		for (KDMModel kdmModel : kdmModelASIS) {
+			
+			if(nameModel.equalsIgnoreCase(kdmModel.getName())){
+				modelsNamed.add(kdmModel);
+			}
+			
+		}
+		return modelsNamed;
+	}
+	
 	
 }
