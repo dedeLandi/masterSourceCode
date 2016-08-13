@@ -7,5 +7,15 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.emf.common;bundle-version="2.11.1",
  org.eclipse.emf.ecore;bundle-version="2.11.2",
  org.eclipse.emf.ecore.xmi;bundle-version="2.11.1",
- org.eclipse.gmt.modisco.omg.kdm;bundle-version="0.13.2"
+ org.eclipse.gmt.modisco.omg.kdm;bundle-version="0.13.2",
+ org.eclipse.gmt.modisco.java;bundle-version="0.13.2",
+ org.eclipse.modisco.java.discoverer;bundle-version="0.13.2",
+ org.eclipse.modisco.infra.discovery.core;bundle-version="0.13.2",
+ org.eclipse.jdt.core;bundle-version="3.11.2",
+ org.eclipse.core.resources,
+ org.eclipse.swt,
+ org.eclipse.jface,
+ org.eclipse.emf.edit
 Export-Package: br.ufscar.KDM_MANAGEMENT.load
+Import-Package: org.eclipse.core.runtime;version="3.5.0",
+ org.eclipse.ui
