@@ -1,17 +1,19 @@
 package br.ufscar.KDM_MANAGEMENT.tests;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.KDMModel;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.Segment;
+import org.eclipse.modisco.infra.discovery.core.exception.DiscoveryException;
 
+import br.ufscar.KDM_MANAGEMENT.discoverer.KDMModelDiscover;
 import br.ufscar.KDM_MANAGEMENT.exception.KDMModelTypeException;
-import br.ufscar.KDM_MANAGEMENT.load.KDMFileReader;
 import br.ufscar.KDM_MANAGEMENT.models.KDMModelReader;
 import br.ufscar.KDM_MANAGEMENT.models.code.classes.KDMClassReader;
 import br.ufscar.KDM_MANAGEMENT.models.code.interfaces.KDMInterfaceReader;
@@ -20,162 +22,180 @@ import br.ufscar.KDM_MANAGEMENT.models.code.packages.KDMPackageReader;
 public class ExampleOfUse {
 
 	public static void main(String[] args) {
+
 		try {
-			String KDMpathDrifts = "C:\\TestsPlug-in\\labSystemKDMComdesvios.xmi";
 
-			System.out.println("\n-----------------------------Read KDM--------------------------------");
-
-			Object KDMFile = new KDMFileReader(KDMpathDrifts, KDMFileReader.READ_KDM_TO_SEGMENT).getKdmRead();
-
-			System.err.println("\n-----------------------------All Models--------------------------------");
-
-			getKDMModels(KDMFile);
-
-			System.err.println("\n-----------------------------All Packages--------------------------------");
-
-			getKDMPackages(KDMFile);
-			
-			System.err.println("\n-----------------------------Model Packages--------------------------------");
-			
-			getKDMPackagesByModel(KDMFile);
-			
-			System.err.println("\n-----------------------------All Packages Name--------------------------------");
-			
-			getKDMPackagesName(KDMFile);
-
-			System.err.println("\n-----------------------------Model Packages Name--------------------------------");
-
-			getKDMPackagesByModelName(KDMFile);
-			
-			System.err.println("\n-----------------------------All Classes--------------------------------");
-			
-			getKDMClasses(KDMFile);
-			
-			System.err.println("\n-----------------------------Model Classes--------------------------------");
-			
-			getKDMClassesByModel(KDMFile);
-			
-			System.err.println("\n-----------------------------Package Classes--------------------------------");
-			
-			getKDMClassesByPackage(KDMFile);
-			
-			System.err.println("\n-----------------------------All Classes Name--------------------------------");
-			
-			getKDMClassesName(KDMFile);
-			
-			System.err.println("\n-----------------------------Model Classes Name--------------------------------");
-			
-			getKDMClassesByModelName(KDMFile);
-			
-			System.err.println("\n-----------------------------Package Classes Name--------------------------------");
-			
-			getKDMClassesByPackageName(KDMFile);
-			
-			System.err.println("\n-----------------------------All Interfaces--------------------------------");
-			
-			getKDMInterfaces(KDMFile);
-			
-			System.err.println("\n-----------------------------Model Interfaces--------------------------------");
-			
-			getKDMInterfacesByModel(KDMFile);
-			
-			System.err.println("\n-----------------------------Package Interfaces--------------------------------");
-			
-			getKDMInterfacesByPackage(KDMFile);
-
-			System.err.println("\n-----------------------------All Interfaces Name--------------------------------");
-
-			getKDMInterfacesName(KDMFile);
-			
-			System.err.println("\n-----------------------------Model Interfaces Name--------------------------------");
-			
-			getKDMInterfacesByModelName(KDMFile);
-
-			System.err.println("\n-----------------------------Package Interfaces Name--------------------------------");
-
-			getKDMInterfacesByPackageName(KDMFile);
-
-
-		} catch (KDMModelTypeException e) {
+			KDMModelDiscover kdmModelDiscover = new KDMModelDiscover();
+			kdmModelDiscover.createKDMModel();
+			kdmModelDiscover.creatKDMModel2();
+		} catch (DiscoveryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+
+		//		try {
+		//			String KDMpathDrifts = "C:\\TestsPlug-in\\labSystemKDMComdesvios.xmi";
+		//
+		//			System.out.println("\n-----------------------------Read KDM--------------------------------");
+		//
+		//			Object KDMFile = new KDMFileReader(KDMpathDrifts, KDMFileReader.READ_KDM_TO_SEGMENT).getKdmRead();
+		//
+		//			System.err.println("\n-----------------------------All Models--------------------------------");
+		//
+		//			getKDMModels(KDMFile);
+		//
+		//			System.err.println("\n-----------------------------All Packages--------------------------------");
+		//
+		//			getKDMPackages(KDMFile);
+		//			
+		//			System.err.println("\n-----------------------------Model Packages--------------------------------");
+		//			
+		//			getKDMPackagesByModel(KDMFile);
+		//			
+		//			System.err.println("\n-----------------------------All Packages Name--------------------------------");
+		//			
+		//			getKDMPackagesName(KDMFile);
+		//
+		//			System.err.println("\n-----------------------------Model Packages Name--------------------------------");
+		//
+		//			getKDMPackagesByModelName(KDMFile);
+		//			
+		//			System.err.println("\n-----------------------------All Classes--------------------------------");
+		//			
+		//			getKDMClasses(KDMFile);
+		//			
+		//			System.err.println("\n-----------------------------Model Classes--------------------------------");
+		//			
+		//			getKDMClassesByModel(KDMFile);
+		//			
+		//			System.err.println("\n-----------------------------Package Classes--------------------------------");
+		//			
+		//			getKDMClassesByPackage(KDMFile);
+		//			
+		//			System.err.println("\n-----------------------------All Classes Name--------------------------------");
+		//			
+		//			getKDMClassesName(KDMFile);
+		//			
+		//			System.err.println("\n-----------------------------Model Classes Name--------------------------------");
+		//			
+		//			getKDMClassesByModelName(KDMFile);
+		//			
+		//			System.err.println("\n-----------------------------Package Classes Name--------------------------------");
+		//			
+		//			getKDMClassesByPackageName(KDMFile);
+		//			
+		//			System.err.println("\n-----------------------------All Interfaces--------------------------------");
+		//			
+		//			getKDMInterfaces(KDMFile);
+		//			
+		//			System.err.println("\n-----------------------------Model Interfaces--------------------------------");
+		//			
+		//			getKDMInterfacesByModel(KDMFile);
+		//			
+		//			System.err.println("\n-----------------------------Package Interfaces--------------------------------");
+		//			
+		//			getKDMInterfacesByPackage(KDMFile);
+		//
+		//			System.err.println("\n-----------------------------All Interfaces Name--------------------------------");
+		//
+		//			getKDMInterfacesName(KDMFile);
+		//			
+		//			System.err.println("\n-----------------------------Model Interfaces Name--------------------------------");
+		//			
+		//			getKDMInterfacesByModelName(KDMFile);
+		//
+		//			System.err.println("\n-----------------------------Package Interfaces Name--------------------------------");
+		//
+		//			getKDMInterfacesByPackageName(KDMFile);
+		//
+		//
+		//		} catch (KDMModelTypeException e) {
+		//			e.printStackTrace();
+		//		}
 	}
-	
+
 	private static void getKDMInterfacesByPackageName(Object kDMFile) throws KDMModelTypeException {
 		Segment KDMTree = (Segment) kDMFile;
-		
+
 		Map<String, List<KDMModel>> allCodeModels = new KDMModelReader(KDMTree).getAllCodeModel();
-		
+
 		Map<String, List<Package>> allPackages = new KDMPackageReader(allCodeModels.get("LabSys").get(0)).getAllPackages();
-		
+
 		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = new KDMInterfaceReader(allPackages.get("LabSys").get(0)).getInterfaceByName("RRSolicitation");
-		
-		
+
+
 		for (String nameCodeModel : interfacesPerCodeModel.keySet()) {
-			
+
 			List<InterfaceUnit> interfaces = interfacesPerCodeModel.get(nameCodeModel);
-			
+
 			String interfacesString = "";
-			
+
 			for (InterfaceUnit ifc : interfaces) {
 				interfacesString = interfacesString.concat(ifc.getName() + ";");
 			}
-			
+
 			System.out.println("Code Model:" + nameCodeModel + " - Interfaces: " + interfacesString);
 		}
-		
+
 	}
-	
+
 	private static void getKDMInterfacesByModelName(Object kDMFile) throws KDMModelTypeException {
 		Segment KDMTree = (Segment) kDMFile;
-		
+
 		Map<String, List<KDMModel>> allCodeModels = new KDMModelReader(KDMTree).getAllCodeModel();
-		
+
 		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = new KDMInterfaceReader(allCodeModels.get("LabSys").get(0)).getInterfaceByName("URLEntity");
-		
+
 		for (String nameCodeModel : interfacesPerCodeModel.keySet()) {
-			
+
 			List<InterfaceUnit> interfaces = interfacesPerCodeModel.get(nameCodeModel);
-			
+
 			String interfacesString = "";
-			
+
 			for (InterfaceUnit ifc : interfaces) {
 				interfacesString = interfacesString.concat(ifc.getName() + ";");
 			}
-			
+
 			System.out.println("Code Model:" + nameCodeModel + " - Interfaces: " + interfacesString);
 		}
 	}
-	
+
 	private static void getKDMInterfacesName(Object kDMFile) {
 		Segment KDMTree = (Segment) kDMFile;
-		
+
 		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = new KDMInterfaceReader(KDMTree).getInterfaceByName("RandomAccess");
-		
+
 		for (String nameCodeModel : interfacesPerCodeModel.keySet()) {
-			
+
 			List<InterfaceUnit> interfaces = interfacesPerCodeModel.get(nameCodeModel);
-			
+
 			String interfacesString = "";
-			
+
 			for (InterfaceUnit ifc : interfaces) {
 				interfacesString = interfacesString.concat(ifc.getName() + ";");
 			}
-			
+
 			System.out.println("Code Model:" + nameCodeModel + " - Interfaces: " + interfacesString);
 		}
 	}
-	
+
 	private static void getKDMClassesByPackageName(Object kDMFile) throws KDMModelTypeException {
 		Segment KDMTree = (Segment) kDMFile;
 
 		Map<String, List<KDMModel>> allCodeModels = new KDMModelReader(KDMTree).getAllCodeModel();
-		
+
 		Map<String, List<Package>> allPackages = new KDMPackageReader(allCodeModels.get("LabSys").get(0)).getAllPackages();
 
 		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReader(allPackages.get("LabSys").get(0)).getClassByName("PatrimonyRepository");
-		
-		
+
+
 		for (String nameCodeModel : classesPerCodeModel.keySet()) {
 
 			List<ClassUnit> classes = classesPerCodeModel.get(nameCodeModel);
@@ -188,7 +208,7 @@ public class ExampleOfUse {
 
 			System.out.println("Code Model:" + nameCodeModel + " - Classes: " + classesString);
 		}
-		
+
 	}
 
 	private static void getKDMClassesByModelName(Object kDMFile) throws KDMModelTypeException {
@@ -270,84 +290,84 @@ public class ExampleOfUse {
 			System.out.println("Code Model:" + nameCodeModel + " - Packages: " + packagesString);
 		}
 	}
-	
+
 	private static void getKDMInterfacesByPackage(Object kDMFile) throws KDMModelTypeException {
-		
+
 		Segment KDMTree = (Segment) kDMFile;
-		
+
 		Map<String, List<KDMModel>> allCodeModels = new KDMModelReader(KDMTree).getAllCodeModel();
-		
+
 		Map<String, List<Package>> allPackages = new KDMPackageReader(allCodeModels.get("LabSys").get(0)).getAllPackages();
-		
+
 		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = new KDMInterfaceReader(allPackages.get("LabSys").get(0)).getAllInterfaces();
-		
-		
+
+
 		for (String nameCodeModel : interfacesPerCodeModel.keySet()) {
-			
+
 			List<InterfaceUnit> interfaces = interfacesPerCodeModel.get(nameCodeModel);
-			
+
 			String interfacesString = "";
-			
+
 			for (InterfaceUnit ifc : interfaces) {
 				interfacesString = interfacesString.concat(ifc.getName() + ";");
 			}
-			
+
 			System.out.println("Code Model:" + nameCodeModel + " - Interfaces: " + interfacesString);
 		}
 	}
-	
+
 	private static void getKDMInterfacesByModel(Object kDMFile) throws KDMModelTypeException {
 		Segment KDMTree = (Segment) kDMFile;
-		
+
 		Map<String, List<KDMModel>> allCodeModels = new KDMModelReader(KDMTree).getAllCodeModel();
-		
+
 		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = new KDMInterfaceReader(allCodeModels.get("LabSys").get(0)).getAllInterfaces();
-		
+
 		for (String nameCodeModel : interfacesPerCodeModel.keySet()) {
-			
+
 			List<InterfaceUnit> interfaces = interfacesPerCodeModel.get(nameCodeModel);
-			
+
 			String interfacesString = "";
-			
+
 			for (InterfaceUnit ifc : interfaces) {
 				interfacesString = interfacesString.concat(ifc.getName() + ";");
 			}
-			
+
 			System.out.println("Code Model:" + nameCodeModel + " - Interfaces: " + interfacesString);
 		}
 	}
-	
+
 	private static void getKDMInterfaces(Object kDMFile) {
 		Segment KDMTree = (Segment) kDMFile;
-		
+
 		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = new KDMInterfaceReader(KDMTree).getAllInterfaces();
-		
+
 		for (String nameCodeModel : interfacesPerCodeModel.keySet()) {
-			
+
 			List<InterfaceUnit> interfaces = interfacesPerCodeModel.get(nameCodeModel);
-			
+
 			String interfacesString = "";
-			
+
 			for (InterfaceUnit ifc : interfaces) {
 				interfacesString = interfacesString.concat(ifc.getName() + ";");
 			}
-			
+
 			System.out.println("Code Model:" + nameCodeModel + " - Interfaces: " + interfacesString);
 		}
-		
+
 	}
 
 	private static void getKDMClassesByPackage(Object kDMFile) throws KDMModelTypeException {
-		
+
 		Segment KDMTree = (Segment) kDMFile;
 
 		Map<String, List<KDMModel>> allCodeModels = new KDMModelReader(KDMTree).getAllCodeModel();
-		
+
 		Map<String, List<Package>> allPackages = new KDMPackageReader(allCodeModels.get("LabSys").get(0)).getAllPackages();
 
 		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReader(allPackages.get("LabSys").get(0)).getAllClasses();
-		
-		
+
+
 		for (String nameCodeModel : classesPerCodeModel.keySet()) {
 
 			List<ClassUnit> classes = classesPerCodeModel.get(nameCodeModel);
