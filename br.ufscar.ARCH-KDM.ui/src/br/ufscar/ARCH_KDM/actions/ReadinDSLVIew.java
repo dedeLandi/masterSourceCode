@@ -104,14 +104,14 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 		if (iEditorSite != null) {
 			
 			
-			System.out.println("entrou");
+			System.out.println("iEditorSite != null");
 			// get selection provider
 			ISelectionProvider selectionProvider = iEditorSite
 					.getSelectionProvider();
 
 			if (selectionProvider != null) {
 				
-				System.out.println("entrou2");
+				System.out.println("selectionProvider != null");
 				
 				IFileEditorInput input = (IFileEditorInput) editorPart
 						.getEditorInput();
@@ -156,8 +156,8 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 				
 						
 				//String path =  "file:/Users/rafaeldurelli/Documents/runtime-EclipseApplication/University/src/com/br/Examples/TOBE_KDM.xmi";
-				String path =  "file:C:/TestsPlug-in/archKDM/TOBE_KDM.xmi";
-				
+//				String path =  "file:C:/TestsPlug-in/archKDM/TOBE_KDM.xmi";
+				String path = dclFileTOBE.replace(".dcl", ".xmi");
 				
 				System.out.println(path);
 				this.save(this.segment, path);
@@ -181,7 +181,7 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 		
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		Map<String, Object> m = reg.getExtensionToFactoryMap();
-		m.put("website", new XMIResourceFactoryImpl());
+		m.put("xmi", new XMIResourceFactoryImpl());
 
 		// Obtain a new resource set
 		ResourceSet resSet = new ResourceSetImpl();
@@ -214,7 +214,7 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 	private ArrayList<AbstractStructureElement> setCorrectStructuredElement (EList<DCLStructureElement> allStructureElements) {
 		
 		
-		System.err.println("entrou3");
+		System.err.println("entrou - setCorrectStructuredElement");
 		
 		for (DCLStructureElement dclStructureElement : allStructureElements) {
 			if (dclStructureElement instanceof DCLLayer) {
@@ -248,7 +248,7 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 	
 	private void createRestrictionToLayers () {
 		
-		System.err.println("entrou4");
+		System.err.println("entrou - createRestrictionToLayers");
 		
 		for (int i = 0; i < this.allDclLayers.size(); i++) {
 			
