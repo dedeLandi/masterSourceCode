@@ -21,28 +21,28 @@
               enablesFor="1"
               icon="icons/recovery.png"
               id="br.ufscar.ARCH-KDM.ui.action2"
-              label="Action"
+              label="Recovery Architecture View"
               menubarPath="br.ufscar.ARCH-KDM.ui.subMenu/group1">
         </action>
         <action
               class="br.ufscar.ARCH_KDM.actions.ArchitectureComplianceChecking"
               enablesFor="1"
               id="br.ufscar.ARCH-KDM.ui.action3"
-              label="Architecture"
+              label="Architecture Compliance Checking"
               menubarPath="br.ufscar.ARCH-KDM.ui.subMenu/group1">
         </action>
         <action
               class="br.ufscar.ARCH_KDM.actions.GettingKDMInstance"
               enablesFor="1"
               id="br.ufscar.ARCH-KDM.ui.action4"
-              label="Getting"
+              label="Get KDM Instance"
               menubarPath="br.ufscar.ARCH-KDM.ui.subMenu/group1">
         </action>
         <action
               class="br.ufscar.ARCH_KDM.actions.MapArchitectureElementsToCodeElements"
               enablesFor="1"
               id="br.ufscar.ARCH-KDM.ui.action5"
-              label="Map"
+              label="Map Architectural Elements"
               menubarPath="br.ufscar.ARCH-KDM.ui.subMenu/group1">
         </action>
      </objectContribution>
@@ -62,7 +62,7 @@
               class="br.ufscar.ARCH_KDM.actions.ReadinDSLVIew"
               enablesFor="1"
               id="br.ufscar.ARCH-KDM.ui.action6"
-              label="Create Architecture TOBE"
+              label="Create KDM Structure"
               menubarPath="br.ufscar.ARCH-KDM.ui.subMenu1/group1">
         </action>
      </objectContribution> 
