@@ -6,7 +6,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.Segment;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
@@ -15,7 +14,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 import br.ufscar.ARCH_KDM.util.ReadingKDMFile;
-import br.ufscar.ARCH_KDM.windows.MappingArchitectureElements;
+import br.ufscar.ARCH_KDM.windows.SetPathFilesXMI;
 
 
 public class MapArchitectureElementsToCodeElements implements IObjectActionDelegate {
@@ -43,15 +42,17 @@ public class MapArchitectureElementsToCodeElements implements IObjectActionDeleg
 		ReadingKDMFile readingKDM = new ReadingKDMFile();				
 		Segment segment = readingKDM.load(kdmFilePath);
 		readingKDM.setSegmentMain(segment);
-		MappingArchitectureElements mappingArchitectureElements = new MappingArchitectureElements();
-		mappingArchitectureElements.open();
 		
-
+		SetPathFilesXMI settingFileArchives = new SetPathFilesXMI();
+		settingFileArchives.open(this.file.getLocationURI().toString());
 		
-		MessageDialog.openInformation(
-			shell,
-			"ProjetoMestradoFernandoChagas2",
-			"New Action was executed.");
+//		MappingArchitectureElements mappingArchitectureElements = new MappingArchitectureElements();
+//		mappingArchitectureElements.open();
+				
+//		MessageDialog.openInformation(
+//			shell,
+//			"ProjetoMestradoFernandoChagas2",
+//			"New Action was executed.");
 	}
 
 	/**
