@@ -330,7 +330,7 @@ public class MappingArchitectureElements {
 			structureModel.getStructureElement().add(mapItem.getStructureElement());					
 			
 		}
-		
+		System.err.println(this.pathOutputArch);
 		readingKDMFile.save(ASIS, this.pathOutputArch);
 	}
 
@@ -358,7 +358,7 @@ public class MappingArchitectureElements {
 			}
 		}
 		
-		MappingArchitectureElements.pathOutputArch  = "file:" + pathFileSelect + MappingArchitectureElements.outputFileName ;
+		MappingArchitectureElements.pathOutputArch  = partialPath + MappingArchitectureElements.outputFileName ;
 		
 	}
 
