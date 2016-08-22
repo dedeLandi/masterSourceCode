@@ -34,7 +34,7 @@ public class ActionRecoveryArchitecture implements IObjectActionDelegate {
 	private IFile file;
 
 	public static Segment plannedSegment;
-	public static String kdmProjectPath = "";
+	public static String kdmOutputPath = "";
 
 	/**
 	 * Constructor for ActionRecoveryArchitecture.
@@ -52,8 +52,10 @@ public class ActionRecoveryArchitecture implements IObjectActionDelegate {
 		ArrayList<ParameterUnit> allParameterUnits = new ArrayList<ParameterUnit>();			
 
 		kdmFilePath = this.file.getLocationURI().toString();
+		
+		kdmOutputPath = this.file.getLocationURI().toString().replace(".xmi", "Complete.xmi");
 
-		kdmProjectPath = this.file.getProject().getLocation().toString();
+//		kdmProjectPath = this.file.getProject().getLocation().toString();
 
 		ReadingKDMFile readingKDM = new ReadingKDMFile();			
 
@@ -191,10 +193,10 @@ public class ActionRecoveryArchitecture implements IObjectActionDelegate {
 
 
 
-		System.out.println("ProjectPath: " + kdmProjectPath);
+		System.err.println("ProjectPath: " + kdmOutputPath);
 
 
-		readingKDM.save(segment, "file:"+kdmProjectPath+"/Examples/newKDM.xmi");
+		readingKDM.save(segment, kdmOutputPath);
 		//		readingKDM.save(segment, "file:C:/Users/Fernando/Downloads/maranhao/workspace/ProjetoMestradoFernandoChagas2/src/newKDM3.xmi");	
 
 		//readingKDM.compareRelations("file:"+kdmProjectPath+"/Examples/newKDM.xmi", "file:"+kdmProjectPath+"/Examples/planned.xmi");
