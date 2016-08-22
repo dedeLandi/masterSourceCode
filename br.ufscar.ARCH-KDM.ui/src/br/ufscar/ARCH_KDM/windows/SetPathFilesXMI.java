@@ -128,6 +128,9 @@ public class SetPathFilesXMI {
 //		Segment segment = readingKDM.load(kdmFilePath);
 //		readingKDM.setSegmentMain(segment);
 		if(validateFields()){
+			this.shlMappingArchitectureElementsFileSelection.dispose();
+			this.shlMappingArchitectureElementsFileSelection.close();
+
 			MappingArchitectureElements.setPathPlannedArchitecture(tPathPlanned.getText());
 			MappingArchitectureElements.setPathActualArchitecture(tPathActual.getText());
 			MappingArchitectureElements.setPathSelectedFile(this.pathFileSelect);
@@ -135,7 +138,6 @@ public class SetPathFilesXMI {
 			MappingArchitectureElements mappingArchitectureElements = new MappingArchitectureElements();
 			mappingArchitectureElements.open();
 			
-			this.shlMappingArchitectureElementsFileSelection.dispose();
 		}
 	}
 
