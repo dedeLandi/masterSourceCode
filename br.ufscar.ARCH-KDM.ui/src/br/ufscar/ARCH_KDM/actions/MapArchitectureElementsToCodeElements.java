@@ -43,7 +43,7 @@ public class MapArchitectureElementsToCodeElements implements IObjectActionDeleg
 		Segment segment = readingKDM.load(kdmFilePath);
 		readingKDM.setSegmentMain(segment);
 		
-		SetPathFilesXMI settingFileArchives = new SetPathFilesXMI();
+		SetPathFilesXMI settingFileArchives = new SetPathFilesXMI("MapArchitectureElementsToCodeElements");
 		settingFileArchives.open(this.file.getLocationURI().toString());
 		
 //		MappingArchitectureElements mappingArchitectureElements = new MappingArchitectureElements();
