@@ -13,6 +13,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import br.ufscar.ARCH_KDM.actions.ArchitectureComplianceChecking;
+
 public class SetPathFilesXMI {
 
 	protected Shell shlMappingArchitectureElementsFileSelection;
@@ -21,22 +23,33 @@ public class SetPathFilesXMI {
 	private Text tPathActual;
 	
 	private String pathFileSelect = "";
+
+	private String calledFrom = "";
+	
+	public SetPathFilesXMI(String calledFrom) {
+		this.calledFrom  = calledFrom;
+	}
 	
 	/**
 	 * Open the window.
 	 * @param pathFileSelect 
 	 */
 	public void open(String pathFileSelect) {
-		this.pathFileSelect = pathFileSelect;
-		Display display = Display.getDefault();
-		createContents();
-		shlMappingArchitectureElementsFileSelection.open();
-		shlMappingArchitectureElementsFileSelection.layout();
-		while (!shlMappingArchitectureElementsFileSelection.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
+		if(!"".equalsIgnoreCase(this.calledFrom)){
+			this.pathFileSelect = pathFileSelect;
+			Display display = Display.getDefault();
+			createContents();
+			shlMappingArchitectureElementsFileSelection.open();
+			shlMappingArchitectureElementsFileSelection.layout();
+			while (!shlMappingArchitectureElementsFileSelection.isDisposed()) {
+				if (!display.readAndDispatch()) {
+					display.sleep();
+				}
 			}
+		}else{
+			MessageDialog.openError(shlMappingArchitectureElementsFileSelection, "Error", "Error to open the window. Please check from who called.");
 		}
+		
 	}
 
 	/**
@@ -47,7 +60,13 @@ public class SetPathFilesXMI {
 		
 		shlMappingArchitectureElementsFileSelection = new Shell();
 		shlMappingArchitectureElementsFileSelection.setSize(650, 171);
-		shlMappingArchitectureElementsFileSelection.setText("Mapping Architecture Elements");
+		if("MapArchitectureElementsToCodeElements".equalsIgnoreCase(this.calledFrom)){
+			shlMappingArchitectureElementsFileSelection.setText("Mapping Architecture Elements");
+		}else if("ArchitectureComplianceChecking".equalsIgnoreCase(this.calledFrom)){
+			shlMappingArchitectureElementsFileSelection.setText("Architectural Compilance Checking");
+		}else{
+			shlMappingArchitectureElementsFileSelection.setText("Not Informed");
+		}
 		shlMappingArchitectureElementsFileSelection.setLayout(new GridLayout(3, false));
 		
 		Label lblPlannedArchitecturexmi = new Label(shlMappingArchitectureElementsFileSelection, SWT.NONE);
@@ -73,7 +92,13 @@ public class SetPathFilesXMI {
 		
 		Label lblModiscoActualArchitecture = new Label(shlMappingArchitectureElementsFileSelection, SWT.NONE);
 		lblModiscoActualArchitecture.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblModiscoActualArchitecture.setText("MoDisco Actual Architecture (XMI)");
+		if("MapArchitectureElementsToCodeElements".equalsIgnoreCase(this.calledFrom)){
+			lblModiscoActualArchitecture.setText("MoDisco Actual Architecture (XMI)");
+		}else if("ArchitectureComplianceChecking".equalsIgnoreCase(this.calledFrom)){
+			lblModiscoActualArchitecture.setText("Actual Architecture Mapped (XMI)");
+		}else{
+			lblModiscoActualArchitecture.setText("Not Informed");
+		}
 		
 		tPathActual = new Text(shlMappingArchitectureElementsFileSelection, SWT.BORDER);
 		tPathActual.setEditable(false);
@@ -96,7 +121,13 @@ public class SetPathFilesXMI {
 		bContinue.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
-				continueToMap();
+				if("MapArchitectureElementsToCodeElements".equalsIgnoreCase(calledFrom)){
+					continueToMap();
+				}else if("ArchitectureComplianceChecking".equalsIgnoreCase(calledFrom)){
+					continueToACC();
+				}else{
+					MessageDialog.openError(shlMappingArchitectureElementsFileSelection, "Error", "Error to open the window. Please check from who called.");
+				}
 			}
 		});
 		bContinue.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -115,7 +146,14 @@ public class SetPathFilesXMI {
 	}
 
 	private void cancelOperation() {
-		boolean cancel = MessageDialog.openConfirm(shlMappingArchitectureElementsFileSelection, "Map Architectural Elements", "Are you sure?");
+		boolean cancel = false;
+		if("MapArchitectureElementsToCodeElements".equalsIgnoreCase(calledFrom)){
+			cancel = MessageDialog.openConfirm(shlMappingArchitectureElementsFileSelection, "Map Architectural Elements", "Are you sure?");
+		}else if("ArchitectureComplianceChecking".equalsIgnoreCase(calledFrom)){
+			cancel = MessageDialog.openConfirm(shlMappingArchitectureElementsFileSelection, "Architectural Compilance Checking", "Are you sure?");
+		}else{
+			cancel = MessageDialog.openConfirm(shlMappingArchitectureElementsFileSelection, "Not Informed", "Are you sure?");
+		}
 		
 		if(cancel){
 			this.shlMappingArchitectureElementsFileSelection.dispose();
@@ -128,15 +166,34 @@ public class SetPathFilesXMI {
 //		Segment segment = readingKDM.load(kdmFilePath);
 //		readingKDM.setSegmentMain(segment);
 		if(validateFields()){
-			this.shlMappingArchitectureElementsFileSelection.dispose();
-			this.shlMappingArchitectureElementsFileSelection.close();
-
+			
 			MappingArchitectureElements.setPathPlannedArchitecture(tPathPlanned.getText());
 			MappingArchitectureElements.setPathActualArchitecture(tPathActual.getText());
 			MappingArchitectureElements.setPathSelectedFile(this.pathFileSelect);
 			
+			this.shlMappingArchitectureElementsFileSelection.dispose();
+			
 			MappingArchitectureElements mappingArchitectureElements = new MappingArchitectureElements();
 			mappingArchitectureElements.open();
+			
+		}
+	}
+	
+	private void continueToACC() {
+//		String kdmFilePath = this.file.getLocationURI().toString();
+//		ReadingKDMFile readingKDM = new ReadingKDMFile();				
+//		Segment segment = readingKDM.load(kdmFilePath);
+//		readingKDM.setSegmentMain(segment);
+		if(validateFields()){
+
+			ArchitectureComplianceChecking.setPathPlannedArchitecture(tPathPlanned.getText());
+			ArchitectureComplianceChecking.setPathActualMappedArchitecture(tPathActual.getText());
+			ArchitectureComplianceChecking.setPathSelectedFile(this.pathFileSelect);
+			
+			this.shlMappingArchitectureElementsFileSelection.dispose();
+
+			ArchitectureComplianceChecking architectureComplianceChecking = new ArchitectureComplianceChecking();
+			architectureComplianceChecking.executeACC();
 			
 		}
 	}
