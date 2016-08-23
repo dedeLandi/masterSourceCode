@@ -1,16 +1,11 @@
 package br.ufscar.ARCH_KDM.util;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.management.relation.Relation;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -20,7 +15,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.ecore.xml.type.internal.RegEx.REUtil;
 import org.eclipse.gmt.modisco.omg.kdm.action.AbstractActionRelationship;
 import org.eclipse.gmt.modisco.omg.kdm.action.ActionElement;
 import org.eclipse.gmt.modisco.omg.kdm.action.ActionRelationship;
@@ -31,11 +25,9 @@ import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeRelationship;
 import org.eclipse.gmt.modisco.omg.kdm.code.CallableUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
-import org.eclipse.gmt.modisco.omg.kdm.code.CodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeFactory;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeItem;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeModel;
-import org.eclipse.gmt.modisco.omg.kdm.code.DataElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.Datatype;
 import org.eclipse.gmt.modisco.omg.kdm.code.Extends;
 import org.eclipse.gmt.modisco.omg.kdm.code.HasType;
@@ -49,7 +41,6 @@ import org.eclipse.gmt.modisco.omg.kdm.code.ParameterUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Signature;
 import org.eclipse.gmt.modisco.omg.kdm.code.StorableUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.TemplateType;
-import org.eclipse.gmt.modisco.omg.kdm.code.TemplateUnit;
 import org.eclipse.gmt.modisco.omg.kdm.core.AggregatedRelationship;
 import org.eclipse.gmt.modisco.omg.kdm.core.CoreFactory;
 import org.eclipse.gmt.modisco.omg.kdm.core.KDMEntity;
@@ -58,12 +49,8 @@ import org.eclipse.gmt.modisco.omg.kdm.kdm.KDMModel;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.KdmFactory;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.KdmPackage;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.Segment;
-import org.eclipse.gmt.modisco.omg.kdm.source.SourceFile;
-import org.eclipse.gmt.modisco.omg.kdm.source.SourceRef;
-import org.eclipse.gmt.modisco.omg.kdm.source.SourceRegion;
 import org.eclipse.gmt.modisco.omg.kdm.structure.AbstractStructureElement;
 import org.eclipse.gmt.modisco.omg.kdm.structure.Layer;
-import org.eclipse.gmt.modisco.omg.kdm.structure.StructureElement;
 import org.eclipse.gmt.modisco.omg.kdm.structure.StructureFactory;
 import org.eclipse.gmt.modisco.omg.kdm.structure.StructureModel;
 
@@ -76,33 +63,33 @@ import org.eclipse.gmt.modisco.omg.kdm.structure.StructureModel;
 public class ReadingKDMFile {
 
 	private Segment segmentMain = null;
-
+	
 	private ArrayList<ClassUnit> allClassUnits = new ArrayList<ClassUnit>();
-
+	
 	private ArrayList<MethodUnit> allMethodUnits = new ArrayList<MethodUnit>();
-
+	
 	private ArrayList<InterfaceUnit> allInterfaceUnit = new ArrayList<InterfaceUnit>();
-
+	
 	private ArrayList<StorableUnit> allStorableUnits = new ArrayList<StorableUnit>();
-
+	
 	private ArrayList<Package> allPackages = new ArrayList<Package>();
-
+	
 	private ArrayList<BlockUnit> allBlockUnits = new ArrayList<BlockUnit>();
-
+	
 	private ArrayList<Calls> allCalls = new ArrayList<Calls>();
-
+	
 	private ArrayList<Layer> allLayers = new ArrayList<Layer>();
-
+	
 	private ArrayList<KDMRelationship> allRelationships = new ArrayList<KDMRelationship>();
-
+	
 	private ArrayList<HasType> allHasType = new ArrayList<HasType>();
-
+	
 	private ArrayList<AbstractActionRelationship> allAbstractActionRelationships = new ArrayList<AbstractActionRelationship>();
-
+	
 	private ArrayList<HasValue> allHasValues = new ArrayList<HasValue>();
-
+	
 	private Segment targetArchitecture = null;
-
+	
 	/** 
 	 * Retorna um segmento passando como parametro o caminho completo de um arquivo KDM.
 	 * 
@@ -111,7 +98,7 @@ public class ReadingKDMFile {
 	 * @see         org.eclipse.gmt.modisco.omg.kdm.kdm.Segment
 	 */
 	public Segment load(String KDMModelFullPath) {
-
+		
 		System.err.println(KDMModelFullPath);
 
 		KdmPackage.eINSTANCE.eClass();//get the KDMPackage instance
@@ -128,198 +115,203 @@ public class ReadingKDMFile {
 
 		return (Segment) resource.getContents().get(0); //pega o primeiro elemento, que e o Segment
 	}
-
-
-
+	
+	
+	
 	public void createBasicTargetArchitecture (EList<AbstractStructureElement> abstractStructureElementASIS) {
-
+		
 		this.targetArchitecture = createSegment();
 		createStructureModel(this.targetArchitecture);
-
+	
 		StructureModel structureModel = (StructureModel) this.targetArchitecture.getModel().get(0);
-
-		//		Collections.copy(structureModel.getStructureElement(), abstractStructureElementASIS);
-
+			
+//		Collections.copy(structureModel.getStructureElement(), abstractStructureElementASIS);
+		
 		Collection copyAllAbstractStructureElementASIS = EcoreUtil.copyAll(abstractStructureElementASIS);
-
+			
 		structureModel.getStructureElement().addAll(copyAllAbstractStructureElementASIS);		
 		EList<AbstractStructureElement> allAbstractElements  = structureModel.getStructureElement();
-
+		
 		for (AbstractStructureElement abstractStructureElement : allAbstractElements) {
-
+		
 			abstractStructureElement.getAggregated().clear();
-
+			
 		}
-
+		
 	}
-
+	
 	public void compareRelations (String ArchitecturePathASIS, String ArchitecturePathTOBE) {
-
-
+		
+		
 		System.out.println("Chamou");
-
+		
 		Segment architectureASIS = this.load(ArchitecturePathASIS);
 		Segment architectureTOBE = this.load(ArchitecturePathTOBE);
-
+		
 		System.out.println(architectureASIS);
 		System.out.println(architectureTOBE);
-
+		
 		List<AggregatedRelationship> allAggregatedRelationShipASIS = new ArrayList<AggregatedRelationship>();
-
+		
 		List<AggregatedRelationship> allAggregatedRelationShipTOBE = new ArrayList<AggregatedRelationship>();
-
+		
 		StructureModel structureModelASIS = this.getStructureModelPassingSegment(architectureASIS);
-
+		
 		StructureModel structureModelTOBE = this.getStructureModelPassingSegment(architectureTOBE);
-
-		EList<AbstractStructureElement> abstractStructureElementASIS = structureModelASIS.getStructureElement();
+		
+		EList<AbstractStructureElement> abstractStructureElementASIS = (EList<AbstractStructureElement>) structureModelASIS.getStructureElement();
 		//move to a method
-
+		
 		this.createBasicTargetArchitecture(abstractStructureElementASIS);
 
-
+		
 		EList<AbstractStructureElement> abstractStructureElementTOBE = structureModelTOBE.getStructureElement();
-
+		
 		this.addAllAggregatedRelationShip(abstractStructureElementASIS, allAggregatedRelationShipASIS);
 		this.addAllAggregatedRelationShip(abstractStructureElementTOBE, allAggregatedRelationShipTOBE);
-
+		
 		this.getCorrespondentAggregatedRelationship(allAggregatedRelationShipASIS, allAggregatedRelationShipTOBE);
-
+		
 	}
-
+	
 	public void getCorrespondentAggregatedRelationship (List<AggregatedRelationship> allAggregatedRelationShipASIS, List<AggregatedRelationship> allAggregatedRelationShipTOBE) {
-
+		
 		KDMEntity fromASIS = null;
 		KDMEntity toASIS = null;
-
+		
 		for (AggregatedRelationship aggregatedRelationshipASIS : allAggregatedRelationShipASIS) {
-
+			
 			fromASIS = aggregatedRelationshipASIS.getFrom();
 			toASIS = aggregatedRelationshipASIS.getTo();
-
-			for (AggregatedRelationship aggregatedRelationshipTOBE : allAggregatedRelationShipTOBE) {
-
-				if (fromASIS.getName().equals(aggregatedRelationshipTOBE.getFrom().getName()) && toASIS.getName().equals(aggregatedRelationshipTOBE.getTo().getName())) {
-
-					compare(aggregatedRelationshipASIS, aggregatedRelationshipTOBE);
-
-				}
-
+			
+			if (fromASIS == null || toASIS == null) {
+				System.out.println("AggregatedR com from ou to null, desconsiderar e examinar");
 			}
-
+			else {
+				for (AggregatedRelationship aggregatedRelationshipTOBE : allAggregatedRelationShipTOBE) {
+					
+					if (fromASIS.getName().equals(aggregatedRelationshipTOBE.getFrom().getName()) && toASIS.getName().equals(aggregatedRelationshipTOBE.getTo().getName())) {
+						
+						compare(aggregatedRelationshipASIS, aggregatedRelationshipTOBE);
+						
+					}
+					
+				}
+			}
+			
 		}
-
+		
 	}
-
+	
 	/*
 	 * Este metodo recebe dois AggregatedRelationships equivalentes e compara-os.
 	 */
-
+	
 	public void compare (AggregatedRelationship aggregatedRelationshipASIS, AggregatedRelationship aggregatedRelationshipTOBE) {
-
+		
 		List<KDMRelationship> relationsASIS = aggregatedRelationshipASIS.getRelation();
 		List<KDMRelationship> relationsTOBE = aggregatedRelationshipTOBE.getRelation();
-
+		
 		String nameRelationTOBE = null;
 		String nameRelationASIS = null;
-
+		
 		Boolean checked = null;
-
+		
 		for (KDMRelationship relationASIS : relationsASIS) {
-
+			
 			checked = false;
-
+			
 			nameRelationASIS = relationASIS.getClass().getName();			
-
-
+			
+			
 			for (int i = 0; i < relationsTOBE.size(); i++) {
-
+				
 				nameRelationTOBE = relationsTOBE.get(i).getClass().getName();
-
+				
 				//verifica se existe algum relation do tipo solicitado
 				if (nameRelationASIS.equals(nameRelationTOBE)) {
 					System.out.println("Encontrou " + nameRelationTOBE);
 					checked = true;
 					break;
-
+					
 				}
-
+				
 				if (i == (relationsTOBE.size()-1) && checked == false) {
 					//cria a nova instância
 					System.err.println("Não encontrado");
-
+					
 					this.searchStructureElement(aggregatedRelationshipASIS, relationASIS);
-
+					
 				}
-
-
+				
+				
 			}
-
+						
 		}
-
-
-
+		
+		
+		
 	}
-
+	
 	private void searchStructureElement (AggregatedRelationship aggregatedRelationship,  KDMRelationship relationToAdd) {
-
+		
 		AbstractStructureElement fromASIS = (AbstractStructureElement) aggregatedRelationship.getFrom();
 		AbstractStructureElement toASIS = (AbstractStructureElement) aggregatedRelationship.getTo();
-
+		
 		AbstractStructureElement targetElementFROM = null;
 		AbstractStructureElement targetElementTO = null;
-
+		
 		//TODO
 		EList<AbstractStructureElement> allElementsFromTarget = getAllStructureElements(this.targetArchitecture);
-
+		
 		for (AbstractStructureElement targetElement : allElementsFromTarget) {
-
+			
 			if (fromASIS.getName().equals(targetElement.getName())) {
 				targetElementFROM = targetElement;				
 			}
-
+			
 			if (toASIS.getName().equals(targetElement.getName())) {
 				targetElementTO = targetElement;
 			}
-
+			
 		}
-
+		
 		if (targetElementFROM.getAggregated().size() > 0) {
 			//TODO
 			System.out.println("MAIOR QUE 1, TODO");
-
+			
 			EList<AggregatedRelationship> aggregatedFROM = targetElementFROM.getAggregated();		
-
-
+			
+			
 			for (int i = 0; i < aggregatedFROM.size(); i++) {
-
+				
 				if (toASIS.getName().equals(aggregatedFROM.get(i).getTo().getName())) {
-
+					
 					//ADICIONAR
-
+					
 					aggregatedFROM.get(i).setDensity(aggregatedFROM.get(i).getDensity()+1);
 					aggregatedFROM.get(i).getRelation().add(relationToAdd);
-
+					
 					break;
 				}
-
+				
 				//se chegar no último e não encontrar
 				if (i == (aggregatedFROM.size()-1)) {
-
+					
 					AggregatedRelationship newRelationship = CoreFactory.eINSTANCE.createAggregatedRelationship();
 					newRelationship.setDensity(1);
 					newRelationship.setFrom(targetElementFROM);
 					newRelationship.setTo(targetElementTO);
 					newRelationship.getRelation().add(relationToAdd);
 					targetElementFROM.getAggregated().add(newRelationship);
-
+					
 				}
-
-
+				
+				
 			}
-
-
-
+			
+			
+			
 		} else {
 			AggregatedRelationship newRelationship = CoreFactory.eINSTANCE.createAggregatedRelationship();
 			newRelationship.setDensity(1);
@@ -328,151 +320,151 @@ public class ReadingKDMFile {
 			newRelationship.getRelation().add(relationToAdd);
 			targetElementFROM.getAggregated().add(newRelationship);
 		}
-
-
-
+		
+		
+		
 	}
-
+	
 	private EList<AbstractStructureElement> getAllStructureElements (Segment segment) {
-
+		
 		EList<KDMModel> models = segment.getModel();
-
+		
 		StructureModel structureModel = null;
-
+		
 		for (KDMModel kdmModel : models) {
-
+			
 			if (kdmModel instanceof StructureModel) {
-
+				 
 				structureModel = (StructureModel) kdmModel;
 			}
-
+			
 		}
-
+		
 		return structureModel.getStructureElement();
-
-
+		
+		
 	}
-
-
-
-
-
+	
+	
+	
+	
+	
 	public void addAllAggregatedRelationShip (EList<AbstractStructureElement> abstractStructureElement, List<AggregatedRelationship> listToAdd ) {
-
+		
 		for (AbstractStructureElement abstractStructur : abstractStructureElement) {
-
+			
 			listToAdd.addAll(this.getAllAggregatedRelationShip(abstractStructur));
-
+			
 		}
-
+		
 	}
-
+	
 	public EList<AggregatedRelationship> getAllAggregatedRelationShip (AbstractStructureElement element) {
-
-
+		
+		
 		return element.getAggregated();
-
+		
 	}
-
+	
 	public StructureModel getStructureModelPassingSegment (Segment segment) {
-
+		
 		StructureModel structureModel = null;
-
-
+		
+		
 		EList<KDMModel> kdmModelASIS = segment.getModel();
-
+		
 		for (KDMModel kdmModel : kdmModelASIS) {
 			if (kdmModel instanceof StructureModel) {
-
+				
 				structureModel = (StructureModel)kdmModel;
-
+				
 			}
 		}
 
 		return structureModel;
-
+		
 	}
-
+	
 	public ArrayList<StorableUnit> fetchAllStorableUnitFromClassUnit (ClassUnit classUnitToGetTheStorableUnits) {
-
+		
 		ArrayList<StorableUnit> allStorableUnits = new ArrayList<StorableUnit>();
-
+		
 		EList<CodeItem> allElements = classUnitToGetTheStorableUnits.getCodeElement();
-
+		
 		for (CodeItem codeItem : allElements) {
-
+			
 			if (codeItem instanceof StorableUnit) {
-
+				
 				StorableUnit storableUnitToFetch = (StorableUnit) codeItem;
 				allStorableUnits.add(storableUnitToFetch);
 			}
-
+			
 		}
-
+		
 		return allStorableUnits;
-
+		
 	}
-
+	
 	public ArrayList<HasType> fetchAllHasTypeFromStorableUnits (StorableUnit storableUnitToGetTheHasType) {
-
+		
 		ArrayList<HasType> auxAllHasType = new ArrayList<HasType>();
-
+						
 		EList<AbstractCodeRelationship> allRelations = storableUnitToGetTheHasType.getCodeRelation();
-
+		
 		for (AbstractCodeRelationship abstractCodeRelationship : allRelations) {
-
+			
 			if (abstractCodeRelationship instanceof HasType) {
-
+								
 				if (verifyIfRelationContaisLayer(abstractCodeRelationship, this.allLayers)) {				
 					auxAllHasType.add((HasType)abstractCodeRelationship);
 				}
-
+				
 			}
-
+			
 		}
-
+		
 		return auxAllHasType;
-
+		
 	}
-
+	
 	public ArrayList<HasType> fetchAllHasTypeFromParameterUnits (ParameterUnit parameterUnitToGetTheHasType) {
-
-
+		
+		
 		System.out.println("Entrou");
 		ArrayList<HasType> auxAllHasType = new ArrayList<HasType>();
-
+						
 		EList<AbstractCodeRelationship> allRelations = parameterUnitToGetTheHasType.getCodeRelation();
-
+		
 		for (AbstractCodeRelationship abstractCodeRelationship : allRelations) {
-
+			
 			if (abstractCodeRelationship instanceof HasType) {
-
+								
 				if (verifyIfRelationContaisLayer(abstractCodeRelationship, this.allLayers)) {				
 					auxAllHasType.add((HasType)abstractCodeRelationship);
 				}
-
+				
 			}
-
+			
 		}
-
+		
 		return auxAllHasType;
-
+		
 	}
-
+	
 	/** 
 	 * Esse metodo e responsavel por adicionar um HasType como CodeRelation para cada StorableUnit
 	 * 
 	 * @param  allStorableUnitOfAClass representa todas as StorableUnits de uma Classe
 	 */
-
+	
 	public void addHasTypeToStorableUnit (ArrayList<StorableUnit> allStorableUnitOfAClass) {
-
+		
 		for (StorableUnit storableUnit : allStorableUnitOfAClass) {
-
+			
 			HasType hasType = CodeFactory.eINSTANCE.createHasType();
-
+			
 			CodeItem auxFrom;
-
+			
 			if (storableUnit.eContainer() instanceof ActionElement) {
 				// caso de um StorableUnit dentro de ActionElement, sobe na arvore ate alcancar um methodUnit
 				auxFrom = (MethodUnit)storableUnit.eContainer().eContainer().eContainer();
@@ -480,79 +472,79 @@ public class ReadingKDMFile {
 				// caso de um StorableUnit dentro de um ClassUnit
 				auxFrom = (ClassUnit)storableUnit.eContainer();
 			}
-
+				
 			hasType.setFrom(auxFrom);
-
+			
 			Datatype dataType = storableUnit.getType();
-
+			
 			System.out.println("Todos os Types "+ dataType);
-
+			
 			//Caso de 1:*
 			if (dataType instanceof TemplateType) {
-
+				
 				//desce na arvore do TemplateUnit
 				TemplateType auxTemplateUnit = (TemplateType) dataType;
 				EList<AbstractCodeRelationship> auxAbstractCodeRelationship = auxTemplateUnit.getCodeRelation();
 				ParameterTo auxParameterTo = (ParameterTo) auxAbstractCodeRelationship.get(0);
 
 				dataType = (Datatype) auxParameterTo.getTo();							
-
+								
 			} 
-
+			
 			hasType.setTo(dataType);
-
+			
 			storableUnit.getCodeRelation().add(hasType);					
 
 		}			
-
+		
 	}
-
+	
 	/** 
 	 * Esse metodo e responsavel por adicionar um HasType como CodeRelation para cada ParameterUnit
 	 * 
 	 * @param  allParameterUnits representa todas os parametros (ParameterUnit) de uma assinatura de metodo (Signature)
 	 */
-
+	
 	public void addHasTypeToSignature (ArrayList<ParameterUnit> allParameterUnits) {
-
+		
 		for (ParameterUnit auxParameterUnit : allParameterUnits) {
-
+			
 			HasType hasType = CodeFactory.eINSTANCE.createHasType();
-
+			
 			hasType.setFrom((Signature)auxParameterUnit.eContainer());					
-
+			
 			Datatype dataType = auxParameterUnit.getType();
-
+			
 			hasType.setTo(dataType);
-
+			
 			auxParameterUnit.getCodeRelation().add(hasType);
-
+			
 		}
-
+				
 	}
-
-
+	
+	
 	public void teste () {
-
-
+		
+		
 		HasType hasType = CodeFactory.eINSTANCE.createHasType();
-
+		
 		StorableUnit attribute = CodeFactory.eINSTANCE.createStorableUnit();
-
+		
 		ClassUnit classUnit = CodeFactory.eINSTANCE.createClassUnit();
-
+		
 		hasType.setFrom(attribute);
 		hasType.setTo(classUnit);
-
+		
 		AggregatedRelationship aggregated = CoreFactory.eINSTANCE.createAggregatedRelationship();
-
-
+		
+		
 		aggregated.getRelation().add(hasType);
-
-
-
+		
+		
+		
 	}
-
+	
 	private static Segment createSegment() {
 		KdmFactory kdmFactory = KdmPackage.eINSTANCE.getKdmFactory();
 
@@ -561,16 +553,16 @@ public class ReadingKDMFile {
 
 		return createSegment;
 	}
-
+	
 	private static StructureModel createStructureModel (Segment segment) {
-
+		
 		StructureModel structureModel = StructureFactory.eINSTANCE
 				.createStructureModel();// create a StructureModel
 		segment.getModel().add(structureModel);
-
+		
 		return structureModel;
 	}
-
+	
 
 	/** 
 	 * Esse metodo e responsavel por instancia o StructureModel para atribuir os elementos arquiteturais.
@@ -599,7 +591,7 @@ public class ReadingKDMFile {
 			this.allLayers.add(layer);
 		}
 
-		//		save(segment, kdmPath);
+//		save(segment, kdmPath);
 
 	}
 
@@ -633,7 +625,7 @@ public class ReadingKDMFile {
 
 	}
 
-
+	
 	/** 
 	 * Esse metodo e responsavel por obter todos os pacotes da instancia do KDM
 	 * @param segment, representa uma instancia do KDM
@@ -688,19 +680,19 @@ public class ReadingKDMFile {
 		}
 		return packages;
 	}
-
+	
 	/** 
 	 * Esse metodo e responsavel por obter todas as classes e interfaces a partir de um pacote
 	 * @param auxPackage, o pacote que possui as claasses e interfaces
 	 * @return EList<KDMEntity> todas as Classes e Interfaces de um pacote
 	 */
-
+	
 	public EList<AbstractCodeElement> getClassesAndInterfacesByPackage (Package auxPackage) {
 		EList<AbstractCodeElement> allClassesAndInterfaces = auxPackage.getCodeElement();
 		return allClassesAndInterfaces;
 	}
 
-
+	
 	/** 
 	 * Esse metodo e responsavel por obter todas as classes da instancia do KDM
 	 * @param segment, o segment que representa a instancia do modelo
@@ -731,7 +723,7 @@ public class ReadingKDMFile {
 		return allClasses;
 
 	}
-
+	
 	/** 
 	 * Esse metodo e responsavel por obter todas as Interfaces da instancia do KDM
 	 * @param segment, o segment que representa a instancia do modelo
@@ -762,7 +754,7 @@ public class ReadingKDMFile {
 		return allInterface;
 
 	}
-
+	
 
 	/** 
 	 * Esse metodo e responsavel por obter todas as classes da instancia do KDM
@@ -788,7 +780,7 @@ public class ReadingKDMFile {
 		}
 
 	}
-
+	
 	/** 
 	 * Esse metodo e responsavel por obter todas as classes da instancia do KDM
 	 * @param elements, representa todos os elementos
@@ -813,8 +805,8 @@ public class ReadingKDMFile {
 		}
 
 	}
-
-
+	
+	
 	/** 
 	 * Esse metodo e responsavel por obter todos os imports, implements e extends contidos em uma ClassUnit
 	 * @param classUnit, que representa uma instancia de uma classe do KDM
@@ -830,7 +822,7 @@ public class ReadingKDMFile {
 			if (verifyIfRelationContaisLayer( relationship, allLayers)) {
 				allRelationships.add(relationship);
 			}
-
+			
 
 		}
 
@@ -838,9 +830,9 @@ public class ReadingKDMFile {
 		return allRelationships;
 
 	}
-
-
-
+	
+	
+	
 	/** 
 	 * Esse metodo e responsavel por obter todos os metodos dado uma ClassUnit
 	 * @param classUnit, que representa uma instancia de uma classe do KDM
@@ -867,197 +859,201 @@ public class ReadingKDMFile {
 		return methodUnit;
 
 	}
+	
 
-
-	//Falta concluir o Fix neste m�todo
+	//Falta concluir o Fix neste método
 	//Anteriormente ele estava pegando o To somente de interface unit
-	//Agora ser� adaptado para pegar de m�todo tamb�m
-
+	//Agora será adaptado para pegar de método também
+	
 	public HasValue getRelationShipBetweenAnnotation(HasValue hasValue) {
-
+		
 		AbstractCodeElement toToVerify = null;
+		ArrayList<AbstractCodeRelationship> relations = new ArrayList<AbstractCodeRelationship>();
+		Package packageToVerify = null;
 
 		if (hasValue.getTo() instanceof InterfaceUnit) {
 			toToVerify = (InterfaceUnit) hasValue.getTo();
 		}
 		else if (hasValue.getTo() instanceof MethodUnit) {
 			toToVerify = (MethodUnit) hasValue.getTo(); 
+			return hasValue; 
 		}		
 
-		ArrayList<AbstractCodeRelationship> relations = new ArrayList<AbstractCodeRelationship>();
-
-
+		
+				
+				
+		
 		if (((Package) toToVerify.eContainer()).getName().equals("lang")) {
 
 			ClassUnit classUnit = (ClassUnit) hasValue.getFrom().eContainer();
-
+			
 			EList<AbstractCodeRelationship> allRelation = classUnit.getCodeRelation();
-
-
-
+			
+			
+			
 			for (AbstractCodeRelationship abstractCodeRelationship : allRelation) {
-
+				
 				if (abstractCodeRelationship instanceof Extends || abstractCodeRelationship instanceof Implements) {
-
+					
 					relations.add(abstractCodeRelationship);
-
+					
 				}
-
+				
 			}
-
-
+			
+			
 			for (int i = 0; i < relations.size(); i++) {
-
+		
 				KDMEntity to = relations.get(i).getTo();
-
+				
 				if (to instanceof ClassUnit) {
-
+					
 					ClassUnit classUnitTO = (ClassUnit) to;
-
+					
 					List<MethodUnit> allMethods = this.getMethods(classUnitTO);
-
+					
 					for (MethodUnit methodUnit : allMethods) {
-
+						
 						if (methodUnit.getName().equals(hasValue.getFrom().getName())) {
-
+							
 							hasValue.setTo(methodUnit);
 							return hasValue;
-
+							
 						}
-
+						
 					}
-
+					
 				} else if (to instanceof InterfaceUnit) {
-
+					
 					InterfaceUnit interfaceUnit = (InterfaceUnit) to;
-
+					
 					List<MethodUnit> allMethods = this.getMethods(interfaceUnit);
-
+					
 					for (MethodUnit methodUnit : allMethods) {
-
+						
 						if (methodUnit.getName().equals(hasValue.getFrom().getName())) {
-
-
+							
+							
 							hasValue.setTo(methodUnit);
 							return hasValue;
-
+							
 						}
-
+						
 					}
-
-
+					
+					
 				}
-
+				
 				if (i == (relations.size()-1)) {
-
+					
 					System.out.println("Chegou no ultimo");
-
+					
 					return null;
-
+					
 				}
-
+				
 			}
-
-
+			
+			
 		}
 		return hasValue;
 
 	}
-
+	
 	public ClassUnit getClassUnit (Segment segment, String name) {
-
+		
 		ArrayList<ClassUnit> allClasses = this.getAllClasses(segment);
-
+		
 		ClassUnit classToReturn = null;
-
+		
 		for (ClassUnit classUnit : allClasses) {
 			if (classUnit.getName().equals(name)) {
-
+				
 				classToReturn = classUnit;
 				break;
-
+				
 			}
 		}
-
+		
 		return classToReturn;
-
+		
 	}
-
+	
 	public InterfaceUnit getInterfaceUnit (Segment segment, String name) {
-
+		
 		ArrayList<InterfaceUnit> allInterface = this.getAllInterfaces(segment);
-
+		
 		InterfaceUnit interfaceToReturn = null;
-
+		
 		for (InterfaceUnit interfaceUnit : allInterface) {
 			if (interfaceUnit.getName().equals(name)) {
-
+				
 				interfaceToReturn = interfaceUnit;
 				break;
-
+				
 			}
 		}
-
-
+		
+		
 		return interfaceToReturn;
-
+		
 	}
-
-
-
+	
+	
+	
 	/** 
 	 * Esse metodo e responsavel por obter uma annotation em forma de HasValue.
 	 * Caso retorne null, significa que o metodo nao possui annotation.
 	 * @param auxMethodUnit, que representa uma instancia de um metodo do KDM
 	 * @return HasValue equivalente a uma annotation
 	 */
-
+	
 	public HasValue fetchAnnotation (CodeItem codeItem) {
-
+		
 		EList<AbstractCodeRelationship> abstractCodeRelationships = codeItem.getCodeRelation();
-
+		
 		if (abstractCodeRelationships.size() > 0){
-
+		
 			if (abstractCodeRelationships.get(0) instanceof HasValue) {
-
+				
 				HasValue hasValue = (HasValue) abstractCodeRelationships.get(0);
-
+				
 				if (hasValue.getAnnotation().size() > 0) {
 					return hasValue;
 				}
-
+				
 			}
 		}
 		return null;
 	}
-
+	
 	/** 
 	 * Esse metodo e responsavel por obter todos os parameterUnit dado uma MethodUnit
 	 * @param methodUnit, que representa uma instancia de um metodo do KDM
 	 * @return ArrayList<ParameterUnit> todos os parametros de um Metodo.
 	 */
 	public ArrayList<ParameterUnit> fetchAllParameterUnits (MethodUnit methodUnit) {	
-
+		
 		ArrayList<ParameterUnit> parameterUnits = new ArrayList<ParameterUnit>();
-
+		
 		//Pega primeiro a assinatura do metodo, que esta sempre na posicao 0
 		Signature auxSignature = (Signature) methodUnit.getCodeElement().get(0);
-
-
+		
+		
 		//Pega a lista de parametros
 		EList<ParameterUnit> auxListParameterUnit = auxSignature.getParameterUnit();
-
-
+		
+		
 		for (ParameterUnit parameterUnit : auxListParameterUnit) {			
 			parameterUnits.add(parameterUnit);			
 		}
-
+				
 		return parameterUnits;
 
 	}
+	
 
-
-
+	
 	/** 
 	 * Esse metodo e responsavel por obter um BlockUnit dado um MethodUnit
 	 * @param methodUnit representa uma instancia de um Metodo do KDM
@@ -1075,7 +1071,7 @@ public class ReadingKDMFile {
 			return null;
 
 	}
-
+	
 	/** 
 	 * Esse metodo e responsavel por obter todos os AbstractActionRelationship (ate o momento Calls e UsesType) dado um BlockUnit
 	 * @param blockUnit representa uma instancia de um BlockUnit do KDM
@@ -1101,7 +1097,7 @@ public class ReadingKDMFile {
 		return relations;
 
 	}
-
+	
 	/** 
 	 * Esse metodo e responsavel por obter todos os ActionElement do tipo "variable declaration" dado um BlockUnit
 	 * @param blockUnit representa uma instancia de um BlockUnit do KDM
@@ -1117,11 +1113,11 @@ public class ReadingKDMFile {
 
 			if (auxBlockUnit instanceof ActionElement && auxBlockUnit.getName().equals("variable declaration")) {
 				ActionElement auxActionElement = (ActionElement) auxBlockUnit;
-
+				
 				StorableUnit auxStorableUnit = (StorableUnit) auxActionElement.getCodeElement().get(0);
-
+				
 				System.err.println(auxStorableUnit.getName());
-
+				
 				//O StorableUnit se encontra no primeiro codeElement do ActionElement "variable declaration"
 				storableUnits.add(auxStorableUnit );
 			}
@@ -1132,7 +1128,7 @@ public class ReadingKDMFile {
 
 	}
 
-
+	
 	/** 
 	 * Esse metodo e responsavel por obter todos os AbstractActionRelationship (ate o momento Calls e UsesType) dado um BlockUnit
 	 * @param actionElement representa uma instancia do ActionElement
@@ -1161,13 +1157,13 @@ public class ReadingKDMFile {
 					for (AbstractActionRelationship abstractActionRelationship : allRelationhips) {
 
 						if (abstractActionRelationship instanceof Calls || abstractActionRelationship instanceof UsesType || (abstractActionRelationship instanceof HasValue && abstractActionRelationship.getAnnotation().size() > 0)) {
-
+							
 							ArrayList<Layer> allLayers = getAllLayers(this.segmentMain);
-
+							
 							if (verifyIfRelationContaisLayer(abstractActionRelationship, allLayers)) {
 								relations.add(abstractActionRelationship);
 							}
-
+							
 						}						
 
 					}
@@ -1179,7 +1175,7 @@ public class ReadingKDMFile {
 		return relations;
 
 	}
-
+	
 	/** 
 	 * Esse metodo e responsavel por verificar se uma instancia da metaclasse KDMRelationship contem uma relacao com um determinado Layer.
 	 * @param relationToVerify representa uma instancia da metaclasse KDMRelationship
@@ -1187,33 +1183,33 @@ public class ReadingKDMFile {
 	 * @return boolean
 	 */
 	private boolean verifyIfRelationContaisLayer (KDMRelationship relationToVerify, ArrayList<Layer> allLayers) {
-
+		
 		Package[] packageToAndFrom = getOriginAndDestiny(relationToVerify.getTo(),relationToVerify.getFrom());
-
+		
 		if (packageToAndFrom[0] == null || packageToAndFrom[1] == null) {
 			return false;
 		}
-
+		
 		boolean to = false, from = false;
-
-
+		
+		
 		for (Layer layer1 : allLayers) {
-
+						
 			if (mappingLayerToPackage(layer1, packageToAndFrom[0]))
 				to = true;
-
+			
 			if (mappingLayerToPackage(layer1, packageToAndFrom[1]))
 				from = true;									 					
-
+			
 		}
-
+		
 		if (to && from)
 			return true;
 		return false;
 	}
 
 
-
+	
 	/** 
 	 * Esse metodo e responsavel por obter todos os Layers que ja foram mapeados no sistema
 	 * @param segment representa um segment
@@ -1246,7 +1242,7 @@ public class ReadingKDMFile {
 		return allLayers;
 
 	}
-
+	
 	/** 
 	 * Esse metodo e responsavel por criar relacionamentos entre elementos arquiteturais. 
 	 * @param layers representa o conjunto de elementos arquiteturais.
@@ -1258,59 +1254,59 @@ public class ReadingKDMFile {
 		for (KDMRelationship relation : allRelations) {
 
 			Package[] packageToAndFrom = null;
-
+			
 			EObject to = relation.getTo();
 			EObject from = relation.getFrom();
-
+			
 			/*
-
+			
 			if (relation instanceof Calls) {
 				to = ((Calls) relation).getTo();
 				from = ((Calls) relation).getFrom();
-
+			
 			} else if (relation instanceof Extends) {
 				to = ((Extends) relation).getTo();
 				from = ((Extends) relation).getFrom();
-
+				
 			} else if (relation instanceof Implements) {
-
+				
 				to = ((Implements) relation).getTo();
 				from = ((Implements) relation).getFrom();
-
-
+			
+				
 			} else if (relation instanceof Imports) {
-
+				
 				to = ((Imports) relation).getTo();
 				from = ((Imports) relation).getFrom();
 			}
-			 */
-
+			*/
+			
 			packageToAndFrom = getOriginAndDestiny(to, from);
-
+			
 			//verifica se os pacotes de origem e destino sao iguais, caso sejam, nao cria novo relacionamento
 			if (!packageToAndFrom[0].getName().equals(packageToAndFrom[1].getName())) {
-
+				
 				for (Layer layers1 : layers) {
-
+					
 					//Itera nas layers ate encontrar a layer que corresponde a origem(from) da chamada(call) 
 					if (mappingLayerToPackage(layers1, packageToAndFrom[1])) {
-
+	
 						//recupera todos os relacionamentos da camada (layer)
 						EList<AggregatedRelationship> aggregatedRelationship = layers1.getAggregated();
-
+	
 						//verifica se existe algum relacionamento na camada (layer) atual
 						if (aggregatedRelationship.size() > 0) {
-
+	
 							//caso exista, o algoritmo percorre a lista com o intuito de encontrar algum relacionamento que possua o destino (to) desejado
 							for (int i = 0; i < aggregatedRelationship.size(); i++) {
-
+	
 								//verifica se o campo TO da CALL existe em algum relacionamento, na pratica ele verifica se o pacote TO
 								//da chamada ja esta cadastrado em algum dos relacionamentos
 								if (mappingLayerToPackage((Layer) aggregatedRelationship.get(i).getTo(), packageToAndFrom[0])) {
 									aggregatedRelationship.get(i).setDensity(aggregatedRelationship.get(i).getDensity() + 1);
 									aggregatedRelationship.get(i).getRelation().add(relation);
 									break;
-
+	
 								} else if ((aggregatedRelationship.size()-1) == i) {
 									AggregatedRelationship newRelationship = CoreFactory.eINSTANCE.createAggregatedRelationship();
 									newRelationship.setDensity(1);
@@ -1320,11 +1316,11 @@ public class ReadingKDMFile {
 									layers1.getAggregated().add(newRelationship);
 									break;
 								}
-
+															
 							}
-
-
-
+	
+							
+	
 						} else { //se nao existir, cria um novo relacionamento
 							AggregatedRelationship newRelationship = CoreFactory.eINSTANCE.createAggregatedRelationship();
 							newRelationship.setDensity(1);
@@ -1333,13 +1329,13 @@ public class ReadingKDMFile {
 							newRelationship.getRelation().add(relation);
 							layers1.getAggregated().add(newRelationship);
 						}
-
+						
 						break;
-
+	
 					}
-
+					
 					//save(segmentMain, "C:/Users/Fernando/Documents/runtime-EclipseApplication/TesteModisco/Examples/MVCBasic_kdm.xmi");
-
+	
 				}
 			}
 
@@ -1347,7 +1343,7 @@ public class ReadingKDMFile {
 
 	}
 
-
+	
 	/** 
 	 * Esse metodo e responsavel por verificar em qual Layer encontra se um determinado Package 
 	 * @param packageToGet representa o Package para verificar
@@ -1385,7 +1381,7 @@ public class ReadingKDMFile {
 
 	}
 
-
+	
 	/** 
 	 * Esse metodo e responsavel por verificar se uma Package e representado por uma Layer 
 	 * @param packageToVerify representa o Package para verificar
@@ -1421,7 +1417,7 @@ public class ReadingKDMFile {
 		return null;
 	}
 
-
+	
 	/** 
 	 * Esse metodo e responsavel por obter o caminho completo dado uma instancia de Package 
 	 * @param packageToGetThePath representa uma instancia do Package para obter o caminho
@@ -1433,7 +1429,7 @@ public class ReadingKDMFile {
 		if (packageToGetThePath instanceof Package) {
 
 			Package packageToGet = (Package) packageToGetThePath;
-
+			
 			pathToGet = getPathOfPackage(
 					(EObject) packageToGetThePath.eContainer(), pathToGet);
 
@@ -1444,14 +1440,14 @@ public class ReadingKDMFile {
 				pathToGet += "." + packageToGet.getName() ;
 
 			}
-
+			
 		} else
 			return pathToGet;
 
 		return pathToGet;
 
 	}
-
+	
 	/** 
 	 * Esse metodo e responsavel por recuperar a origem e o destino de uma determinada acao. Alem disso, a representacao
 	 * e dada em Package. Exemplo: pacote de origen da acao, pacote de destino da acao. 
@@ -1463,19 +1459,19 @@ public class ReadingKDMFile {
 		Package[] packageToAndFrom = new Package[2];
 		Package auxTo = null;
 		Package auxFrom = null;
-
+		
 		/*Identificamos um erro que quando temos Arraylist (listas), o modisco retorna um TemplateType que o topo de sua arvore
 		 * eh um CodeModel ao inves de um Pacote. Porem, eh possivel buscar o codeRelation do TemplateType e assim encontrar o pacote
 		 * que instacia esta classe.
 		 */
-
+		
 		if (to instanceof TemplateType) {
 			to = getToOfTemplateType((TemplateType)to);
 		}
 		if (from instanceof TemplateType) {
 			from = getToOfTemplateType((TemplateType)from);
 		}
-
+			
 
 		auxTo = getToOrFrom(to, auxTo);
 		auxFrom = getToOrFrom(from, auxFrom);
@@ -1486,9 +1482,9 @@ public class ReadingKDMFile {
 
 
 	}
-
+	
 	private EObject getToOfTemplateType (TemplateType element) {
-
+		
 		return element.getCodeRelation().get(0).getTo();	
 	}
 
@@ -1504,12 +1500,12 @@ public class ReadingKDMFile {
 		if (element instanceof Package) {
 
 			return (Package) element;
-
+			
 		} else if (element instanceof Segment) {
-
+			
 			return null;
 		}
-		else {
+			else {
 			toOrFrom = getToOrFrom(element.eContainer(), toOrFrom);
 
 		}
@@ -1518,7 +1514,7 @@ public class ReadingKDMFile {
 
 	}
 
-
+	
 	/** 
 	 * Esse metodo e responsavel por recuperar a origem e o destino de uma determinada acao. Alem disso, a representacao
 	 * e dada em Package. Exemplo: pacote de origen da acao, pacote de destino da acao. 
@@ -1576,7 +1572,7 @@ public class ReadingKDMFile {
 
 	}
 
-
+	
 	/** 
 	 * Esse metodo e responsavel por recuperar todos os CallableUnits que uma ClassUnit contem. 
 	 * @param classUnit representa uma ClassUnit
@@ -1686,7 +1682,7 @@ public class ReadingKDMFile {
 	public ArrayList<HasType> getAllHasType() {
 		return allHasType;
 	}
-
+	
 	public void setAllHasType(ArrayList<HasType> allHasType) {
 		this.allHasType = allHasType;
 	}
@@ -1694,7 +1690,7 @@ public class ReadingKDMFile {
 	public ArrayList<AbstractActionRelationship> getAllAbstractActionRelationships() {
 		return allAbstractActionRelationships;
 	}
-
+	
 	public void setAllAbstractActionRelationships(
 			ArrayList<AbstractActionRelationship> allAbstractActionRelationships) {
 		this.allAbstractActionRelationships = allAbstractActionRelationships;
@@ -1707,17 +1703,17 @@ public class ReadingKDMFile {
 	public void setAllHasValues(ArrayList<HasValue> allHasValues) {
 		this.allHasValues = allHasValues;
 	}
-
+	
 	public Segment getTargetArchitecture() {
 		return targetArchitecture;
 	}
-
+	
 	public ArrayList<CodeItem> getAllAffectedElements (ArrayList<CodeItem> affectedElements, CodeItem target) {
-
+		
 		CodeItem itemToVerify = (CodeItem) target.eContainer();
-
+		
 		affectedElements.add(itemToVerify);
-
+		
 		//verifica se alcançou um pacote
 		if (itemToVerify instanceof Package) {
 			return affectedElements;
@@ -1727,18 +1723,18 @@ public class ReadingKDMFile {
 		}
 		return affectedElements;
 	}
-
+	
 	public AbstractStructureElement getAffectedStructureElement (StructureModel structureModel, Package packageTofind) {
 		AbstractStructureElement structureElementFound = null;
-
+		
 		EList<AbstractStructureElement> structureElements = structureModel.getStructureElement();
-
+		
 		for (AbstractStructureElement abstractStructureElement : structureElements) {
-
+			
 			EList<KDMEntity> implementation = abstractStructureElement.getImplementation();
-
+			
 			for (KDMEntity kdmEntity : implementation) {
-
+				
 				if (kdmEntity instanceof Package) {
 					Package package1 = (Package) kdmEntity;
 					if (package1.getName().equals(packageTofind.getName())) {
@@ -1746,23 +1742,23 @@ public class ReadingKDMFile {
 						return abstractStructureElement;
 					}
 				}
-
+				
 			}
-
+			
 		}
-
+		
 		return structureElementFound;
 	}
-
+	
 	public ArrayList<KDMRelationship> getAffectedsRelationships (CodeItem codeItem, AbstractStructureElement structureElement) {
 		ArrayList<KDMRelationship> affectedRelationships = new ArrayList<KDMRelationship>();
-
+		
 		EList<AggregatedRelationship> aggregatedRelationships = structureElement.getAggregated();
-
+		
 		for (AggregatedRelationship aggregatedRelationship : aggregatedRelationships) {
-
+			
 			EList<KDMRelationship> kdmRelationships = aggregatedRelationship.getRelation();
-
+			
 			for (KDMRelationship kdmRelationship : kdmRelationships) {				
 				boolean result = false;
 				//TODO
@@ -1778,19 +1774,19 @@ public class ReadingKDMFile {
 					affectedRelationships.add(kdmRelationship);
 				}				
 			}
-
+			
 		}
-
+		
 		return affectedRelationships;
 	}
-
+	
 	//verifica se um relationship pertence a um determinado codeitem
 	//não garente que o método seja o mesmo, depois devemos subir a árvore para verificar se o elemento encontrado é realmente o mesmo
 	public boolean verifyRelationshipClass (KDMEntity item, EObject elementToVerify, boolean result) {		
-
+		
 		if (elementToVerify.eContainer() instanceof ClassUnit) {
 			ClassUnit classUnit = (ClassUnit) elementToVerify.eContainer();
-
+			
 			if(classUnit.getName().equals(item.getName())) {
 				result = true;
 				return result;
@@ -1803,16 +1799,16 @@ public class ReadingKDMFile {
 		else {
 			result = verifyRelationshipClass(item, elementToVerify.eContainer(), result);
 		}
-
+		
 		return result;
-
+		
 	}
-
+	
 	public boolean verifyRelationshipPackage (KDMEntity item, EObject elementToVerify, boolean result) {		
-
+		
 		if (elementToVerify.eContainer() instanceof Package) {
 			Package packageFound = (Package) elementToVerify.eContainer();
-
+			
 			if(packageFound.getName().equals(item.getName())) {
 				result = true;
 				return result;
@@ -1825,16 +1821,16 @@ public class ReadingKDMFile {
 		else {
 			result = verifyRelationshipPackage(item, elementToVerify.eContainer(), result);
 		}
-
+		
 		return result;
-
+		
 	}
-
+	
 	public boolean verifyRelationshipMethod (KDMEntity item, EObject elementToVerify, boolean result) {		
-
+		
 		if (elementToVerify.eContainer() instanceof MethodUnit) {
 			MethodUnit methodUnit = (MethodUnit) elementToVerify.eContainer();
-
+			
 			if(methodUnit.getName().equals(item.getName())) {
 				result = true;
 				return result;
@@ -1847,10 +1843,10 @@ public class ReadingKDMFile {
 		else {
 			result = verifyRelationshipMethod(item, elementToVerify.eContainer(), result);
 		}
-
+		
 		return result;	
 	}
-
-
-
+	
+	
+	
 }
