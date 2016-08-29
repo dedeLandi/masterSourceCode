@@ -327,7 +327,13 @@ public class MappingArchitectureElements {
 				mapItem.getStructureElement().getImplementation().add(codeElement);
 				
 			}					
-			structureModel.getStructureElement().add(mapItem.getStructureElement());					
+			structureModel.getStructureElement().add(mapItem.getStructureElement());	
+			
+			for (AbstractStructureElement abstractStructureElement : structureModel.getStructureElement()) {
+				
+				abstractStructureElement.getAggregated().clear();
+				
+			}
 			
 		}
 		System.err.println(this.pathOutputArch);
