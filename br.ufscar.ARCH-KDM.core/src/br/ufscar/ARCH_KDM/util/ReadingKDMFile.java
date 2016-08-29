@@ -195,6 +195,9 @@ public class ReadingKDMFile {
 						compare(aggregatedRelationshipASIS, aggregatedRelationshipTOBE);
 						
 					}
+					else if(i == (allAggregatedRelationShipTOBE.size()-1)) {
+						searchAndAddStructureElement(aggregatedRelationshipASIS, aggregatedRelationshipASIS);
+					}
 					
 				}
 			}
@@ -322,6 +325,46 @@ public class ReadingKDMFile {
 		}
 		
 		
+		
+	}
+	
+private void searchAndAddStructureElement (AggregatedRelationship aggregatedRelationship, AggregatedRelationship relationshipToAdd) {
+		
+		AbstractStructureElement fromASIS = (AbstractStructureElement) aggregatedRelationship.getFrom();
+		AbstractStructureElement toASIS = (AbstractStructureElement) aggregatedRelationship.getTo();
+		
+		AbstractStructureElement targetElementFROM = null;
+		AbstractStructureElement targetElementTO = null;
+		
+		//TODO
+		EList<AbstractStructureElement> allElementsFromTarget = getAllStructureElements(this.targetArchitecture);
+		
+		for (AbstractStructureElement targetElement : allElementsFromTarget) {
+			
+			if (fromASIS.getName().equals(targetElement.getName())) {
+				targetElementFROM = targetElement;				
+			}
+			
+			if (toASIS.getName().equals(targetElement.getName())) {
+				targetElementTO = targetElement;
+			}
+			
+		}
+		
+		AggregatedRelationship newRelationship = CoreFactory.eINSTANCE.createAggregatedRelationship();
+		newRelationship.setDensity(relationshipToAdd.getDensity());
+		newRelationship.setFrom(targetElementFROM);
+		newRelationship.setTo(targetElementTO);
+		
+		//Exemplo 2, copiando
+		//Collection copyAllAbstractStructureElementASIS = EcoreUtil.copyAll(relationshipToAdd.getRelation());
+		//newRelationship.getRelation().addAll(copyAllAbstractStructureElementASIS);
+		
+		for (KDMRelationship relationship : relationshipToAdd.getRelation()) {
+			newRelationship.getRelation().add(relationship);
+		}
+				
+		targetElementFROM.getAggregated().add(newRelationship);					
 		
 	}
 	
