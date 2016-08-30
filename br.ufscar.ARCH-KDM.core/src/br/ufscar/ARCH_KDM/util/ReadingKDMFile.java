@@ -118,27 +118,44 @@ public class ReadingKDMFile {
 	
 	
 	
-	public void createBasicTargetArchitecture (EList<AbstractStructureElement> abstractStructureElementASIS) {
+	public void createBasicTargetArchitecture (Segment asIsArch) {
 		
-		this.targetArchitecture = createSegment();
-		createStructureModel(this.targetArchitecture);
-	
-		StructureModel structureModel = (StructureModel) this.targetArchitecture.getModel().get(0);
-			
-//		Collections.copy(structureModel.getStructureElement(), abstractStructureElementASIS);
+		//this.targetArchitecture = createSegment();
+		this.targetArchitecture = asIsArch; //copia a arq atual completa p/ target			
 		
-		Collection copyAllAbstractStructureElementASIS = EcoreUtil.copyAll(abstractStructureElementASIS);
-			
-		structureModel.getStructureElement().addAll(copyAllAbstractStructureElementASIS);		
+		StructureModel structureModel = getStructureModelPassingSegment(this.targetArchitecture);
+		
+		StructureModel structureModelViolations = createStructureModel(this.targetArchitecture);		
+		
+		//copiando elementos estruturais p/ violations
 		EList<AbstractStructureElement> allAbstractElements  = structureModel.getStructureElement();
+		Collection copyAllAbstractStructureElementASIS = EcoreUtil.copyAll(allAbstractElements);
+		structureModelViolations.getStructureElement().addAll(copyAllAbstractStructureElementASIS);
 		
-		for (AbstractStructureElement abstractStructureElement : allAbstractElements) {
+		//limpando aggregateds
+		for (AbstractStructureElement abstractStructureElement : structureModelViolations.getStructureElement()) {		
+			abstractStructureElement.getAggregated().clear();			
+		}			
+	
+//		StructureModel structureModel = (StructureModel) this.targetArchitecture.getModel().get(0);	
+//		Collections.copy(structureModel.getStructureElement(), abstractStructureElementASIS);
+//		Collection copyAllAbstractStructureElementASIS = EcoreUtil.copyAll(abstractStructureElementASIS);	
+		//structureModel.getStructureElement().addAll(copyAllAbstractStructureElementASIS);
 		
-			abstractStructureElement.getAggregated().clear();
+		//recupera structure model
+		//StructureModel structureModel = getStructureModelPassingSegment(this.targetArchitecture.getSegment().get(0));
+				
+		//EList<AbstractStructureElement> allAbstractElements  = structureModel.getStructureElement();
+		
+		//for (AbstractStructureElement abstractStructureElement : allAbstractElements) {
+		
+			//abstractStructureElement.getAggregated().clear();
 			
-		}
+		//}
 		
-	}
+		//this.targetArchitecture.getModel().add(asIsCodeModel); 
+		
+	}	
 	
 	public void compareRelations (String ArchitecturePathASIS, String ArchitecturePathTOBE) {
 		
@@ -155,22 +172,30 @@ public class ReadingKDMFile {
 		
 		List<AggregatedRelationship> allAggregatedRelationShipTOBE = new ArrayList<AggregatedRelationship>();
 		
-		StructureModel structureModelASIS = this.getStructureModelPassingSegment(architectureASIS);
+		StructureModel structureModelASIS = this.getStructureModelPassingSegment(architectureASIS);			
 		
 		StructureModel structureModelTOBE = this.getStructureModelPassingSegment(architectureTOBE);
 		
-		EList<AbstractStructureElement> abstractStructureElementASIS = (EList<AbstractStructureElement>) structureModelASIS.getStructureElement();
+		this.createBasicTargetArchitecture(architectureASIS);
+		
+		StructureModel structureModelViolations = this.getStructureModelPassingSegment(this.targetArchitecture);
+		
+		
 		//move to a method
 		
-		this.createBasicTargetArchitecture(abstractStructureElementASIS);
-
+		//CodeModel codeModelAsIS = getFirstCodeModelBySegment(architectureASIS);
+		
+		
+		//EList<AbstractStructureElement> abstractStructureElementASIS = (EList<AbstractStructureElement>) structureModelASIS.getStructureElement();
+		//alteracao necess·ria para nao precisar acessar um novo arquivo
+		EList<AbstractStructureElement> abstractStructureElementASIS = (EList<AbstractStructureElement>) structureModelViolations.getStructureElement();
 		
 		EList<AbstractStructureElement> abstractStructureElementTOBE = structureModelTOBE.getStructureElement();
 		
 		this.addAllAggregatedRelationShip(abstractStructureElementASIS, allAggregatedRelationShipASIS);
 		this.addAllAggregatedRelationShip(abstractStructureElementTOBE, allAggregatedRelationShipTOBE);
 		
-		this.getCorrespondentAggregatedRelationship(allAggregatedRelationShipASIS, allAggregatedRelationShipTOBE);
+		this.getCorrespondentAggregatedRelationship(allAggregatedRelationShipASIS, allAggregatedRelationShipTOBE);			
 		
 	}
 	
@@ -188,7 +213,8 @@ public class ReadingKDMFile {
 				System.out.println("AggregatedR com from ou to null, desconsiderar e examinar");
 			}
 			else {
-				for(int i = 0; i < allAggregatedRelationShipTOBE.size(); i++)	{	
+				
+				for(int i = 0; i < allAggregatedRelationShipTOBE.size(); i++)	{						
 					
 					if (fromASIS.getName().equals(allAggregatedRelationShipTOBE.get(i).getFrom().getName()) && toASIS.getName().equals(allAggregatedRelationShipTOBE.get(i).getTo().getName())) {
 						
@@ -241,8 +267,8 @@ public class ReadingKDMFile {
 				}
 				
 				if (i == (relationsTOBE.size()-1) && checked == false) {
-					//cria a nova inst√¢ncia
-					System.err.println("N√£o encontrado");
+					//cria a nova inst‚ncia
+					System.err.println("N„o encontrado");
 					
 					this.searchStructureElement(aggregatedRelationshipASIS, relationASIS);
 					
@@ -266,7 +292,7 @@ public class ReadingKDMFile {
 		AbstractStructureElement targetElementTO = null;
 		
 		//TODO
-		EList<AbstractStructureElement> allElementsFromTarget = getAllStructureElements(this.targetArchitecture);
+		EList<AbstractStructureElement> allElementsFromTarget = getAllStructureEViolations(this.targetArchitecture);
 		
 		for (AbstractStructureElement targetElement : allElementsFromTarget) {
 			
@@ -299,7 +325,7 @@ public class ReadingKDMFile {
 					break;
 				}
 				
-				//se chegar no √∫ltimo e n√£o encontrar
+				//se chegar no ˙ltimo e n„o encontrar
 				if (i == (aggregatedFROM.size()-1)) {
 					
 					AggregatedRelationship newRelationship = CoreFactory.eINSTANCE.createAggregatedRelationship();
@@ -329,7 +355,7 @@ public class ReadingKDMFile {
 		
 	}
 	
-private void searchAndAddStructureElement (AggregatedRelationship aggregatedRelationship, AggregatedRelationship relationshipToAdd) {
+	private void searchAndAddStructureElement (AggregatedRelationship aggregatedRelationship, AggregatedRelationship relationshipToAdd) {
 		
 		AbstractStructureElement fromASIS = (AbstractStructureElement) aggregatedRelationship.getFrom();
 		AbstractStructureElement toASIS = (AbstractStructureElement) aggregatedRelationship.getTo();
@@ -338,7 +364,7 @@ private void searchAndAddStructureElement (AggregatedRelationship aggregatedRela
 		AbstractStructureElement targetElementTO = null;
 		
 		//TODO
-		EList<AbstractStructureElement> allElementsFromTarget = getAllStructureElements(this.targetArchitecture);
+		EList<AbstractStructureElement> allElementsFromTarget = getAllStructureEViolations(this.targetArchitecture);
 		
 		for (AbstractStructureElement targetElement : allElementsFromTarget) {
 			
@@ -389,6 +415,29 @@ private void searchAndAddStructureElement (AggregatedRelationship aggregatedRela
 		
 	}
 	
+	private EList<AbstractStructureElement> getAllStructureEViolations (Segment segment) {
+		
+		EList<KDMModel> models = segment.getModel();
+		
+		StructureModel structureModel = null;
+		
+		for (KDMModel kdmModel : models) {
+			
+			if (kdmModel instanceof StructureModel && kdmModel.getName() != null) {
+				 
+				if (kdmModel.getName().equals("violations")) {
+					structureModel = (StructureModel) kdmModel;
+					break;
+				}
+			}
+			
+		}
+		
+		return structureModel.getStructureElement();
+		
+		
+	}
+	
 	
 	
 	
@@ -421,6 +470,7 @@ private void searchAndAddStructureElement (AggregatedRelationship aggregatedRela
 			if (kdmModel instanceof StructureModel) {
 				
 				structureModel = (StructureModel)kdmModel;
+				break;
 				
 			}
 		}
@@ -602,7 +652,9 @@ private void searchAndAddStructureElement (AggregatedRelationship aggregatedRela
 		
 		StructureModel structureModel = StructureFactory.eINSTANCE
 				.createStructureModel();// create a StructureModel
+		structureModel.setName("violations");
 		segment.getModel().add(structureModel);
+		
 		
 		return structureModel;
 	}
@@ -905,9 +957,9 @@ private void searchAndAddStructureElement (AggregatedRelationship aggregatedRela
 	}
 	
 
-	//Falta concluir o Fix neste m√©todo
+	//Falta concluir o Fix neste mÈtodo
 	//Anteriormente ele estava pegando o To somente de interface unit
-	//Agora ser√° adaptado para pegar de m√©todo tamb√©m
+	//Agora ser· adaptado para pegar de mÈtodo tambÈm
 	
 	public HasValue getRelationShipBetweenAnnotation(HasValue hasValue) {
 		
@@ -1758,7 +1810,7 @@ private void searchAndAddStructureElement (AggregatedRelationship aggregatedRela
 		
 		affectedElements.add(itemToVerify);
 		
-		//verifica se alcan√ßou um pacote
+		//verifica se alcanÁou um pacote
 		if (itemToVerify instanceof Package) {
 			return affectedElements;
 		}
@@ -1806,7 +1858,7 @@ private void searchAndAddStructureElement (AggregatedRelationship aggregatedRela
 			for (KDMRelationship kdmRelationship : kdmRelationships) {				
 				boolean result = false;
 				//TODO
-				//fun√ß√£o que suba na √°rvore at√© encontrar o codeItem
+				//funÁ„o que suba na ·rvore atÈ encontrar o codeItem
 				if (codeItem instanceof MethodUnit) {
 					result = verifyRelationshipMethod(codeItem, kdmRelationship, result);
 				} else if (codeItem instanceof ClassUnit) {
@@ -1825,7 +1877,7 @@ private void searchAndAddStructureElement (AggregatedRelationship aggregatedRela
 	}
 	
 	//verifica se um relationship pertence a um determinado codeitem
-	//n√£o garente que o m√©todo seja o mesmo, depois devemos subir a √°rvore para verificar se o elemento encontrado √© realmente o mesmo
+	//n„o garente que o mÈtodo seja o mesmo, depois devemos subir a ·rvore para verificar se o elemento encontrado È realmente o mesmo
 	public boolean verifyRelationshipClass (KDMEntity item, EObject elementToVerify, boolean result) {		
 		
 		if (elementToVerify.eContainer() instanceof ClassUnit) {
