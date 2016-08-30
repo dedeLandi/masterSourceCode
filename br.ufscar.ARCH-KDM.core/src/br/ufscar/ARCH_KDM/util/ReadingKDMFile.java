@@ -188,12 +188,12 @@ public class ReadingKDMFile {
 				System.out.println("AggregatedR com from ou to null, desconsiderar e examinar");
 			}
 			else {
-				for (AggregatedRelationship aggregatedRelationshipTOBE : allAggregatedRelationShipTOBE) {
+				for(int i = 0; i < allAggregatedRelationShipTOBE.size(); i++)	{	
 					
 					if (fromASIS.getName().equals(aggregatedRelationshipTOBE.getFrom().getName()) && toASIS.getName().equals(aggregatedRelationshipTOBE.getTo().getName())) {
 						
 						compare(aggregatedRelationshipASIS, aggregatedRelationshipTOBE);
-						
+						break;
 					}
 					else if(i == (allAggregatedRelationShipTOBE.size()-1)) {
 						searchAndAddStructureElement(aggregatedRelationshipASIS, aggregatedRelationshipASIS);
