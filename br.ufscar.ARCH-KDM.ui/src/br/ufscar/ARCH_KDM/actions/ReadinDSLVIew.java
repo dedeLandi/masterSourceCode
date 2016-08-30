@@ -419,7 +419,7 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 		
 		Imports relation7 = CodeFactory.eINSTANCE.createImports();
 		lisfOfRelationshipsToAdd.add(relation7);
-		codeElement.getCodeRelation().add(relation7);
+		codeElementForRelations.getCodeRelation().add(relation7);
 
 		return lisfOfRelationshipsToAdd;
 	}
