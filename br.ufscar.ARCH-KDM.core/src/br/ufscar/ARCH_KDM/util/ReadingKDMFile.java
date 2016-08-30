@@ -190,10 +190,11 @@ public class ReadingKDMFile {
 			else {
 				for(int i = 0; i < allAggregatedRelationShipTOBE.size(); i++)	{	
 					
-					if (fromASIS.getName().equals(aggregatedRelationshipTOBE.getFrom().getName()) && toASIS.getName().equals(aggregatedRelationshipTOBE.getTo().getName())) {
+					if (fromASIS.getName().equals(allAggregatedRelationShipTOBE.get(i).getFrom().getName()) && toASIS.getName().equals(allAggregatedRelationShipTOBE.get(i).getTo().getName())) {
 						
-						compare(aggregatedRelationshipASIS, aggregatedRelationshipTOBE);
+						compare(aggregatedRelationshipASIS, allAggregatedRelationShipTOBE.get(i));
 						break;
+						
 					}
 					else if(i == (allAggregatedRelationShipTOBE.size()-1)) {
 						searchAndAddStructureElement(aggregatedRelationshipASIS, aggregatedRelationshipASIS);
