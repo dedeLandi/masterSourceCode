@@ -23,6 +23,7 @@ import org.eclipse.gmt.modisco.omg.kdm.code.CodeModel;
 import org.eclipse.gmt.modisco.omg.kdm.code.Extends;
 import org.eclipse.gmt.modisco.omg.kdm.code.HasValue;
 import org.eclipse.gmt.modisco.omg.kdm.code.Implements;
+import org.eclipse.gmt.modisco.omg.kdm.code.Imports;
 import org.eclipse.gmt.modisco.omg.kdm.code.Module;
 import org.eclipse.gmt.modisco.omg.kdm.core.AggregatedRelationship;
 import org.eclipse.gmt.modisco.omg.kdm.core.CoreFactory;
@@ -415,6 +416,10 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 		HasValue relation6 = CodeFactory.eINSTANCE.createHasValue();
 		lisfOfRelationshipsToAdd.add(relation6);
 		codeElementForRelations.getCodeRelation().add(relation6);
+		
+		Imports relation7 = CodeFactory.eINSTANCE.createImports();
+		lisfOfRelationshipsToAdd.add(relation7);
+		codeElement.getCodeRelation().add(relation7);
 
 		return lisfOfRelationshipsToAdd;
 	}
