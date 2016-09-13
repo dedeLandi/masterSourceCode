@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="ASCII"?>
+<kdm:Segment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://www.eclipse.org/MoDisco/kdm/action" xmlns:code="http://www.eclipse.org/MoDisco/kdm/code" xmlns:kdm="http://www.eclipse.org/MoDisco/kdm/kdm" xmlns:source="http://www.eclipse.org/MoDisco/kdm/source">
+  <model xsi:type="code:CodeModel" name="AprendendoEstruturaKDM">
+    <codeElement xsi:type="code:Package" name="pacote1">
+      <codeElement xsi:type="code:ClassUnit" name="ClasseDentroDeClasse" isAbstract="false">
+        <attribute tag="export" value="public abstract"/>
+        <source language="java">
+          <region file="//@model.2/@inventoryElement.0" language="java"/>
+        </source>
+      </codeElement>
+      <codeElement xsi:type="code:ClassUnit" name="Teste" isAbstract="false">
+        <attribute tag="export" value="none"/>
+        <source language="java">
+          <region file="//@model.2/@inventoryElement.0" language="java"/>
+        </source>
+      </codeElement>
+      <codeElement xsi:type="code:ClassUnit" name="ClassePrincipal" isAbstract="false">
+        <attribute tag="export" value="public"/>
+        <source language="java">
+          <region file="//@model.2/@inventoryElement.1" language="java"/>
+        </source>
+        <codeElement xsi:type="code:MethodUnit" name="metodo1" type="//@model.0/@codeElement.0/@codeElement.2/@codeElement.0/@codeElement.0">
+          <attribute tag="export" value="public"/>
+          <source language="java">
+            <region file="//@model.2/@inventoryElement.1" language="java"/>
+          </source>
+          <codeElement xsi:type="code:Signature" name="metodo1">
+            <parameterUnit type="//@model.0/@codeElement.1/@codeElement.5" kind="return">
+              <source language="java">
+                <region language="java"/>
+              </source>
+            </parameterUnit>
+          </codeElement>
+          <codeElement xsi:type="action:BlockUnit">
+            <source language="java">
+              <region file="//@model.2/@inventoryElement.1" language="java"/>
+            </source>
+            <codeElement xsi:type="action:ActionElement" name="for" kind="for">
+              <source language="java">
+                <region file="//@model.2/@inventoryElement.1" language="java"/>
+              </source>
+              <comment text="//&#x9;&#x9;String variavel1;"/>
+              <comment text="//&#x9;&#x9;"/>
+              <comment text="//&#x9;&#x9;if(true == true){"/>
+              <comment text="//&#x9;&#x9;&#x9;String variavelIf;"/>
+              <comment text="//&#x9;&#x9;}"/>
+              <comment text="//&#x9;&#x9;"/>
+              <comment text="//&#x9;&#x9;if(true == false){"/>
+              <comment text="//&#x9;&#x9;&#x9;String variavelIf2;"/>
+              <comment text="//&#x9;&#x9;}else{"/>
+              <comment text="//&#x9;&#x9;&#x9;String variavelElse;"/>
+              <comment text="//&#x9;&#x9;}"/>
+              <comment text="//&#x9;&#x9;"/>
+              <comment text="//&#x9;&#x9;if(true == false){"/>
+              <comment text="//&#x9;&#x9;&#x9;String variavelIf3;"/>
+              <comment text="//&#x9;&#x9;}else if (true == true){"/>
+              <comment text="//&#x9;&#x9;&#x9;String variavelElseIf;"/>
+              <comment text="//&#x9;&#x9;}"/>
+              <comment text="//&#x9;&#x9;"/>
+              <comment text="//&#x9;&#x9;for(int i = 0; i &lt; 10; i++){"/>
+              <comment text="//&#x9;&#x9;&#x9;String variavelFor;"/>
+              <comment text="//&#x9;&#x9;}"/>
+              <comment text="//&#x9;&#x9;"/>
+              <comment text="//&#x9;&#x9;for(String teste : new String[10]){"/>
+              <comment text="//&#x9;&#x9;&#x9;String variavelForEach;"/>
+              <comment text="//&#x9;&#x9;}"/>
+              <comment text="//&#x9;&#x9;"/>
+              <comment text="//&#x9;&#x9;int teste = 0;"/>
+              <comment text="//&#x9;&#x9;while(teste &lt;= 2){"/>
+              <comment text="//&#x9;&#x9;&#x9;String variavelWhile;"/>
+              <comment text="//&#x9;&#x9;&#x9;teste++;"/>
+              <comment text="//&#x9;&#x9;}"/>
+              <comment text="//&#x9;&#x9;"/>
+              <comment text="//&#x9;&#x9;do{"/>
+              <comment text="//&#x9;&#x9;&#x9;String variavelDoWhile;"/>
+              <comment text="//&#x9;&#x9;}while(teste == 2);"/>
+              <codeElement xsi:type="action:ActionElement" name="LESS" kind="infix expression">
+                <source language="java">
+                  <region file="//@model.2/@inventoryElement.1" language="java"/>
+                </source>
+                <codeElement xsi:type="code:Value" name="number literal" type="//@model.0/@codeElement.1/@codeElement.0" ext="10">
+                  <source language="java">
+                    <region file="//@model.2/@inventoryElement.1" language="java"/>
+                  </source>
+                </codeElement>
+              </codeElement>
+              <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+                <source language="java">
+                  <region file="//@model.2/@inventoryElement.1" language="java"/>
+                </source>
+                <codeElement xsi:type="code:StorableUnit" name="i" type="//@model.0/@codeElement.1/@codeElement.0" kind="local">
+                  <attribute tag="export" value="none"/>
+                  <source language="java">
+                    <region file="//@model.2/@inventoryElement.1" language="java"/>
+                  </source>
+                  <codeRelation xsi:type="code:HasValue" to="//@model.1/@codeElement.1" from="//@model.0/@codeElement.0/@codeElement.2/@codeElement.0/@codeElement.1/@codeElement.0/@codeElement.1/@codeElement.0"/>
+                </codeElement>
+                <actionRelation xsi:type="action:UsesType" to="//@model.0/@codeElement.1/@codeElement.0" from="//@model.0/@codeElement.0/@codeElement.2/@codeElement.0/@codeElement.1/@codeElement.0/@codeElement.1"/>
+              </codeElement>
+              <codeElement xsi:type="action:ActionElement" name="INCREMENT" kind="postfix expression">
+                <source language="java">
+                  <region file="//@model.2/@inventoryElement.1" language="java"/>
+                </source>
+              </codeElement>
+              <codeElement xsi:type="action:BlockUnit">
+                <source language="java">
+                  <region file="//@model.2/@inventoryElement.1" language="java"/>
+                </source>
+                <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+                  <source language="java">
+                    <region file="//@model.2/@inventoryElement.1" language="java"/>
+                  </source>
+                  <codeElement xsi:type="code:StorableUnit" name="variavelFor" type="//@model.1/@codeElement.0/@codeElement.0/@codeElement.0" kind="local">
+                    <attribute tag="export" value="none"/>
+                    <source language="java">
+                      <region file="//@model.2/@inventoryElement.1" language="java"/>
+                    </source>
+                  </codeElement>
+                </codeElement>
+                <codeElement xsi:type="action:ActionElement" name="if" kind="if">
+                  <source language="java">
+                    <region file="//@model.2/@inventoryElement.1" language="java"/>
+                  </source>
+                  <codeElement xsi:type="action:ActionElement" name="EQUALS" kind="infix expression">
+                    <source language="java">
+                      <region file="//@model.2/@inventoryElement.1" language="java"/>
+                    </source>
+                    <codeElement xsi:type="code:Value" name="boolean literal" type="//@model.0/@codeElement.1/@codeElement.4" ext="true">
+                      <source language="java">
+                        <region file="//@model.2/@inventoryElement.1" language="java"/>
+                      </source>
+                    </codeElement>
+                    <codeElement xsi:type="code:Value" name="boolean literal" type="//@model.0/@codeElement.1/@codeElement.4" ext="true">
+                      <source language="java">
+                        <region file="//@model.2/@inventoryElement.1" language="java"/>
+                      </source>
+                    </codeElement>
+                  </codeElement>
+                  <codeElement xsi:type="action:BlockUnit">
+                    <source language="java">
+                      <region file="//@model.2/@inventoryElement.1" language="java"/>
+                    </source>
+                    <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+                      <source language="java">
+                        <region file="//@model.2/@inventoryElement.1" language="java"/>
+                      </source>
+                      <codeElement xsi:type="code:StorableUnit" name="variavelIf" type="//@model.1/@codeElement.0/@codeElement.0/@codeElement.0" kind="local">
+                        <attribute tag="export" value="none"/>
+                        <source language="java">
+                          <region file="//@model.2/@inventoryElement.1" language="java"/>
+                        </source>
+                      </codeElement>
+                    </codeElement>
+                    <codeElement xsi:type="action:ActionElement" name="if" kind="if">
+                      <source language="java">
+                        <region file="//@model.2/@inventoryElement.1" language="java"/>
+                      </source>
+                      <codeElement xsi:type="action:ActionElement" name="EQUALS" kind="infix expression">
+                        <source language="java">
+                          <region file="//@model.2/@inventoryElement.1" language="java"/>
+                        </source>
+                        <codeElement xsi:type="code:Value" name="boolean literal" type="//@model.0/@codeElement.1/@codeElement.4" ext="true">
+                          <source language="java">
+                            <region file="//@model.2/@inventoryElement.1" language="java"/>
+                          </source>
+                        </codeElement>
+                        <codeElement xsi:type="code:Value" name="boolean literal" type="//@model.0/@codeElement.1/@codeElement.4" ext="false">
+                          <source language="java">
+                            <region file="//@model.2/@inventoryElement.1" language="java"/>
+                          </source>
+                        </codeElement>
+                      </codeElement>
+                      <codeElement xsi:type="action:BlockUnit">
+                        <source language="java">
+                          <region file="//@model.2/@inventoryElement.1" language="java"/>
+                        </source>
+                        <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+                          <source language="java">
+                            <region file="//@model.2/@inventoryElement.1" language="java"/>
+                          </source>
+                          <codeElement xsi:type="code:StorableUnit" name="variavelIf2" type="//@model.1/@codeElement.0/@codeElement.0/@codeElement.0" kind="local">
+                            <attribute tag="export" value="none"/>
+                            <source language="java">
+                              <region file="//@model.2/@inventoryElement.1" language="java"/>
+                            </source>
+                          </codeElement>
+                        </codeElement>
+                      </codeElement>
+                      <codeElement xsi:type="action:BlockUnit">
+                        <source language="java">
+                          <region file="//@model.2/@inventoryElement.1" language="java"/>
+                        </source>
+                        <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+                          <source language="java">
+                            <region file="//@model.2/@inventoryElement.1" language="java"/>
+                          </source>
+                          <codeElement xsi:type="code:StorableUnit" name="variavelElse" type="//@model.1/@codeElement.0/@codeElement.0/@codeElement.0" kind="local">
+                            <attribute tag="export" value="none"/>
+                            <source language="java">
+                              <region file="//@model.2/@inventoryElement.1" language="java"/>
+                            </source>
+                          </codeElement>
+                        </codeElement>
+                        <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+                          <source language="java">
+                            <region file="//@model.2/@inventoryElement.1" language="java"/>
+                          </source>
+                          <codeElement xsi:type="code:StorableUnit" name="teste" type="//@model.0/@codeElement.1/@codeElement.0" kind="local">
+                            <attribute tag="export" value="none"/>
+                            <source language="java">
+                              <region file="//@model.2/@inventoryElement.1" language="java"/>
+                            </source>
+                            <codeRelation xsi:type="code:HasValue" to="//@model.1/@codeElement.2" from="//@model.0/@codeElement.0/@codeElement.2/@codeElement.0/@codeElement.1/@codeElement.0/@codeElement.3/@codeElement.1/@codeElement.1/@codeElement.1/@codeElement.2/@codeElement.1/@codeElement.0"/>
+                          </codeElement>
+                        </codeElement>
+                        <codeElement xsi:type="action:ActionElement" name="while" kind="while">
+                          <source language="java">
+                            <region file="//@model.2/@inventoryElement.1" language="java"/>
+                          </source>
+                          <codeElement xsi:type="action:ActionElement" name="LESS_EQUALS" kind="infix expression">
+                            <source language="java">
+                              <region file="//@model.2/@inventoryElement.1" language="java"/>
+                            </source>
+                            <codeElement xsi:type="code:Value" name="number literal" type="//@model.0/@codeElement.1/@codeElement.0" ext="2">
+                              <source language="java">
+                                <region file="//@model.2/@inventoryElement.1" language="java"/>
+                              </source>
+                            </codeElement>
+                          </codeElement>
+                          <codeElement xsi:type="action:BlockUnit">
+                            <source language="java">
+                              <region file="//@model.2/@inventoryElement.1" language="java"/>
+                            </source>
+                            <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+                              <source language="java">
+                                <region file="//@model.2/@inventoryElement.1" language="java"/>
+                              </source>
+                              <codeElement xsi:type="code:StorableUnit" name="variavelWhile" type="//@model.1/@codeElement.0/@codeElement.0/@codeElement.0" kind="local">
+                                <attribute tag="export" value="none"/>
+                                <source language="java">
+                                  <region file="//@model.2/@inventoryElement.1" language="java"/>
+                                </source>
+                              </codeElement>
+                            </codeElement>
+                            <codeElement xsi:type="action:ActionElement" name="expression statement" kind="expression statement">
+                              <source language="java">
+                                <region file="//@model.2/@inventoryElement.1" language="java"/>
+                              </source>
+                              <codeElement xsi:type="action:ActionElement" name="INCREMENT" kind="postfix expression">
+                                <source language="java">
+                                  <region file="//@model.2/@inventoryElement.1" language="java"/>
+                                </source>
+                              </codeElement>
+                            </codeElement>
+                          </codeElement>
+                        </codeElement>
+                      </codeElement>
+                    </codeElement>
+                  </codeElement>
+                </codeElement>
+              </codeElement>
+            </codeElement>
+          </codeElement>
+        </codeElement>
+      </codeElement>
+    </codeElement>
+    <codeElement xsi:type="code:LanguageUnit" name="Common Java datatypes">
+      <codeElement xsi:type="code:IntegerType" name="int"/>
+      <codeElement xsi:type="code:IntegerType" name="long"/>
+      <codeElement xsi:type="code:FloatType" name="float"/>
+      <codeElement xsi:type="code:FloatType" name="double"/>
+      <codeElement xsi:type="code:BooleanType" name="boolean"/>
+      <codeElement xsi:type="code:VoidType" name="void"/>
+      <codeElement xsi:type="code:CharType" name="char"/>
+      <codeElement xsi:type="code:IntegerType" name="short"/>
+      <codeElement xsi:type="code:OctetType" name="byte"/>
+      <codeElement xsi:type="code:StringType" name="string"/>
+    </codeElement>
+  </model>
+  <model xsi:type="code:CodeModel" name="externals">
+    <codeElement xsi:type="code:Package" name="java">
+      <codeElement xsi:type="code:Package" name="lang">
+        <codeElement xsi:type="code:ClassUnit" name="String">
+          <source language="java">
+            <region language="java"/>
+          </source>
+          <codeRelation xsi:type="code:Implements" to="//@model.1/@codeElement.0/@codeElement.1/@codeElement.0" from="//@model.1/@codeElement.0/@codeElement.0/@codeElement.0"/>
+          <codeRelation xsi:type="code:Implements" to="//@model.1/@codeElement.0/@codeElement.0/@codeElement.1" from="//@model.1/@codeElement.0/@codeElement.0/@codeElement.0"/>
+          <codeRelation xsi:type="code:Implements" to="//@model.1/@codeElement.0/@codeElement.0/@codeElement.2" from="//@model.1/@codeElement.0/@codeElement.0/@codeElement.0"/>
+        </codeElement>
+        <codeElement xsi:type="code:TemplateUnit" name="Comparable&lt;T>">
+          <codeElement xsi:type="code:TemplateParameter" name="T"/>
+          <codeElement xsi:type="code:InterfaceUnit" name="Comparable">
+            <source language="java">
+              <region language="java"/>
+            </source>
+          </codeElement>
+        </codeElement>
+        <codeElement xsi:type="code:InterfaceUnit" name="CharSequence">
+          <source language="java">
+            <region language="java"/>
+          </source>
+        </codeElement>
+      </codeElement>
+      <codeElement xsi:type="code:Package" name="io">
+        <codeElement xsi:type="code:InterfaceUnit" name="Serializable">
+          <source language="java">
+            <region language="java"/>
+          </source>
+        </codeElement>
+      </codeElement>
+    </codeElement>
+    <codeElement xsi:type="code:Value" name="number literal" type="//@model.0/@codeElement.1/@codeElement.0" ext="0">
+      <source language="java">
+        <region file="//@model.2/@inventoryElement.1" language="java"/>
+      </source>
+    </codeElement>
+    <codeElement xsi:type="code:Value" name="number literal" type="//@model.0/@codeElement.1/@codeElement.0" ext="0">
+      <source language="java">
+        <region file="//@model.2/@inventoryElement.1" language="java"/>
+      </source>
+    </codeElement>
+  </model>
+  <model xsi:type="source:InventoryModel" name="source references">
+    <inventoryElement xsi:type="source:SourceFile" name="ClasseDentroDeClasse.java" path="C:\Java\workspaceMestradoMars64\AprendendoEstruturaKDM\src\pacote1\ClasseDentroDeClasse.java" language="java"/>
+    <inventoryElement xsi:type="source:SourceFile" name="ClassePrincipal.java" path="C:\Java\workspaceMestradoMars64\AprendendoEstruturaKDM\src\pacote1\ClassePrincipal.java" language="java"/>
+  </model>
+</kdm:Segment>
