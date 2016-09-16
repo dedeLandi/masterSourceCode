@@ -80,7 +80,7 @@ kdmDiscoverer.discoverElement(project, new NullProgressMonitor());
 Resource kdmResource = kdmDiscoverer.getTargetModel();
 
 	 */
-	private void teste() {
+	public void teste() {
 
 		//		DiscoverSourceModelFromJavaElement discoverer = new DiscoverSourceModelFromJavaElement();
 		//		discoverer.discoverElement(javaProject, monitor);
