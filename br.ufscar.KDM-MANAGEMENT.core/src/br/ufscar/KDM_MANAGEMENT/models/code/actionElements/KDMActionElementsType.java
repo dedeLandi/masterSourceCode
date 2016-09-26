@@ -67,9 +67,9 @@ public enum KDMActionElementsType {
 	ACTION_ELEMENT_ANNOTATION 						(32,"annotation","annotation"),                
 	ACTION_ELEMENT_ANNOTATION_MEMBER_VALUE 			(33,"annotation member value","annotation member value"),   
                                             		
-	ACTION_ELEMENT_INFIX_EXPRESSION 				(34,"infix expression",InfixExpressionKind.VALUES),          
-	ACTION_ELEMENT_POSTFIX_EXPRESSION 				(35,"postfix expression",PostfixExpressionKind.VALUES),        
-	ACTION_ELEMENT_PREFIX_EXPRESSION 				(36,"prefix expression",PrefixExpressionKind.VALUES),         
+	ACTION_ELEMENT_INFIX_EXPRESSION 				(34,"infix expression",InfixExpressionKind.class),          
+	ACTION_ELEMENT_POSTFIX_EXPRESSION 				(35,"postfix expression",PostfixExpressionKind.class),        
+	ACTION_ELEMENT_PREFIX_EXPRESSION 				(36,"prefix expression",PrefixExpressionKind.class),         
                                             		
 	ACTION_ELEMENT_ASSIGNMENT 						(37,"assignment","assignment"),                
 	                                        		
