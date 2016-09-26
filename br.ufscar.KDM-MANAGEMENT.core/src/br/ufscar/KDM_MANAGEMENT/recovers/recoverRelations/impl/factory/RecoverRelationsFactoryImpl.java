@@ -5,7 +5,16 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.factory.RecoverRelationsFactory;
-import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.recovers.RecoverRelationsCallsImpl;
+import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.recovers.actionRelations.RecoverRelationsCallsImpl;
+import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.recovers.actionRelations.RecoverRelationsCreatesImpl;
+import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.recovers.actionRelations.RecoverRelationsReadsImpl;
+import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.recovers.actionRelations.RecoverRelationsUsesTypeImpl;
+import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.recovers.actionRelations.RecoverRelationsWritesImpl;
+import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.recovers.codeRelations.RecoverRelationsExtendsImpl;
+import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.recovers.codeRelations.RecoverRelationsHasTypeImpl;
+import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.recovers.codeRelations.RecoverRelationsHasValueImpl;
+import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.recovers.codeRelations.RecoverRelationsImplementsImpl;
+import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.recovers.codeRelations.RecoverRelationsImportsImpl;
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.interfaces.RecoverRelations;
 
 public class RecoverRelationsFactoryImpl extends EFactoryImpl implements RecoverRelationsFactory {
@@ -42,8 +51,7 @@ public class RecoverRelationsFactoryImpl extends EFactoryImpl implements Recover
 
 	@Override
 	public RecoverRelations createImplementsRecover() {
-		// TODO Auto-generated method stub
-		return null;
+		return new RecoverRelationsImplementsImpl();
 	}
 
 	@Override
@@ -54,20 +62,17 @@ public class RecoverRelationsFactoryImpl extends EFactoryImpl implements Recover
 
 	@Override
 	public RecoverRelations createHasTypeRecover() {
-		// TODO Auto-generated method stub
-		return null;
+		return new RecoverRelationsHasTypeImpl();
 	}
 
 	@Override
 	public RecoverRelations createHasValueRecover() {
-		// TODO Auto-generated method stub
-		return null;
+		return new RecoverRelationsHasValueImpl();
 	}
 
 	@Override
 	public RecoverRelations createExtendsRecover() {
-		// TODO Auto-generated method stub
-		return null;
+		return new RecoverRelationsExtendsImpl();
 	}
 
 	@Override
@@ -102,8 +107,7 @@ public class RecoverRelationsFactoryImpl extends EFactoryImpl implements Recover
 
 	@Override
 	public RecoverRelations createImportsRecover() {
-		// TODO Auto-generated method stub
-		return null;
+		return new RecoverRelationsImportsImpl();
 	}
 
 	@Override
@@ -131,14 +135,12 @@ public class RecoverRelationsFactoryImpl extends EFactoryImpl implements Recover
 
 	@Override
 	public RecoverRelations createReadsRecover() {
-		// TODO Auto-generated method stub
-		return null;
+		return new RecoverRelationsReadsImpl();
 	}
 
 	@Override
 	public RecoverRelations createWritesRecover() {
-		// TODO Auto-generated method stub
-		return null;
+		return new RecoverRelationsWritesImpl();
 	}
 
 	@Override
@@ -149,8 +151,7 @@ public class RecoverRelationsFactoryImpl extends EFactoryImpl implements Recover
 
 	@Override
 	public RecoverRelations createCreatesRecover() {
-		// TODO Auto-generated method stub
-		return null;
+		return new RecoverRelationsCreatesImpl();
 	}
 
 	@Override
@@ -167,8 +168,7 @@ public class RecoverRelationsFactoryImpl extends EFactoryImpl implements Recover
 
 	@Override
 	public RecoverRelations createUsesTypeRecover() {
-		// TODO Auto-generated method stub
-		return null;
+		return new RecoverRelationsUsesTypeImpl();
 	}
 	
 	
