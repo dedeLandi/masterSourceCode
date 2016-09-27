@@ -92,16 +92,16 @@ public class KDMModelReader {
 		if(models.get(modelType.getTypeModel()) == null){
 
 			models.put(modelType.getTypeModel(), new HashMap<String, List<KDMModel>>());
-			models.get(modelType.getTypeModel()).put(kdmModel.getName(), new ArrayList<KDMModel>(){{ add(kdmModel);}});
+			models.get(modelType.getTypeModel()).put(kdmModel.getName(), new ArrayList<KDMModel>(){{ add(modelType.getModelByType(kdmModel));}});
 
 		}else{
 			if(models.get(modelType.getTypeModel()).get(kdmModel.getName()) == null){
 
-				models.get(modelType.getTypeModel()).put(kdmModel.getName(), new ArrayList<KDMModel>(){{ add(kdmModel);}});
+				models.get(modelType.getTypeModel()).put(kdmModel.getName(), new ArrayList<KDMModel>(){{ add(modelType.getModelByType(kdmModel));}});
 
 			}else {
 
-				models.get(modelType.getTypeModel()).get(kdmModel.getName()).add(kdmModel);
+				models.get(modelType.getTypeModel()).get(kdmModel.getName()).add(modelType.getModelByType(kdmModel));
 			}
 		}
 	}
