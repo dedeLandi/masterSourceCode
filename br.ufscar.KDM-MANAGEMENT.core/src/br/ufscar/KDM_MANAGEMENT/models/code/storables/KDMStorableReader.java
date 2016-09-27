@@ -11,6 +11,7 @@ import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeItem;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeModel;
+import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.code.StorableUnit;
@@ -25,6 +26,7 @@ public class KDMStorableReader {
 	private CodeModel modelMain = null;
 	private Package packageMain = null;
 	private ClassUnit classMain = null;
+	private InterfaceUnit interfaceMain = null;
 	private BlockUnit blockMain = null;
 	private MethodUnit methodMain = null;
 	
@@ -45,6 +47,9 @@ public class KDMStorableReader {
 	public KDMStorableReader(ClassUnit kdmClassUnit) {
 		this.classMain = kdmClassUnit;
 	}
+	public KDMStorableReader(InterfaceUnit kdmInterfaceUnit) {
+		this.interfaceMain = kdmInterfaceUnit;
+	}
 	public KDMStorableReader(BlockUnit kdmBlockUnit) {
 		this.blockMain = kdmBlockUnit;
 	}
@@ -61,6 +66,8 @@ public class KDMStorableReader {
 			return getAllStorablesPackage();
 		}else if(this.classMain != null){
 			return getAllStorablesClassUnit();
+		}else if(this.interfaceMain != null){
+			return getAllStorablesInterfaceUnit();
 		}else if(this.methodMain != null){
 			return getAllStorablesMethodUnit();
 		}else if(this.blockMain != null){
@@ -108,6 +115,14 @@ public class KDMStorableReader {
 		Map<String, List<StorableUnit>> allStorablesUnit = new HashMap<String, List<StorableUnit>>();
 		
 		allStorablesUnit.put(this.classMain.getName(), this.getAllStorablesClassUnit(this.classMain));
+		
+		return allStorablesUnit;
+	}
+	
+	private Map<String, List<StorableUnit>> getAllStorablesInterfaceUnit() {
+		Map<String, List<StorableUnit>> allStorablesUnit = new HashMap<String, List<StorableUnit>>();
+		
+		allStorablesUnit.put(this.interfaceMain.getName(), this.getAllStorablesInterfaceUnit(this.interfaceMain));
 		
 		return allStorablesUnit;
 	}
@@ -176,18 +191,38 @@ public class KDMStorableReader {
 		for (CodeItem codeItem : classToSearch.getCodeElement()) {
 			
 			if(codeItem instanceof StorableUnit){
-			
+				
 				classStorables.add((StorableUnit)codeItem);
-			
+				
 			}else if (codeItem instanceof MethodUnit){
 				
 				classStorables.addAll(this.getAllStorablesMethodUnit((MethodUnit)codeItem));
-			
+				
 			}
 			
 		}
 		
 		return classStorables;
+	}
+	
+	private List<StorableUnit> getAllStorablesInterfaceUnit(InterfaceUnit interfaceToSearch) {
+		List<StorableUnit> interfaceStorables = new ArrayList<StorableUnit>();
+		
+		for (CodeItem codeItem : interfaceToSearch.getCodeElement()) {
+			
+			if(codeItem instanceof StorableUnit){
+			
+				interfaceStorables.add((StorableUnit)codeItem);
+			
+			}else if (codeItem instanceof MethodUnit){
+				
+				interfaceStorables.addAll(this.getAllStorablesMethodUnit((MethodUnit)codeItem));
+			
+			}
+			
+		}
+		
+		return interfaceStorables;
 	}
 	
 	private List<StorableUnit> getAllStorablesMethodUnit(MethodUnit methodToSearch) {
