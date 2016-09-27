@@ -4,6 +4,7 @@ import org.eclipse.gmt.modisco.omg.kdm.action.ActionElement;
 import org.eclipse.gmt.modisco.omg.kdm.action.BlockUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeModel;
+import org.eclipse.gmt.modisco.omg.kdm.code.EnumeratedType;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
@@ -32,6 +33,8 @@ public interface ComplementsRelations {
 	public Signature complementsRelationOf(Signature signatureToUpdate);
 	
 	public InterfaceUnit complementsRelationOf(InterfaceUnit interfaceToUpdate);
+
+	public EnumeratedType complementsRelationOf(EnumeratedType enumeratedTypeToUpdate);
 	
 	public Segment complementsRelationOf(Segment segmentToUpdate);
 	
