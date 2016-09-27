@@ -5,6 +5,7 @@ import java.util.List;
 import org.eclipse.gmt.modisco.omg.kdm.action.ActionElement;
 import org.eclipse.gmt.modisco.omg.kdm.action.BlockUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
+import org.eclipse.gmt.modisco.omg.kdm.code.EnumeratedType;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.StorableUnit;
@@ -34,6 +35,8 @@ public interface RecoverRelations {
 	public List<KDMRelationship> getRelationOf(MethodUnit methodToAvaliate);
 	
 	public List<KDMRelationship> getRelationOf(InterfaceUnit interfaceToAvaliate);
+
+	public List<KDMRelationship> getRelationOf(EnumeratedType enumeratedTypeToAvaliate);
 	
 	
 	
