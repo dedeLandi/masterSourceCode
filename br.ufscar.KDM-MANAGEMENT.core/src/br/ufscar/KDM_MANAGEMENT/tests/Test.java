@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
+import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.code.StorableUnit;
 import org.eclipse.gmt.modisco.omg.kdm.core.KDMEntity;
@@ -15,8 +16,12 @@ import org.eclipse.gmt.modisco.omg.kdm.structure.Layer;
 import br.ufscar.KDM_MANAGEMENT.exception.KDMModelTypeException;
 import br.ufscar.KDM_MANAGEMENT.load.KDMFileReader;
 import br.ufscar.KDM_MANAGEMENT.models.KDMModelReader;
+import br.ufscar.KDM_MANAGEMENT.models.code.classes.KDMClassReader;
+import br.ufscar.KDM_MANAGEMENT.models.code.methods.KDMMethodReader;
 import br.ufscar.KDM_MANAGEMENT.models.code.storables.KDMStorableReader;
 import br.ufscar.KDM_MANAGEMENT.models.structure.layers.KDMLayerReader;
+import br.ufscar.KDM_MANAGEMENT.recovers.recoverHierarchy.factory.RecoverHierarchyFactory;
+import br.ufscar.KDM_MANAGEMENT.recovers.recoverHierarchy.interfaces.RecoverHierarchy;
 
 public class Test {
 
@@ -25,6 +30,60 @@ public class Test {
 		//RecuperarLayers();
 		//RecuperarStorables();
 		
+		RecuperarCaminhosDaHierarquia();
+	}
+
+	private static void RecuperarCaminhosDaHierarquia() {
+		KDMFileReader kdmFileReader = new KDMFileReader("C:/Java/workspaceMestradoMars64/masterSourceCode/br.ufscar.KDM-MANAGEMENT.core/src/br/ufscar/KDM_MANAGEMENT/tests/initialMap.xmi", KDMFileReader.READ_KDM_TO_SEGMENT);
+
+		Segment raizKdmInitialMap = (Segment) kdmFileReader.getKdmRead();
+
+		KDMModelReader kdmModelReader = new KDMModelReader(raizKdmInitialMap);
+		
+		String name = "SystemExampleMVC-Simples";
+		List<KDMModel> todosOsModelosComNomeIgual = kdmModelReader.getCodeModel(name);
+		
+		for (KDMModel kdmModel : todosOsModelosComNomeIgual) {
+			
+			try {
+				KDMClassReader kdmClassReader = new KDMClassReader(kdmModel);
+				
+				Map<String, List<ClassUnit>> allClasses = kdmClassReader.getAllClasses();
+				for (String nome : allClasses.keySet()) {
+
+					System.out.println("Modelo nome: " + nome);
+				
+					for (ClassUnit classUnit : allClasses.get(nome)) {
+						
+						RecoverHierarchy recoverHierarchyComplete = RecoverHierarchyFactory.eINSTANCE.createRecoverHierarchyComplete();
+
+						System.out.println("	Classe nome: " + classUnit.getName() + " ( " + recoverHierarchyComplete.getHierarchyOf(classUnit) + " )");
+						
+						KDMMethodReader kdmMethodReader = new KDMMethodReader(classUnit);
+						
+						Map<String, List<MethodUnit>> allMethodsClass = kdmMethodReader.getAllMethods();
+						
+						for (String nomeMetodo : allMethodsClass.keySet()) {
+							
+							for (MethodUnit methodUnit : allMethodsClass.get(nomeMetodo)) {
+								
+								System.out.println("		Metodos nome: " + methodUnit.getName() + " ( " + recoverHierarchyComplete.getHierarchyOf(methodUnit) + " )" );
+								
+							}
+							
+						}
+						
+					}
+					
+					
+				}
+				
+				
+			} catch (KDMModelTypeException e) {
+				System.out.println("model não é structure");
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private static void RecuperarStorables() {
