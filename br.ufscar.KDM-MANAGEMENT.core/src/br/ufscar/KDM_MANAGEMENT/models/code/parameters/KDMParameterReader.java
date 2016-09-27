@@ -9,6 +9,7 @@ import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeItem;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeModel;
+import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.code.ParameterUnit;
@@ -24,6 +25,7 @@ public class KDMParameterReader {
 	private CodeModel modelMain = null;
 	private Package packageMain = null;
 	private ClassUnit classMain = null;
+	private InterfaceUnit interfaceMain = null;
 	private MethodUnit methodMain = null;
 	
 	public KDMParameterReader(Segment KDMTree) {
@@ -42,6 +44,9 @@ public class KDMParameterReader {
 	public KDMParameterReader(ClassUnit kdmClassUnit) {
 		this.classMain = kdmClassUnit;
 	}
+	public KDMParameterReader(InterfaceUnit kdmInterfaceUnit) {
+		this.interfaceMain = kdmInterfaceUnit;
+	}
 	public KDMParameterReader(MethodUnit kdmMethodUnit) {
 		this.methodMain = kdmMethodUnit;
 	}
@@ -55,6 +60,8 @@ public class KDMParameterReader {
 			return getAllParametersPackage();
 		}else if(this.classMain != null){
 			return getAllParametersClassUnit();
+		}else if(this.interfaceMain != null){
+			return getAllParametersInterfaceUnit();
 		}else if(this.methodMain != null){
 			return getAllParametersMethodUnit();
 		}else{
@@ -104,6 +111,14 @@ public class KDMParameterReader {
 		return allParametersUnit;
 	}
 	
+	private Map<String, List<ParameterUnit>> getAllParametersInterfaceUnit() {
+		Map<String, List<ParameterUnit>> allParametersUnit = new HashMap<String, List<ParameterUnit>>();
+		
+		allParametersUnit.put(this.interfaceMain.getName(), this.getAllParametersInterfaceUnit(this.interfaceMain));
+		
+		return allParametersUnit;
+	}
+	
 	private Map<String, List<ParameterUnit>> getAllParametersMethodUnit() {
 		Map<String, List<ParameterUnit>> allParametersUnitFromMethodUnit = new HashMap<String, List<ParameterUnit>>();
 		
@@ -138,8 +153,12 @@ public class KDMParameterReader {
 		for (AbstractCodeElement abstractCodeElement : packageToSearch.getCodeElement()) {
 			
 			if(abstractCodeElement instanceof ClassUnit){
-			
+				
 				packageParameters.addAll(this.getAllParametersClassUnit((ClassUnit)abstractCodeElement));
+				
+			}else if(abstractCodeElement instanceof InterfaceUnit){
+			
+				packageParameters.addAll(this.getAllParametersInterfaceUnit((InterfaceUnit)abstractCodeElement));
 			
 			}else if(abstractCodeElement instanceof Package){
 				
@@ -158,18 +177,38 @@ public class KDMParameterReader {
 		for (CodeItem codeItem : classToSearch.getCodeElement()) {
 			
 			if(codeItem instanceof ParameterUnit){
-			
+				
 				classParameters.add((ParameterUnit)codeItem);
-			
+				
 			}else if (codeItem instanceof MethodUnit){
 				
 				classParameters.addAll(this.getAllParametersMethodUnit((MethodUnit)codeItem));
-			
+				
 			}
 			
 		}
 		
 		return classParameters;
+	}
+	
+	private List<ParameterUnit> getAllParametersInterfaceUnit(InterfaceUnit interfaceToSearch) {
+		List<ParameterUnit> interfaceParameters = new ArrayList<ParameterUnit>();
+		
+		for (CodeItem codeItem : interfaceToSearch.getCodeElement()) {
+			
+			if(codeItem instanceof ParameterUnit){
+			
+				interfaceParameters.add((ParameterUnit)codeItem);
+			
+			}else if (codeItem instanceof MethodUnit){
+				
+				interfaceParameters.addAll(this.getAllParametersMethodUnit((MethodUnit)codeItem));
+			
+			}
+			
+		}
+		
+		return interfaceParameters;
 	}
 	
 	private List<ParameterUnit> getAllParametersMethodUnit(MethodUnit methodToSearch) {
