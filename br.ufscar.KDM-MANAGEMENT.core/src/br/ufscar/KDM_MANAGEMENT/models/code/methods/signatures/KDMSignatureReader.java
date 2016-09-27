@@ -9,6 +9,7 @@ import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeItem;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeModel;
+import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.code.Signature;
@@ -23,6 +24,7 @@ public class KDMSignatureReader {
 	private CodeModel modelMain = null;
 	private Package packageMain = null;
 	private ClassUnit classMain = null;
+	private InterfaceUnit interfaceMain = null;
 	private MethodUnit methodMain = null;
 	
 	public KDMSignatureReader(Segment KDMTree) {
@@ -41,6 +43,9 @@ public class KDMSignatureReader {
 	public KDMSignatureReader(ClassUnit kdmClassUnit) {
 		this.classMain = kdmClassUnit;
 	}
+	public KDMSignatureReader(InterfaceUnit kdmInterfaceUnit) {
+		this.interfaceMain = kdmInterfaceUnit;
+	}
 	public KDMSignatureReader(MethodUnit kdmMethodUnit) {
 		this.methodMain = kdmMethodUnit;
 	}
@@ -54,6 +59,8 @@ public class KDMSignatureReader {
 			return getAllSignaturesPackage();
 		}else if(this.classMain != null){
 			return getAllSignaturesClassUnit();
+		}else if(this.interfaceMain != null){
+			return getAllSignaturesInterfaceUnit();
 		}else if(this.methodMain != null){
 			return getAllSignaturesMethodUnit();
 		}else{
@@ -99,6 +106,14 @@ public class KDMSignatureReader {
 		Map<String, List<Signature>> allSignaturesUnit = new HashMap<String, List<Signature>>();
 		
 		allSignaturesUnit.put(this.classMain.getName(), this.getAllSignaturesClassUnit(this.classMain));
+		
+		return allSignaturesUnit;
+	}
+	
+	private Map<String, List<Signature>> getAllSignaturesInterfaceUnit() {
+		Map<String, List<Signature>> allSignaturesUnit = new HashMap<String, List<Signature>>();
+		
+		allSignaturesUnit.put(this.interfaceMain.getName(), this.getAllSignaturesInterfaceUnit(this.interfaceMain));
 		
 		return allSignaturesUnit;
 	}
@@ -157,18 +172,38 @@ public class KDMSignatureReader {
 		for (CodeItem codeItem : classToSearch.getCodeElement()) {
 			
 			if(codeItem instanceof Signature){
-			
+				
 				classSignatures.add((Signature)codeItem);
-			
+				
 			}else if (codeItem instanceof MethodUnit){
 				
 				classSignatures.addAll(this.getAllSignaturesMethodUnit((MethodUnit)codeItem));
-			
+				
 			}
 			
 		}
 		
 		return classSignatures;
+	}
+	
+	private List<Signature> getAllSignaturesInterfaceUnit(InterfaceUnit interfaceToSearch) {
+		List<Signature> interfaceSignatures = new ArrayList<Signature>();
+		
+		for (CodeItem codeItem : interfaceToSearch.getCodeElement()) {
+			
+			if(codeItem instanceof Signature){
+			
+				interfaceSignatures.add((Signature)codeItem);
+			
+			}else if (codeItem instanceof MethodUnit){
+				
+				interfaceSignatures.addAll(this.getAllSignaturesMethodUnit((MethodUnit)codeItem));
+			
+			}
+			
+		}
+		
+		return interfaceSignatures;
 	}
 	
 	private List<Signature> getAllSignaturesMethodUnit(MethodUnit methodToSearch) {
