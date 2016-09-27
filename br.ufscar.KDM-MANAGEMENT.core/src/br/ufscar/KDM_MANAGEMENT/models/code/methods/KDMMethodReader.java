@@ -9,6 +9,7 @@ import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeItem;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeModel;
+import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.KDMModel;
@@ -22,6 +23,7 @@ public class KDMMethodReader {
 	private CodeModel modelMain = null;
 	private Package packageMain = null;
 	private ClassUnit classMain = null;
+	private InterfaceUnit interfaceMain = null;
 	
 	public KDMMethodReader(Segment KDMTree) {
 		this.segmentMain = KDMTree;
@@ -39,8 +41,11 @@ public class KDMMethodReader {
 	public KDMMethodReader(ClassUnit kdmClassUnit) {
 		this.classMain = kdmClassUnit;
 	}
+	public KDMMethodReader(InterfaceUnit kdmInterfaceUnit) {
+		this.interfaceMain = kdmInterfaceUnit;
+	}
 	
-	public Map<String, List<MethodUnit>> getAllStorables() {
+	public Map<String, List<MethodUnit>> getAllMethods() {
 		if(this.segmentMain != null){
 			return getAllMethodsSegment();
 		}else if(this.modelMain != null){
@@ -49,6 +54,8 @@ public class KDMMethodReader {
 			return getAllMethodsPackage();
 		}else if(this.classMain != null){
 			return getAllMethodsClassUnit();
+		}else if(this.interfaceMain != null){
+			return getAllMethodsInterfaceUnit();
 		}else{
 			return null;
 		}
@@ -91,6 +98,14 @@ public class KDMMethodReader {
 		Map<String, List<MethodUnit>> allMethodsUnit = new HashMap<String, List<MethodUnit>>();
 		
 		allMethodsUnit.put(this.classMain.getName(), this.getAllMethodsClassUnit(this.classMain));
+		
+		return allMethodsUnit;
+	}
+	
+	private Map<String, List<MethodUnit>> getAllMethodsInterfaceUnit() {
+		Map<String, List<MethodUnit>> allMethodsUnit = new HashMap<String, List<MethodUnit>>();
+		
+		allMethodsUnit.put(this.interfaceMain.getName(), this.getAllMethodsInterfaceUnit(this.interfaceMain));
 		
 		return allMethodsUnit;
 	}
@@ -141,13 +156,29 @@ public class KDMMethodReader {
 		for (CodeItem codeItem : classToSearch.getCodeElement()) {
 			
 			if(codeItem instanceof MethodUnit){
-			
+				
 				classMethods.add((MethodUnit)codeItem);
-			
+				
 			}
 			
 		}
 		
 		return classMethods;
+	}
+	
+	private List<MethodUnit> getAllMethodsInterfaceUnit(InterfaceUnit interfaceToSearch) {
+		List<MethodUnit> interfaceMethods = new ArrayList<MethodUnit>();
+		
+		for (CodeItem codeItem : interfaceToSearch.getCodeElement()) {
+			
+			if(codeItem instanceof MethodUnit){
+			
+				interfaceMethods.add((MethodUnit)codeItem);
+			
+			}
+			
+		}
+		
+		return interfaceMethods;
 	}
 }
