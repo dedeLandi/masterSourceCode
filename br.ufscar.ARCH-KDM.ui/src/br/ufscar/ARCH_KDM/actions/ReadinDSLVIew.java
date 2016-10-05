@@ -335,7 +335,7 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 				subSystem.setName(dclStructureElement.getName());
 				allAbstractStructureElements.add(subSystem);
 				
-				if ((((DCLComponent) dclStructureElement).getSubSystem()) != null) {
+				if ((((DCLSubSystem) dclStructureElement).getSubSystem()) != null) {
 					String name = ((DCLLayer) dclStructureElement).getSubSystem().getName();
 					AbstractStructureElement from = this.getToORFrom(name, allAbstractStructureElements);
 					ArrayList<KDMRelationship> relations = createActionsExamples(from.getName(), subSystem.getName());
