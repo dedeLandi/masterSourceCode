@@ -134,10 +134,12 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 				Resource resource = resourceSet.getResource(URI.createURI(dclFileTOBE), true);
 
 				//Andre - pega os dados do modelo do arquivo da DCL
-				Model model = (Model ) resource.getContents().get(0); 
+				Model model = (Model) resource.getContents().get(0); 
 
 				//Andre - pega todos os elementos estruturais escritos no arquivo da DCL
 				EList<DCLStructureElement> allStructureElements = model.getStructureElements();
+				
+				EList<DCDecl> allRestrictions = model.getDCDecl();
 
 				//Andre - cria o segment e o structure
 				createArchitecture("PlannedArchitecture");
@@ -146,7 +148,11 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 				//Andre - StructureModel structureModel = (StructureModel) this.segment.getModel().get(0);
 
 				//Andre - recupera o structure model do segment criado
-				StructureModel structureModel = this.getStructureModelFromSegment("PlannedArchitecture"); 
+				StructureModel structureModel = this.getStructureModelFromSegment("PlannedArchitecture");
+				
+				//Fernando - Limpando os elementos para nova execução
+				this.allAbstractStructureElements.clear();
+				this.allDclLayers.clear();
 
 				//Andre - transforma os elementos da estrutura que estão como da DCL em elementos do KDM 
 				ArrayList<AbstractStructureElement> setCorrectStructuredElement = this.setCorrectStructuredElement(allStructureElements);
@@ -170,7 +176,8 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 				//Andre - cria as restrições das layers
 				createRestrictionToLayers();
 
-				//this.createRestrictionToBeRepresentedInKDM(this.allAbstractStructureElements, DCdecl);
+				
+				this.createRestrictionToBeRepresentedInKDM(this.allAbstractStructureElements, allRestrictions);
 
 
 				//String path =  "file:/Users/rafaeldurelli/Documents/runtime-EclipseApplication/University/src/com/br/Examples/TOBE_KDM.xmi";
@@ -276,30 +283,74 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 
 		for (DCLStructureElement dclStructureElement : allStructureElements) {
 			if (dclStructureElement instanceof DCLLayer) {
-
 				Layer layer = StructureFactory.eINSTANCE.createLayer();
 				layer.setName(dclStructureElement.getName());
 				//Andre - add nessa lista pra usar depois no metodo createRestrictionToLayers()
 				this.allDclLayers.add((DCLLayer)dclStructureElement);
 				allAbstractStructureElements.add(layer);
 
+				//Fernando - Criando relacionamento hierárquico
+				if ((((DCLLayer) dclStructureElement).getLayer()) != null) {
+					String name = ((DCLLayer) dclStructureElement).getLayer().getName();
+					AbstractStructureElement from = this.getToORFrom(name, allAbstractStructureElements);
+					ArrayList<KDMRelationship> relations = createActionsExamples(from.getName(), layer.getName());
+					this.createAggregatedRelationship(from, layer, relations);
+				}
+				else if ((((DCLLayer) dclStructureElement).getSubSystem()) != null) {					
+					String name = ((DCLLayer) dclStructureElement).getSubSystem().getName();
+					AbstractStructureElement from = this.getToORFrom(name, allAbstractStructureElements);
+					ArrayList<KDMRelationship> relations = createActionsExamples(from.getName(), layer.getName());
+					this.createAggregatedRelationship(from, layer, relations);
+					
+				} else if ((((DCLLayer) dclStructureElement).getComponent()) != null) {
+					String name = ((DCLLayer) dclStructureElement).getComponent().getName();
+					AbstractStructureElement from = this.getToORFrom(name, allAbstractStructureElements);
+					ArrayList<KDMRelationship> relations = createActionsExamples(from.getName(), layer.getName());
+					this.createAggregatedRelationship(from, layer, relations);
+				}
+
 			}else if (dclStructureElement instanceof DCLComponent) {
 
 				Component component = StructureFactory.eINSTANCE.createComponent();
 				component.setName(dclStructureElement.getName());
 				allAbstractStructureElements.add(component);
+				
+				
+				if ((((DCLComponent) dclStructureElement).getLayer()) != null) {
+					String name = ((DCLLayer) dclStructureElement).getLayer().getName();
+					AbstractStructureElement from = this.getToORFrom(name, allAbstractStructureElements);
+					ArrayList<KDMRelationship> relations = createActionsExamples(from.getName(), component.getName());
+					this.createAggregatedRelationship(from, component, relations);
+				}
+				else if ((((DCLComponent) dclStructureElement).getSubSystem()) != null) {
+					String name = ((DCLLayer) dclStructureElement).getSubSystem().getName();
+					AbstractStructureElement from = this.getToORFrom(name, allAbstractStructureElements);
+					ArrayList<KDMRelationship> relations = createActionsExamples(from.getName(), component.getName());
+					this.createAggregatedRelationship(from, component, relations);
+				}
 
 			} else if (dclStructureElement instanceof DCLSubSystem) {
 
 				Subsystem subSystem = StructureFactory.eINSTANCE.createSubsystem();
 				subSystem.setName(dclStructureElement.getName());
 				allAbstractStructureElements.add(subSystem);
+				
+				if ((((DCLComponent) dclStructureElement).getSubSystem()) != null) {
+					String name = ((DCLLayer) dclStructureElement).getSubSystem().getName();
+					AbstractStructureElement from = this.getToORFrom(name, allAbstractStructureElements);
+					ArrayList<KDMRelationship> relations = createActionsExamples(from.getName(), subSystem.getName());
+					this.createAggregatedRelationship(from, subSystem, relations);
+				}
 
 			} else if (dclStructureElement instanceof DCLModule) {
 
-				ArchitectureView architectureView = StructureFactory.eINSTANCE.createArchitectureView();
-				architectureView.setName(dclStructureElement.getName());
-				allAbstractStructureElements.add(architectureView);
+				//ArchitectureView architectureView = StructureFactory.eINSTANCE.createArchitectureView();
+				//architectureView.setName(dclStructureElement.getName());
+				//allAbstractStructureElements.add(architectureView);
+				
+				Component component = StructureFactory.eINSTANCE.createComponent();
+				component.setName(dclStructureElement.getName());
+				allAbstractStructureElements.add(component);
 
 			} else if (dclStructureElement instanceof DCLComponentInterface) {
 				//TODO 
@@ -344,7 +395,7 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 						//Andre - cria uma lista de relacoes entre duas camadas que podem ser realizadas
 						ArrayList<KDMRelationship> lisfOfRelationshipsToAdd = createActionsExamples(from.getName(), to.getName());
 
-						searchAndCreateStructureElement(from, to, lisfOfRelationshipsToAdd);						
+						createAggregatedRelationship(from, to, lisfOfRelationshipsToAdd);						
 					}
 
 				}
@@ -424,11 +475,13 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 		return lisfOfRelationshipsToAdd;
 	}
 
-	private void createRestrictionToBeRepresentedInKDM (ArrayList<AbstractStructureElement> allAbstractStructureElements, EList<DCDecl> dcDecl) {
+	private void createRestrictionToBeRepresentedInKDM (ArrayList<AbstractStructureElement> allAbstractStructureElements, EList<DCDecl> dclRestrictions) {
 
 		String dependence = null;
 
 		ArrayList<KDMRelationship> lisfOfRelationshipsToAdd = new ArrayList<KDMRelationship>();
+		
+
 
 		CodeModel elements = CodeFactory.eINSTANCE.createCodeModel(); 
 
@@ -454,16 +507,18 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 
 		module.getCodeElement().add(actionElement);
 
-		for (DCDecl restrictions : dcDecl) {
+		for (DCDecl restriction : dclRestrictions) {
 
-			String structureElementNameTO = restrictions.getType().getName();
-			String structureElementNameFROM = restrictions.getT().getName();
+			//Fernando: T é o elemento arquitetural de chegada (TO)
+			String structureElementNameTO = restriction.getT().getName();
+			//Fernando: Type é o elemento arquitetural de partida (from)
+			String structureElementNameFROM = restriction.getType().getName();
 
 			//busca o elemento estrutural descrito na restricao
 			AbstractStructureElement from = this.getToORFrom(structureElementNameFROM, allAbstractStructureElements);
 			AbstractStructureElement to = this.getToORFrom(structureElementNameTO, allAbstractStructureElements);
 
-			ElementType elementType = restrictions.getElementType();
+			ElementType elementType = restriction.getElementType();
 
 			if (elementType instanceof BasicType) {
 				BasicType basicType = (BasicType) elementType;
@@ -521,6 +576,10 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 				HasValue relation6 = CodeFactory.eINSTANCE.createHasValue();
 				lisfOfRelationshipsToAdd.add(relation6);
 				codeElement.getCodeRelation().add(relation6);
+				
+				Imports relation7 = CodeFactory.eINSTANCE.createImports();
+				lisfOfRelationshipsToAdd.add(relation7);
+				codeElement.getCodeRelation().add(relation7);
 			} else if (dependence.equals("extend")) {
 				Extends relation = CodeFactory.eINSTANCE.createExtends();
 				lisfOfRelationshipsToAdd.add(relation);
@@ -548,21 +607,21 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 				codeElement.getCodeRelation().add(relation);
 			}
 
-			if (restrictions.getOnly() != null) {
+			if (restriction.getOnly() != null) {
 
 				//TODO
 
-			}else if (restrictions.getMust() != null) {
+			}else if (restriction.getMust() != null) {
 
 				//TODO
-			} else if (restrictions.getCannot() != null) {
+			} else if (restriction.getCannot() != null) {
 
 				//TODO
 			} else {
 
 				//System.out.println(abstractRelationship);
 
-				searchAndCreateStructureElement(from, to, lisfOfRelationshipsToAdd);
+				createAggregatedRelationship(from, to, lisfOfRelationshipsToAdd);
 			}
 		}
 
@@ -578,7 +637,7 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 	 * @param to
 	 * @param relations
 	 */
-	private void searchAndCreateStructureElement (AbstractStructureElement from, AbstractStructureElement to, ArrayList<KDMRelationship> relations) {
+	private void createAggregatedRelationship (AbstractStructureElement from, AbstractStructureElement to, ArrayList<KDMRelationship> relations) {
 
 		//Andre - verifica se ja existe um aggregated no na layer from
 		if (from.getAggregated().size() > 0) {
@@ -629,6 +688,12 @@ public class ReadinDSLVIew implements IObjectActionDelegate {
 			newRelationship.getRelation().addAll(relations);
 			from.getAggregated().add(newRelationship);
 		}
+		
+		//Fernando - Limpando lista 
+		relations.clear();
+		from = null;
+		to = null;
+		
 
 	}
 
