@@ -7,6 +7,7 @@ import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeFactory;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeModel;
 import org.eclipse.gmt.modisco.omg.kdm.code.Datatype;
+import org.eclipse.gmt.modisco.omg.kdm.code.EnumeratedType;
 import org.eclipse.gmt.modisco.omg.kdm.code.HasType;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
@@ -244,6 +245,25 @@ public class ComplementsRelationHasTypeImpl implements ComplementsRelations{
 		}
 		
 		return codeModelToUpdate;
+	}
+
+	@Override
+	public EnumeratedType complementsRelationOf(EnumeratedType enumeratedTypeToUpdate) {
+		for (int i = 0; i < enumeratedTypeToUpdate.getCodeElement().size(); i++) {
+			
+			if(enumeratedTypeToUpdate.getCodeElement().get(i) instanceof StorableUnit){
+
+				enumeratedTypeToUpdate.getCodeElement().set(i, this.complementsRelationOf((StorableUnit)enumeratedTypeToUpdate.getCodeElement().get(i)));
+				
+			}else if(enumeratedTypeToUpdate.getCodeElement().get(i) instanceof MethodUnit){
+				
+				enumeratedTypeToUpdate.getCodeElement().set(i, this.complementsRelationOf((MethodUnit)enumeratedTypeToUpdate.getCodeElement().get(i)));
+				
+			}
+			
+		}
+		
+		return enumeratedTypeToUpdate;
 	}
 
 

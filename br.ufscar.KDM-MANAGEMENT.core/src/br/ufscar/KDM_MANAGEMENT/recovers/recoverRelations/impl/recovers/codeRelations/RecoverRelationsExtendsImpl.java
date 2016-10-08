@@ -8,6 +8,7 @@ import org.eclipse.gmt.modisco.omg.kdm.action.BlockUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeRelationship;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
+import org.eclipse.gmt.modisco.omg.kdm.code.EnumeratedType;
 import org.eclipse.gmt.modisco.omg.kdm.code.Extends;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
@@ -106,6 +107,19 @@ public class RecoverRelationsExtendsImpl implements RecoverRelations{
 	public List<KDMRelationship> getRelationOf(ParameterUnit parameterToAvaliate) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<KDMRelationship> getRelationOf(EnumeratedType enumeratedTypeToAvaliate) {
+		List<KDMRelationship> extendsRecovered = new ArrayList<KDMRelationship>();
+		
+		for (AbstractCodeRelationship abstractCodeRelationship : enumeratedTypeToAvaliate.getCodeRelation()) {
+			if(abstractCodeRelationship instanceof Extends){
+				extendsRecovered.add((Extends) abstractCodeRelationship);
+			}
+		}
+		
+		return extendsRecovered;
 	}
 
 }

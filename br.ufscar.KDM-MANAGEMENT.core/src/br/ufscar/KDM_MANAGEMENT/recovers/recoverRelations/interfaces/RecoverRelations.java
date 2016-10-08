@@ -16,8 +16,6 @@ import org.eclipse.gmt.modisco.omg.kdm.core.KDMRelationship;
 
 public interface RecoverRelations {
 
-	
-	
 	public List<KDMRelationship> getRelationOf(ClassUnit classToAvaliate);
 	
 	public List<KDMRelationship> getRelationOf(Package packageToAvaliate);
@@ -37,9 +35,5 @@ public interface RecoverRelations {
 	public List<KDMRelationship> getRelationOf(InterfaceUnit interfaceToAvaliate);
 
 	public List<KDMRelationship> getRelationOf(EnumeratedType enumeratedTypeToAvaliate);
-	
-	
-	
-	
 	
 }

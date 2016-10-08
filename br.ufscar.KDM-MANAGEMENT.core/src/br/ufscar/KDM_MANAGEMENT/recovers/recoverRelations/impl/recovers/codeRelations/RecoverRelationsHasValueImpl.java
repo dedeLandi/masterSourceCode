@@ -9,6 +9,7 @@ import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeRelationship;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeItem;
+import org.eclipse.gmt.modisco.omg.kdm.code.EnumeratedType;
 import org.eclipse.gmt.modisco.omg.kdm.code.HasValue;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
@@ -196,6 +197,27 @@ public class RecoverRelationsHasValueImpl implements RecoverRelations {
 		List<KDMRelationship> hasValueRelations = new ArrayList<KDMRelationship>();
 
 		for (CodeItem codeItem : interfaceToAvaliate.getCodeElement()) {
+
+			if(codeItem instanceof StorableUnit){
+
+				hasValueRelations.addAll(this.getRelationOf((StorableUnit) codeItem));
+
+			}else if(codeItem instanceof MethodUnit){
+
+				hasValueRelations.addAll(this.getRelationOf((MethodUnit) codeItem));
+
+			}
+
+		}
+
+		return hasValueRelations;
+	}
+
+	@Override
+	public List<KDMRelationship> getRelationOf(EnumeratedType enumeratedTypeToAvaliate) {
+		List<KDMRelationship> hasValueRelations = new ArrayList<KDMRelationship>();
+
+		for (CodeItem codeItem : enumeratedTypeToAvaliate.getCodeElement()) {
 
 			if(codeItem instanceof StorableUnit){
 

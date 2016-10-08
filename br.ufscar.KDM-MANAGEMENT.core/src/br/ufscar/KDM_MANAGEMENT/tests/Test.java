@@ -15,11 +15,11 @@ import org.eclipse.gmt.modisco.omg.kdm.structure.Layer;
 
 import br.ufscar.KDM_MANAGEMENT.exception.KDMModelTypeException;
 import br.ufscar.KDM_MANAGEMENT.load.KDMFileReader;
-import br.ufscar.KDM_MANAGEMENT.models.KDMModelReader;
-import br.ufscar.KDM_MANAGEMENT.models.code.classes.KDMClassReader;
-import br.ufscar.KDM_MANAGEMENT.models.code.methods.KDMMethodReader;
-import br.ufscar.KDM_MANAGEMENT.models.code.storables.KDMStorableReader;
-import br.ufscar.KDM_MANAGEMENT.models.structure.layers.KDMLayerReader;
+import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.classes.KDMClassReaderImpl;
+import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.methods.KDMMethodReaderImpl;
+import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.storables.KDMStorableReaderImpl;
+import br.ufscar.KDM_MANAGEMENT.readers.modelReaders.impl.readers.KDMModelReaderImpl;
+import br.ufscar.KDM_MANAGEMENT.readers.structureReaders.impl.readers.layers.KDMLayerReaderImpl;
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverHierarchy.factory.RecoverHierarchyFactory;
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverHierarchy.interfaces.RecoverHierarchy;
 
@@ -38,7 +38,7 @@ public class Test {
 
 		Segment raizKdmInitialMap = (Segment) kdmFileReader.getKdmRead();
 
-		KDMModelReader kdmModelReader = new KDMModelReader(raizKdmInitialMap);
+		KDMModelReaderImpl kdmModelReader = new KDMModelReaderImpl(raizKdmInitialMap);
 		
 		String name = "SystemExampleMVC-Simples";
 		List<KDMModel> todosOsModelosComNomeIgual = kdmModelReader.getCodeModel(name);
@@ -46,7 +46,7 @@ public class Test {
 		for (KDMModel kdmModel : todosOsModelosComNomeIgual) {
 			
 			try {
-				KDMClassReader kdmClassReader = new KDMClassReader(kdmModel);
+				KDMClassReaderImpl kdmClassReader = new KDMClassReaderImpl(kdmModel);
 				
 				Map<String, List<ClassUnit>> allClasses = kdmClassReader.getAllClasses();
 				for (String nome : allClasses.keySet()) {
@@ -59,7 +59,7 @@ public class Test {
 
 						System.out.println("	Classe nome: " + classUnit.getName() + " ( " + recoverHierarchyComplete.getHierarchyOf(classUnit) + " )");
 						
-						KDMMethodReader kdmMethodReader = new KDMMethodReader(classUnit);
+						KDMMethodReaderImpl kdmMethodReader = new KDMMethodReaderImpl(classUnit);
 						
 						Map<String, List<MethodUnit>> allMethodsClass = kdmMethodReader.getAllMethods();
 						
@@ -92,7 +92,7 @@ public class Test {
 		Segment raizKdmInitialMap = (Segment) kdmFileReader.getKdmRead();
 
 		
-		KDMModelReader kdmModelReader = new KDMModelReader(raizKdmInitialMap);
+		KDMModelReaderImpl kdmModelReader = new KDMModelReaderImpl(raizKdmInitialMap);
 		
 		Map<String, List<KDMModel>> todosOsModelosCode = kdmModelReader.getAllCodeModel();
 		
@@ -101,7 +101,7 @@ public class Test {
 			System.out.println("CodeModel analisado: " + codeModelName);
 			
 			try {
-				KDMStorableReader kdmStorableReader = new KDMStorableReader(todosOsModelosCode.get(codeModelName).get(0));
+				KDMStorableReaderImpl kdmStorableReader = new KDMStorableReaderImpl(todosOsModelosCode.get(codeModelName).get(0));
 				
 				Map<String, List<StorableUnit>> allStorables = kdmStorableReader.getAllStorables();
 				for (String nome : allStorables.keySet()) {
@@ -127,7 +127,7 @@ public class Test {
 
 		Segment raizKdmInitialMap = (Segment) kdmFileReader.getKdmRead();
 
-		KDMModelReader kdmModelReader = new KDMModelReader(raizKdmInitialMap);
+		KDMModelReaderImpl kdmModelReader = new KDMModelReaderImpl(raizKdmInitialMap);
 		
 		String name = "initialMap";
 		List<KDMModel> todosOsModelosComNomeIgual = kdmModelReader.getStructureModel(name);
@@ -136,7 +136,7 @@ public class Test {
 			
 			try {
 			
-				KDMLayerReader kdmLayerReader = new KDMLayerReader(kdmModel);
+				KDMLayerReaderImpl kdmLayerReader = new KDMLayerReaderImpl(kdmModel);
 				Map<String, List<Layer>> allPerLayersModel = kdmLayerReader.getAllLayers();
 			
 				for (String modelName : allPerLayersModel.keySet()) {

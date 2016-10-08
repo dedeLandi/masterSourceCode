@@ -10,6 +10,7 @@ import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeRelationship;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeItem;
+import org.eclipse.gmt.modisco.omg.kdm.code.EnumeratedType;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
@@ -163,6 +164,23 @@ public class RecoverRelationsCallsImpl implements RecoverRelations {
 		for (CodeItem codeItem : interfaceToAvaliate.getCodeElement()) {
 			
 			if(codeItem instanceof MethodUnit){
+				callsRecovered.addAll(this.getRelationOf((MethodUnit) codeItem));
+			}
+			
+		}
+		
+		return callsRecovered;
+	}
+
+	@Override
+	public List<KDMRelationship> getRelationOf(EnumeratedType enumeratedTypeToAvaliate) {
+		List<KDMRelationship> callsRecovered = new ArrayList<KDMRelationship>();
+		
+		for (CodeItem codeItem : enumeratedTypeToAvaliate.getCodeElement()) {
+			
+			if(codeItem instanceof StorableUnit){
+				callsRecovered.addAll(this.getRelationOf((StorableUnit) codeItem));
+			}else if(codeItem instanceof MethodUnit){
 				callsRecovered.addAll(this.getRelationOf((MethodUnit) codeItem));
 			}
 			

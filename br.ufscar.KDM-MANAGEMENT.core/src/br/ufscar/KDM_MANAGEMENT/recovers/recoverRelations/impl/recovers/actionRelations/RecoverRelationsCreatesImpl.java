@@ -10,6 +10,7 @@ import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeRelationship;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.CodeItem;
+import org.eclipse.gmt.modisco.omg.kdm.code.EnumeratedType;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
@@ -25,76 +26,76 @@ public class RecoverRelationsCreatesImpl implements RecoverRelations {
 	@Override
 	public List<KDMRelationship> getRelationOf(ClassUnit classToAvaliate) {
 
-		List<KDMRelationship> callsRecovered = new ArrayList<KDMRelationship>();
+		List<KDMRelationship> createsRecovered = new ArrayList<KDMRelationship>();
 		
 		for (CodeItem codeItem : classToAvaliate.getCodeElement()) {
 			
 			if(codeItem instanceof StorableUnit){
-				callsRecovered.addAll(this.getRelationOf((StorableUnit) codeItem));
+				createsRecovered.addAll(this.getRelationOf((StorableUnit) codeItem));
 			}else if(codeItem instanceof MethodUnit){
-				callsRecovered.addAll(this.getRelationOf((MethodUnit) codeItem));
+				createsRecovered.addAll(this.getRelationOf((MethodUnit) codeItem));
 			}
 			
 		}
 		
-		return callsRecovered;
+		return createsRecovered;
 	}
 
 	@Override
 	public List<KDMRelationship> getRelationOf(Package packageToAvaliate) {
 
-		List<KDMRelationship> callsRecovered = new ArrayList<KDMRelationship>();
+		List<KDMRelationship> createsRecovered = new ArrayList<KDMRelationship>();
 		
 		for (AbstractCodeElement abstractCodeElement : packageToAvaliate.getCodeElement()) {
 			
 			if(abstractCodeElement instanceof ClassUnit){
-				callsRecovered.addAll(this.getRelationOf((ClassUnit) abstractCodeElement));
+				createsRecovered.addAll(this.getRelationOf((ClassUnit) abstractCodeElement));
 			}else if(abstractCodeElement instanceof InterfaceUnit){
-				callsRecovered.addAll(this.getRelationOf((InterfaceUnit) abstractCodeElement));
+				createsRecovered.addAll(this.getRelationOf((InterfaceUnit) abstractCodeElement));
 			}else if(abstractCodeElement instanceof Package){
-				callsRecovered.addAll(this.getRelationOf((Package) abstractCodeElement));
+				createsRecovered.addAll(this.getRelationOf((Package) abstractCodeElement));
 			}
 			
 		}
 		
-		return callsRecovered;
+		return createsRecovered;
 	}
 
 	@Override
 	public List<KDMRelationship> getRelationOf(BlockUnit blockToAvaliate) {
 		
-		List<KDMRelationship> callsRecovered = new ArrayList<KDMRelationship>();
+		List<KDMRelationship> createsRecovered = new ArrayList<KDMRelationship>();
 
 		for (AbstractCodeElement abstractCodeElement : blockToAvaliate.getCodeElement()) {
 
 			if(abstractCodeElement instanceof StorableUnit){
 
-				callsRecovered.addAll(this.getRelationOf((StorableUnit) abstractCodeElement));
+				createsRecovered.addAll(this.getRelationOf((StorableUnit) abstractCodeElement));
 				
 			}else if(abstractCodeElement instanceof ActionElement){
 
-				callsRecovered.addAll(this.getRelationOf((ActionElement) abstractCodeElement));
+				createsRecovered.addAll(this.getRelationOf((ActionElement) abstractCodeElement));
 
 			}else if(abstractCodeElement instanceof BlockUnit){
 
-				callsRecovered.addAll(this.getRelationOf((BlockUnit) abstractCodeElement));
+				createsRecovered.addAll(this.getRelationOf((BlockUnit) abstractCodeElement));
 
 			}
 
 		}
 
-		return callsRecovered;
+		return createsRecovered;
 	}
 
 	@Override
 	public List<KDMRelationship> getRelationOf(ActionElement actionElementToAvaliate) {
 		
-		List<KDMRelationship> callsRecovered = new ArrayList<KDMRelationship>();
+		List<KDMRelationship> createsRecovered = new ArrayList<KDMRelationship>();
 
 		for (AbstractCodeRelationship abstractCodeRelationship : actionElementToAvaliate.getCodeRelation()) {
 			
 			if(abstractCodeRelationship instanceof Creates){
-				callsRecovered.add((Creates) abstractCodeRelationship);
+				createsRecovered.add((Creates) abstractCodeRelationship);
 			}
 			
 		}
@@ -103,20 +104,20 @@ public class RecoverRelationsCreatesImpl implements RecoverRelations {
 
 			if(abstractCodeElement instanceof StorableUnit){
 
-				callsRecovered.addAll(this.getRelationOf((StorableUnit) abstractCodeElement));
+				createsRecovered.addAll(this.getRelationOf((StorableUnit) abstractCodeElement));
 				
 			}else if(abstractCodeElement instanceof ActionElement){
 
-				callsRecovered.addAll(this.getRelationOf((ActionElement) abstractCodeElement));
+				createsRecovered.addAll(this.getRelationOf((ActionElement) abstractCodeElement));
 
 			}else if(abstractCodeElement instanceof BlockUnit){
 
-				callsRecovered.addAll(this.getRelationOf((BlockUnit) abstractCodeElement));
+				createsRecovered.addAll(this.getRelationOf((BlockUnit) abstractCodeElement));
 
 			}
 		}
 		
-		return callsRecovered;
+		return createsRecovered;
 	}
 
 	@Override
@@ -140,35 +141,52 @@ public class RecoverRelationsCreatesImpl implements RecoverRelations {
 	@Override
 	public List<KDMRelationship> getRelationOf(MethodUnit methodToAvaliate) {
 
-		List<KDMRelationship> callsRecovered = new ArrayList<KDMRelationship>();
+		List<KDMRelationship> createsRecovered = new ArrayList<KDMRelationship>();
 		
 		for (AbstractCodeElement abstractCodeElement : methodToAvaliate.getCodeElement()) {
 			
 			if(abstractCodeElement instanceof Signature){
-				callsRecovered.addAll(this.getRelationOf((Signature) abstractCodeElement));
+				createsRecovered.addAll(this.getRelationOf((Signature) abstractCodeElement));
 			}else if(abstractCodeElement instanceof BlockUnit){
-				callsRecovered.addAll(this.getRelationOf((BlockUnit) abstractCodeElement));
+				createsRecovered.addAll(this.getRelationOf((BlockUnit) abstractCodeElement));
 			}
 			
 		}
 		
-		return callsRecovered;
+		return createsRecovered;
 	}
 
 	@Override
 	public List<KDMRelationship> getRelationOf(InterfaceUnit interfaceToAvaliate) {
 
-		List<KDMRelationship> callsRecovered = new ArrayList<KDMRelationship>();
+		List<KDMRelationship> createsRecovered = new ArrayList<KDMRelationship>();
 		
 		for (CodeItem codeItem : interfaceToAvaliate.getCodeElement()) {
 			
 			if(codeItem instanceof MethodUnit){
-				callsRecovered.addAll(this.getRelationOf((MethodUnit) codeItem));
+				createsRecovered.addAll(this.getRelationOf((MethodUnit) codeItem));
 			}
 			
 		}
 		
-		return callsRecovered;
+		return createsRecovered;
+	}
+
+	@Override
+	public List<KDMRelationship> getRelationOf(EnumeratedType enumeratedTypeToAvaliate) {
+		List<KDMRelationship> createsRecovered = new ArrayList<KDMRelationship>();
+		
+		for (CodeItem codeItem : enumeratedTypeToAvaliate.getCodeElement()) {
+			
+			if(codeItem instanceof StorableUnit){
+				createsRecovered.addAll(this.getRelationOf((StorableUnit) codeItem));
+			}else if(codeItem instanceof MethodUnit){
+				createsRecovered.addAll(this.getRelationOf((MethodUnit) codeItem));
+			}
+			
+		}
+		
+		return createsRecovered;
 	}
 
 

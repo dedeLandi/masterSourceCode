@@ -3,6 +3,7 @@ package br.ufscar.KDM_MANAGEMENT.recovers.recoverHierarchy.impl.recovers;
 import org.eclipse.gmt.modisco.omg.kdm.action.ActionElement;
 import org.eclipse.gmt.modisco.omg.kdm.action.BlockUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
+import org.eclipse.gmt.modisco.omg.kdm.code.EnumeratedType;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
@@ -155,6 +156,21 @@ public class RecoverHierarchyUntilFirstEntity implements RecoverHierarchy {
 		String completePath = "";
 		
 		completePath = (completePath.concat(SEPARATOR_TYPE)).concat(interfaceToAvaliate.getName());
+		
+		return completePath;
+	}
+
+	@Override
+	public String getHierarchyOf(EnumeratedType enumeratedTypeToAvaliate) {
+		String completePath = "";
+		
+		if(enumeratedTypeToAvaliate.eContainer() instanceof ClassUnit){
+			
+			completePath = completePath.concat(this.getHierarchyOf((ClassUnit) enumeratedTypeToAvaliate.eContainer()));
+			
+		} 
+		
+		completePath = (completePath.concat(SEPARATOR_TYPE)).concat(enumeratedTypeToAvaliate.getName());
 		
 		return completePath;
 	}
