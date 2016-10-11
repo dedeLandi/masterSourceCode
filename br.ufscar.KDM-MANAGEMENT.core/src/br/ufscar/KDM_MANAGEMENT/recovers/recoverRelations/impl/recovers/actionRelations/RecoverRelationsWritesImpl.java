@@ -17,16 +17,15 @@ import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.code.ParameterUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Signature;
 import org.eclipse.gmt.modisco.omg.kdm.code.StorableUnit;
-import org.eclipse.gmt.modisco.omg.kdm.core.KDMRelationship;
 
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.interfaces.RecoverRelations;
 
-public class RecoverRelationsWritesImpl implements RecoverRelations {
+public class RecoverRelationsWritesImpl implements RecoverRelations<Writes> {
 
 	@Override
-	public List<KDMRelationship> getRelationOf(ClassUnit classToAvaliate) {
+	public List<Writes> getRelationOf(ClassUnit classToAvaliate) {
 
-		List<KDMRelationship> writesRecovered = new ArrayList<KDMRelationship>();
+		List<Writes> writesRecovered = new ArrayList<Writes>();
 		
 		for (CodeItem codeItem : classToAvaliate.getCodeElement()) {
 			
@@ -42,9 +41,9 @@ public class RecoverRelationsWritesImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(Package packageToAvaliate) {
+	public List<Writes> getRelationOf(Package packageToAvaliate) {
 
-		List<KDMRelationship> writesRecovered = new ArrayList<KDMRelationship>();
+		List<Writes> writesRecovered = new ArrayList<Writes>();
 		
 		for (AbstractCodeElement abstractCodeElement : packageToAvaliate.getCodeElement()) {
 			
@@ -62,9 +61,9 @@ public class RecoverRelationsWritesImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(BlockUnit blockToAvaliate) {
+	public List<Writes> getRelationOf(BlockUnit blockToAvaliate) {
 		
-		List<KDMRelationship> writesRecovered = new ArrayList<KDMRelationship>();
+		List<Writes> writesRecovered = new ArrayList<Writes>();
 
 		for (AbstractCodeElement abstractCodeElement : blockToAvaliate.getCodeElement()) {
 
@@ -88,9 +87,9 @@ public class RecoverRelationsWritesImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(ActionElement actionElementToAvaliate) {
+	public List<Writes> getRelationOf(ActionElement actionElementToAvaliate) {
 		
-		List<KDMRelationship> writesRecovered = new ArrayList<KDMRelationship>();
+		List<Writes> writesRecovered = new ArrayList<Writes>();
 
 		for (AbstractCodeRelationship abstractCodeRelationship : actionElementToAvaliate.getCodeRelation()) {
 			
@@ -122,26 +121,26 @@ public class RecoverRelationsWritesImpl implements RecoverRelations {
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(Signature signatureToAvaliate) {
-		return new ArrayList<KDMRelationship>();
+	public List<Writes> getRelationOf(Signature signatureToAvaliate) {
+		return new ArrayList<Writes>();
 	}
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(ParameterUnit parameterToAvaliate) {
-		return new ArrayList<KDMRelationship>();
+	public List<Writes> getRelationOf(ParameterUnit parameterToAvaliate) {
+		return new ArrayList<Writes>();
 	}
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(StorableUnit storableToAvaliate) {
-		return new ArrayList<KDMRelationship>();
+	public List<Writes> getRelationOf(StorableUnit storableToAvaliate) {
+		return new ArrayList<Writes>();
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(MethodUnit methodToAvaliate) {
+	public List<Writes> getRelationOf(MethodUnit methodToAvaliate) {
 
-		List<KDMRelationship> writesRecovered = new ArrayList<KDMRelationship>();
+		List<Writes> writesRecovered = new ArrayList<Writes>();
 		
 		for (AbstractCodeElement abstractCodeElement : methodToAvaliate.getCodeElement()) {
 			
@@ -157,9 +156,9 @@ public class RecoverRelationsWritesImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(InterfaceUnit interfaceToAvaliate) {
+	public List<Writes> getRelationOf(InterfaceUnit interfaceToAvaliate) {
 
-		List<KDMRelationship> writesRecovered = new ArrayList<KDMRelationship>();
+		List<Writes> writesRecovered = new ArrayList<Writes>();
 		
 		for (CodeItem codeItem : interfaceToAvaliate.getCodeElement()) {
 			
@@ -173,8 +172,8 @@ public class RecoverRelationsWritesImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(EnumeratedType enumeratedTypeToAvaliate) {
-		List<KDMRelationship> writesRecovered = new ArrayList<KDMRelationship>();
+	public List<Writes> getRelationOf(EnumeratedType enumeratedTypeToAvaliate) {
+		List<Writes> writesRecovered = new ArrayList<Writes>();
 		
 		for (CodeItem codeItem : enumeratedTypeToAvaliate.getCodeElement()) {
 			

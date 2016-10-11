@@ -1,6 +1,30 @@
 package br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.factory;
 
 import org.eclipse.emf.ecore.EFactory;
+import org.eclipse.gmt.modisco.omg.kdm.action.Addresses;
+import org.eclipse.gmt.modisco.omg.kdm.action.Calls;
+import org.eclipse.gmt.modisco.omg.kdm.action.ControlFlow;
+import org.eclipse.gmt.modisco.omg.kdm.action.Creates;
+import org.eclipse.gmt.modisco.omg.kdm.action.Dispatches;
+import org.eclipse.gmt.modisco.omg.kdm.action.EntryFlow;
+import org.eclipse.gmt.modisco.omg.kdm.action.ExitFlow;
+import org.eclipse.gmt.modisco.omg.kdm.action.Reads;
+import org.eclipse.gmt.modisco.omg.kdm.action.Throws;
+import org.eclipse.gmt.modisco.omg.kdm.action.UsesType;
+import org.eclipse.gmt.modisco.omg.kdm.action.Writes;
+import org.eclipse.gmt.modisco.omg.kdm.code.Extends;
+import org.eclipse.gmt.modisco.omg.kdm.code.GeneratedFrom;
+import org.eclipse.gmt.modisco.omg.kdm.code.HasType;
+import org.eclipse.gmt.modisco.omg.kdm.code.HasValue;
+import org.eclipse.gmt.modisco.omg.kdm.code.ImplementationOf;
+import org.eclipse.gmt.modisco.omg.kdm.code.Implements;
+import org.eclipse.gmt.modisco.omg.kdm.code.Imports;
+import org.eclipse.gmt.modisco.omg.kdm.code.Includes;
+import org.eclipse.gmt.modisco.omg.kdm.code.InstanceOf;
+import org.eclipse.gmt.modisco.omg.kdm.code.ParameterTo;
+import org.eclipse.gmt.modisco.omg.kdm.code.Redefines;
+import org.eclipse.gmt.modisco.omg.kdm.code.VariantTo;
+import org.eclipse.gmt.modisco.omg.kdm.code.VisibleIn;
 
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.interfaces.RecoverRelations;
 
@@ -10,54 +34,54 @@ public interface RecoverRelationsFactory extends EFactory {
 	RecoverRelationsFactory eINSTANCE = br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.factory.RecoverRelationsFactoryImpl.init();
 	
 	//CodeRelations
-	RecoverRelations createInstanceOfRecover();
+	RecoverRelations<InstanceOf> createInstanceOfRecover();
 	
-	RecoverRelations createParameterToRecover();
+	RecoverRelations<ParameterTo> createParameterToRecover();
 	
-	RecoverRelations createImplementsRecover();
+	RecoverRelations<Implements> createImplementsRecover();
 	
-	RecoverRelations createImplementationOfRecover();
+	RecoverRelations<ImplementationOf> createImplementationOfRecover();
 	
-	RecoverRelations createHasTypeRecover();
+	RecoverRelations<HasType> createHasTypeRecover();
 	
-	RecoverRelations createHasValueRecover();
+	RecoverRelations<HasValue> createHasValueRecover();
 
-	RecoverRelations createExtendsRecover();
+	RecoverRelations<Extends> createExtendsRecover();
 	
-	RecoverRelations createGeneratedFromRecover();
+	RecoverRelations<GeneratedFrom> createGeneratedFromRecover();
 	
-	RecoverRelations createIncludesRecover();
+	RecoverRelations<Includes> createIncludesRecover();
 	
-	RecoverRelations createVariantToRecover();
+	RecoverRelations<VariantTo> createVariantToRecover();
 	
-	RecoverRelations createRedefinesRecover();
+	RecoverRelations<Redefines> createRedefinesRecover();
 
-	RecoverRelations createVisibleInRecover();
+	RecoverRelations<VisibleIn> createVisibleInRecover();
 	
-	RecoverRelations createImportsRecover();
+	RecoverRelations<Imports> createImportsRecover();
 	
 	//ActionRelations
 	
-	RecoverRelations createControlFlowRecover();
+	RecoverRelations<ControlFlow> createControlFlowRecover();
 	
-	RecoverRelations createEntryFlowRecover();
+	RecoverRelations<EntryFlow> createEntryFlowRecover();
 	
-	RecoverRelations createCallsRecover();
+	RecoverRelations<Calls> createCallsRecover();
 	
-	RecoverRelations createDispatchesRecover();
+	RecoverRelations<Dispatches> createDispatchesRecover();
 	
-	RecoverRelations createReadsRecover();
+	RecoverRelations<Reads> createReadsRecover();
 	
-	RecoverRelations createWritesRecover();
+	RecoverRelations<Writes> createWritesRecover();
 	
-	RecoverRelations createAddressesRecover();
+	RecoverRelations<Addresses> createAddressesRecover();
 	
-	RecoverRelations createCreatesRecover();
+	RecoverRelations<Creates> createCreatesRecover();
 	
-	RecoverRelations createExitFlowRecover();
+	RecoverRelations<ExitFlow> createExitFlowRecover();
 	
-	RecoverRelations createThrowsRecover();
+	RecoverRelations<Throws> createThrowsRecover();
 	
-	RecoverRelations createUsesTypeRecover();
+	RecoverRelations<UsesType> createUsesTypeRecover();
 	
 }

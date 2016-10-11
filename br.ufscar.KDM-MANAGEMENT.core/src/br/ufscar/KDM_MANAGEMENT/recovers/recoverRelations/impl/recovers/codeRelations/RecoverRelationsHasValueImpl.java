@@ -17,16 +17,15 @@ import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.code.ParameterUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Signature;
 import org.eclipse.gmt.modisco.omg.kdm.code.StorableUnit;
-import org.eclipse.gmt.modisco.omg.kdm.core.KDMRelationship;
 
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.interfaces.RecoverRelations;
 
-public class RecoverRelationsHasValueImpl implements RecoverRelations {
+public class RecoverRelationsHasValueImpl implements RecoverRelations<HasValue> {
 
 	@Override
-	public List<KDMRelationship> getRelationOf(ClassUnit classToAvaliate) {
+	public List<HasValue> getRelationOf(ClassUnit classToAvaliate) {
 
-		List<KDMRelationship> hasValueRelations = new ArrayList<KDMRelationship>();
+		List<HasValue> hasValueRelations = new ArrayList<HasValue>();
 
 		for (CodeItem codeItem : classToAvaliate.getCodeElement()) {
 
@@ -46,9 +45,9 @@ public class RecoverRelationsHasValueImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(Package packageToAvaliate) {
+	public List<HasValue> getRelationOf(Package packageToAvaliate) {
 
-		List<KDMRelationship> hasValueRelations = new ArrayList<KDMRelationship>();
+		List<HasValue> hasValueRelations = new ArrayList<HasValue>();
 
 		for (AbstractCodeElement abstractCodeElement : packageToAvaliate.getCodeElement()) {
 
@@ -69,9 +68,9 @@ public class RecoverRelationsHasValueImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(BlockUnit blockToAvaliate) {
+	public List<HasValue> getRelationOf(BlockUnit blockToAvaliate) {
 
-		List<KDMRelationship> hasValueRelations = new ArrayList<KDMRelationship>();
+		List<HasValue> hasValueRelations = new ArrayList<HasValue>();
 
 		for (AbstractCodeElement abstractCodeElement : blockToAvaliate.getCodeElement()) {
 
@@ -95,9 +94,9 @@ public class RecoverRelationsHasValueImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(ActionElement actionElementToAvaliate) {
+	public List<HasValue> getRelationOf(ActionElement actionElementToAvaliate) {
 		
-		List<KDMRelationship> hasValueRelations = new ArrayList<KDMRelationship>();
+		List<HasValue> hasValueRelations = new ArrayList<HasValue>();
 
 		for (AbstractCodeElement abstractCodeElement : actionElementToAvaliate.getCodeElement()) {
 
@@ -121,9 +120,9 @@ public class RecoverRelationsHasValueImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(Signature signatureToAvaliate) {
+	public List<HasValue> getRelationOf(Signature signatureToAvaliate) {
 
-		List<KDMRelationship> hasValueRelations = new ArrayList<KDMRelationship>();
+		List<HasValue> hasValueRelations = new ArrayList<HasValue>();
 
 		for (ParameterUnit parameterUnit : signatureToAvaliate.getParameterUnit()) {
 			hasValueRelations.addAll(this.getRelationOf(parameterUnit));
@@ -134,9 +133,9 @@ public class RecoverRelationsHasValueImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(ParameterUnit parameterToAvaliate) {
+	public List<HasValue> getRelationOf(ParameterUnit parameterToAvaliate) {
 
-		List<KDMRelationship> hasValueRelations = new ArrayList<KDMRelationship>();
+		List<HasValue> hasValueRelations = new ArrayList<HasValue>();
 
 		for (AbstractCodeRelationship abstractCodeRelationship : parameterToAvaliate.getCodeRelation()) {
 
@@ -152,9 +151,9 @@ public class RecoverRelationsHasValueImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(StorableUnit storableToAvaliate) {
+	public List<HasValue> getRelationOf(StorableUnit storableToAvaliate) {
 
-		List<KDMRelationship> hasValueRelations = new ArrayList<KDMRelationship>();
+		List<HasValue> hasValueRelations = new ArrayList<HasValue>();
 
 		for (AbstractCodeRelationship abstractCodeRelationship : storableToAvaliate.getCodeRelation()) {
 
@@ -170,9 +169,9 @@ public class RecoverRelationsHasValueImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(MethodUnit methodToAvaliate) {
+	public List<HasValue> getRelationOf(MethodUnit methodToAvaliate) {
 
-		List<KDMRelationship> hasValueRelations = new ArrayList<KDMRelationship>();
+		List<HasValue> hasValueRelations = new ArrayList<HasValue>();
 
 		for (AbstractCodeElement abstractCodeElement : methodToAvaliate.getCodeElement()) {
 
@@ -192,9 +191,9 @@ public class RecoverRelationsHasValueImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(InterfaceUnit interfaceToAvaliate) {
+	public List<HasValue> getRelationOf(InterfaceUnit interfaceToAvaliate) {
 
-		List<KDMRelationship> hasValueRelations = new ArrayList<KDMRelationship>();
+		List<HasValue> hasValueRelations = new ArrayList<HasValue>();
 
 		for (CodeItem codeItem : interfaceToAvaliate.getCodeElement()) {
 
@@ -214,8 +213,8 @@ public class RecoverRelationsHasValueImpl implements RecoverRelations {
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(EnumeratedType enumeratedTypeToAvaliate) {
-		List<KDMRelationship> hasValueRelations = new ArrayList<KDMRelationship>();
+	public List<HasValue> getRelationOf(EnumeratedType enumeratedTypeToAvaliate) {
+		List<HasValue> hasValueRelations = new ArrayList<HasValue>();
 
 		for (CodeItem codeItem : enumeratedTypeToAvaliate.getCodeElement()) {
 

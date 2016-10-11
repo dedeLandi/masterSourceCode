@@ -16,15 +16,14 @@ import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.code.ParameterUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Signature;
 import org.eclipse.gmt.modisco.omg.kdm.code.StorableUnit;
-import org.eclipse.gmt.modisco.omg.kdm.core.KDMRelationship;
 
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.interfaces.RecoverRelations;
 
-public class RecoverRelationsImportsImpl implements RecoverRelations{
+public class RecoverRelationsImportsImpl implements RecoverRelations<Imports>{
 
 	@Override
-	public List<KDMRelationship> getRelationOf(ClassUnit classToAvaliate) {
-		List<KDMRelationship> importsRecovered = new ArrayList<KDMRelationship>();
+	public List<Imports> getRelationOf(ClassUnit classToAvaliate) {
+		List<Imports> importsRecovered = new ArrayList<Imports>();
 		
 		for (AbstractCodeRelationship abstractCodeRelationship : classToAvaliate.getCodeRelation()) {
 			if(abstractCodeRelationship instanceof Imports){
@@ -36,13 +35,13 @@ public class RecoverRelationsImportsImpl implements RecoverRelations{
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(Package packageToAvaliate) {
+	public List<Imports> getRelationOf(Package packageToAvaliate) {
 		
-		List<KDMRelationship> importsRecovered = new ArrayList<KDMRelationship>();
+		List<Imports> importsRecovered = new ArrayList<Imports>();
 		
 		for (AbstractCodeElement abstractCodeElement : packageToAvaliate.getCodeElement()) {
 			if(abstractCodeElement instanceof Imports){
-				importsRecovered.add((KDMRelationship) abstractCodeElement);
+				importsRecovered.add((Imports) abstractCodeElement);
 			}else if(abstractCodeElement instanceof ClassUnit){
 				importsRecovered.addAll(this.getRelationOf((ClassUnit) abstractCodeElement));
 			}else if(abstractCodeElement instanceof InterfaceUnit){
@@ -57,28 +56,25 @@ public class RecoverRelationsImportsImpl implements RecoverRelations{
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(BlockUnit classToAvaliate) {
-		// não aplicavel
+	public List<Imports> getRelationOf(BlockUnit classToAvaliate) {
 		return null;
 	}
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(StorableUnit packageToAvaliate) {
-		// não aplicavel
+	public List<Imports> getRelationOf(StorableUnit packageToAvaliate) {
 		return null;
 	}
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(MethodUnit classToAvaliate) {
-		// não aplicavel
+	public List<Imports> getRelationOf(MethodUnit classToAvaliate) {
 		return null;
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(InterfaceUnit interfaceToAvaliate) {
-		List<KDMRelationship> importsRecovered = new ArrayList<KDMRelationship>();
+	public List<Imports> getRelationOf(InterfaceUnit interfaceToAvaliate) {
+		List<Imports> importsRecovered = new ArrayList<Imports>();
 		
 		for (AbstractCodeRelationship abstractCodeRelationship : interfaceToAvaliate.getCodeRelation()) {
 			if(abstractCodeRelationship instanceof Imports){
@@ -91,28 +87,25 @@ public class RecoverRelationsImportsImpl implements RecoverRelations{
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(ActionElement actionElementToAvaliate) {
-		// TODO Auto-generated method stub
+	public List<Imports> getRelationOf(ActionElement actionElementToAvaliate) {
 		return null;
 	}
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(Signature signatureToAvaliate) {
-		// TODO Auto-generated method stub
+	public List<Imports> getRelationOf(Signature signatureToAvaliate) {
 		return null;
 	}
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(ParameterUnit parameterToAvaliate) {
-		// TODO Auto-generated method stub
+	public List<Imports> getRelationOf(ParameterUnit parameterToAvaliate) {
 		return null;
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(EnumeratedType enumeratedTypeToAvaliate) {
-		List<KDMRelationship> importsRecovered = new ArrayList<KDMRelationship>();
+	public List<Imports> getRelationOf(EnumeratedType enumeratedTypeToAvaliate) {
+		List<Imports> importsRecovered = new ArrayList<Imports>();
 		
 		for (AbstractCodeRelationship abstractCodeRelationship : enumeratedTypeToAvaliate.getCodeRelation()) {
 			if(abstractCodeRelationship instanceof Imports){

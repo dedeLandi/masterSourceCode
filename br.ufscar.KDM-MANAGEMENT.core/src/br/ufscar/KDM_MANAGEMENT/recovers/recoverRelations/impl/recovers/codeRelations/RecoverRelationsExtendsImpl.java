@@ -16,15 +16,14 @@ import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.code.ParameterUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Signature;
 import org.eclipse.gmt.modisco.omg.kdm.code.StorableUnit;
-import org.eclipse.gmt.modisco.omg.kdm.core.KDMRelationship;
 
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.interfaces.RecoverRelations;
 
-public class RecoverRelationsExtendsImpl implements RecoverRelations{
+public class RecoverRelationsExtendsImpl implements RecoverRelations<Extends>{
 
 	@Override
-	public List<KDMRelationship> getRelationOf(ClassUnit classToAvaliate) {
-		List<KDMRelationship> extendsRecovered = new ArrayList<KDMRelationship>();
+	public List<Extends> getRelationOf(ClassUnit classToAvaliate) {
+		List<Extends> extendsRecovered = new ArrayList<Extends>();
 		
 		for (AbstractCodeRelationship abstractCodeRelationship : classToAvaliate.getCodeRelation()) {
 			if(abstractCodeRelationship instanceof Extends){
@@ -36,13 +35,13 @@ public class RecoverRelationsExtendsImpl implements RecoverRelations{
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(Package packageToAvaliate) {
+	public List<Extends> getRelationOf(Package packageToAvaliate) {
 		
-		List<KDMRelationship> extendsRecovered = new ArrayList<KDMRelationship>();
+		List<Extends> extendsRecovered = new ArrayList<Extends>();
 		
 		for (AbstractCodeElement abstractCodeElement : packageToAvaliate.getCodeElement()) {
 			if(abstractCodeElement instanceof Extends){
-				extendsRecovered.add((KDMRelationship) abstractCodeElement);
+				extendsRecovered.add((Extends) abstractCodeElement);
 			}else if(abstractCodeElement instanceof InterfaceUnit){
 				extendsRecovered.addAll(this.getRelationOf((InterfaceUnit) abstractCodeElement));
 			}else if(abstractCodeElement instanceof ClassUnit){
@@ -55,29 +54,26 @@ public class RecoverRelationsExtendsImpl implements RecoverRelations{
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(BlockUnit classToAvaliate) {
-		// não aplicavel
+	public List<Extends> getRelationOf(BlockUnit classToAvaliate) {
 		return null;
 	}
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(StorableUnit packageToAvaliate) {
-		// não aplicavel
+	public List<Extends> getRelationOf(StorableUnit packageToAvaliate) {
 		return null;
 	}
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(MethodUnit classToAvaliate) {
-		// não aplicavel
+	public List<Extends> getRelationOf(MethodUnit classToAvaliate) {
 		return null;
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(InterfaceUnit interfaceToAvaliate) {
+	public List<Extends> getRelationOf(InterfaceUnit interfaceToAvaliate) {
 		
-		List<KDMRelationship> extendsRecovered = new ArrayList<KDMRelationship>();
+		List<Extends> extendsRecovered = new ArrayList<Extends>();
 		
 		for (AbstractCodeRelationship abstractCodeRelationship : interfaceToAvaliate.getCodeRelation()) {
 			if(abstractCodeRelationship instanceof Extends){
@@ -90,28 +86,25 @@ public class RecoverRelationsExtendsImpl implements RecoverRelations{
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(ActionElement actionElementToAvaliate) {
-		// TODO Auto-generated method stub
+	public List<Extends> getRelationOf(ActionElement actionElementToAvaliate) {
 		return null;
 	}
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(Signature signatureToAvaliate) {
-		// TODO Auto-generated method stub
+	public List<Extends> getRelationOf(Signature signatureToAvaliate) {
 		return null;
 	}
 
 	@Override
 	@Deprecated
-	public List<KDMRelationship> getRelationOf(ParameterUnit parameterToAvaliate) {
-		// TODO Auto-generated method stub
+	public List<Extends> getRelationOf(ParameterUnit parameterToAvaliate) {
 		return null;
 	}
 
 	@Override
-	public List<KDMRelationship> getRelationOf(EnumeratedType enumeratedTypeToAvaliate) {
-		List<KDMRelationship> extendsRecovered = new ArrayList<KDMRelationship>();
+	public List<Extends> getRelationOf(EnumeratedType enumeratedTypeToAvaliate) {
+		List<Extends> extendsRecovered = new ArrayList<Extends>();
 		
 		for (AbstractCodeRelationship abstractCodeRelationship : enumeratedTypeToAvaliate.getCodeRelation()) {
 			if(abstractCodeRelationship instanceof Extends){

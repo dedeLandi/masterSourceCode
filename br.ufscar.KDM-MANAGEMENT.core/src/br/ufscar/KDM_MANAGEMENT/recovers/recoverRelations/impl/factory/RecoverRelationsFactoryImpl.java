@@ -3,6 +3,30 @@ package br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.factory;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.gmt.modisco.omg.kdm.action.Addresses;
+import org.eclipse.gmt.modisco.omg.kdm.action.Calls;
+import org.eclipse.gmt.modisco.omg.kdm.action.ControlFlow;
+import org.eclipse.gmt.modisco.omg.kdm.action.Creates;
+import org.eclipse.gmt.modisco.omg.kdm.action.Dispatches;
+import org.eclipse.gmt.modisco.omg.kdm.action.EntryFlow;
+import org.eclipse.gmt.modisco.omg.kdm.action.ExitFlow;
+import org.eclipse.gmt.modisco.omg.kdm.action.Reads;
+import org.eclipse.gmt.modisco.omg.kdm.action.Throws;
+import org.eclipse.gmt.modisco.omg.kdm.action.UsesType;
+import org.eclipse.gmt.modisco.omg.kdm.action.Writes;
+import org.eclipse.gmt.modisco.omg.kdm.code.Extends;
+import org.eclipse.gmt.modisco.omg.kdm.code.GeneratedFrom;
+import org.eclipse.gmt.modisco.omg.kdm.code.HasType;
+import org.eclipse.gmt.modisco.omg.kdm.code.HasValue;
+import org.eclipse.gmt.modisco.omg.kdm.code.ImplementationOf;
+import org.eclipse.gmt.modisco.omg.kdm.code.Implements;
+import org.eclipse.gmt.modisco.omg.kdm.code.Imports;
+import org.eclipse.gmt.modisco.omg.kdm.code.Includes;
+import org.eclipse.gmt.modisco.omg.kdm.code.InstanceOf;
+import org.eclipse.gmt.modisco.omg.kdm.code.ParameterTo;
+import org.eclipse.gmt.modisco.omg.kdm.code.Redefines;
+import org.eclipse.gmt.modisco.omg.kdm.code.VariantTo;
+import org.eclipse.gmt.modisco.omg.kdm.code.VisibleIn;
 
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.factory.RecoverRelationsFactory;
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.impl.recovers.actionRelations.RecoverRelationsCallsImpl;
@@ -38,136 +62,136 @@ public class RecoverRelationsFactoryImpl extends EFactoryImpl implements Recover
 	}
 
 	@Override
-	public RecoverRelations createInstanceOfRecover() {
+	public RecoverRelations<InstanceOf> createInstanceOfRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createParameterToRecover() {
+	public RecoverRelations<ParameterTo> createParameterToRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createImplementsRecover() {
+	public RecoverRelations<Implements> createImplementsRecover() {
 		return new RecoverRelationsImplementsImpl();
 	}
 
 	@Override
-	public RecoverRelations createImplementationOfRecover() {
+	public RecoverRelations<ImplementationOf> createImplementationOfRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createHasTypeRecover() {
+	public RecoverRelations<HasType> createHasTypeRecover() {
 		return new RecoverRelationsHasTypeImpl();
 	}
 
 	@Override
-	public RecoverRelations createHasValueRecover() {
+	public RecoverRelations<HasValue> createHasValueRecover() {
 		return new RecoverRelationsHasValueImpl();
 	}
 
 	@Override
-	public RecoverRelations createExtendsRecover() {
+	public RecoverRelations<Extends> createExtendsRecover() {
 		return new RecoverRelationsExtendsImpl();
 	}
 
 	@Override
-	public RecoverRelations createGeneratedFromRecover() {
+	public RecoverRelations<GeneratedFrom> createGeneratedFromRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createIncludesRecover() {
+	public RecoverRelations<Includes> createIncludesRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createVariantToRecover() {
+	public RecoverRelations<VariantTo> createVariantToRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createRedefinesRecover() {
+	public RecoverRelations<Redefines> createRedefinesRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createVisibleInRecover() {
+	public RecoverRelations<VisibleIn> createVisibleInRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createImportsRecover() {
+	public RecoverRelations<Imports> createImportsRecover() {
 		return new RecoverRelationsImportsImpl();
 	}
 
 	@Override
-	public RecoverRelations createControlFlowRecover() {
+	public RecoverRelations<ControlFlow> createControlFlowRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createEntryFlowRecover() {
+	public RecoverRelations<EntryFlow> createEntryFlowRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createCallsRecover() {
+	public RecoverRelations<Calls> createCallsRecover() {
 		return new RecoverRelationsCallsImpl();
 	}
 
 	@Override
-	public RecoverRelations createDispatchesRecover() {
+	public RecoverRelations<Dispatches> createDispatchesRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createReadsRecover() {
+	public RecoverRelations<Reads> createReadsRecover() {
 		return new RecoverRelationsReadsImpl();
 	}
 
 	@Override
-	public RecoverRelations createWritesRecover() {
+	public RecoverRelations<Writes> createWritesRecover() {
 		return new RecoverRelationsWritesImpl();
 	}
 
 	@Override
-	public RecoverRelations createAddressesRecover() {
+	public RecoverRelations<Addresses> createAddressesRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createCreatesRecover() {
+	public RecoverRelations<Creates> createCreatesRecover() {
 		return new RecoverRelationsCreatesImpl();
 	}
 
 	@Override
-	public RecoverRelations createExitFlowRecover() {
+	public RecoverRelations<ExitFlow> createExitFlowRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createThrowsRecover() {
+	public RecoverRelations<Throws> createThrowsRecover() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RecoverRelations createUsesTypeRecover() {
+	public RecoverRelations<UsesType> createUsesTypeRecover() {
 		return new RecoverRelationsUsesTypeImpl();
 	}
 	
