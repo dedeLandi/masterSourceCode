@@ -7,6 +7,7 @@ import org.eclipse.gmt.modisco.omg.kdm.action.ActionElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.EnumeratedType;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
+import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.code.StorableUnit;
 
@@ -16,6 +17,7 @@ import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.actionElements.
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.classes.KDMClassReaderImpl;
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.enumeretedTypes.KDMEnumeratedTypeReaderImpl;
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.interfaces.KDMInterfaceReaderImpl;
+import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.methods.KDMMethodReaderImpl;
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.packages.KDMPackageReaderImpl;
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.storables.KDMStorableReaderImpl;
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.interfaces.KDMCodeGenericReader;
@@ -103,6 +105,16 @@ public class KDMCodeReaderFactoryImpl extends EFactoryImpl implements KDMCodeRea
 	@Override
 	public KDMCodeGenericReader<ActionElement> createKDMActionReaderWithFilter(KDMActionElementsType kdmActionElementsType) {
 		return new KDMActionElementReaderImpl(kdmActionElementsType);
+	}
+
+	@Override
+	public KDMCodeGenericReader<MethodUnit> createKDMMethodReader() {
+		return new KDMMethodReaderImpl();
+	}
+
+	@Override
+	public KDMCodeGenericReader<MethodUnit> createKDMMethodReaderWithFilter(String nameToSearch) {
+		return new KDMMethodReaderImpl(nameToSearch);
 	}
 
 }

@@ -7,6 +7,7 @@ import org.eclipse.gmt.modisco.omg.kdm.action.ActionElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.EnumeratedType;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
+import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.enums.KDMActionElementsType;
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.interfaces.KDMCodeGenericReader;
@@ -31,6 +32,10 @@ public interface KDMCodeReaderFactory extends EFactory {
 	KDMCodeGenericReader<EnumeratedType> createKDMEnumeratedTypeReader();
 	
 	KDMCodeGenericReader<EnumeratedType> createKDMEnumeratedTypeReaderWithFilter(String nameToSearch);
+	
+	KDMCodeGenericReader<MethodUnit> createKDMMethodReader();
+	
+	KDMCodeGenericReader<MethodUnit> createKDMMethodReaderWithFilter(String nameToSearch);
 	
 	KDMCodeGenericReader<StorableUnit> createKDMStorableReader();
 
