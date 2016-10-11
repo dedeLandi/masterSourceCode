@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
+import org.eclipse.gmt.modisco.omg.kdm.code.CodeModel;
 import org.eclipse.gmt.modisco.omg.kdm.code.MethodUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.code.StorableUnit;
@@ -12,13 +13,17 @@ import org.eclipse.gmt.modisco.omg.kdm.core.KDMEntity;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.KDMModel;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.Segment;
 import org.eclipse.gmt.modisco.omg.kdm.structure.Layer;
+import org.eclipse.gmt.modisco.omg.kdm.structure.StructureModel;
 
 import br.ufscar.KDM_MANAGEMENT.exception.KDMModelTypeException;
 import br.ufscar.KDM_MANAGEMENT.load.KDMFileReader;
+import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.factory.KDMCodeReaderFactory;
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.classes.KDMClassReaderImpl;
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.methods.KDMMethodReaderImpl;
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.storables.KDMStorableReaderImpl;
+import br.ufscar.KDM_MANAGEMENT.readers.modelReaders.factory.KDMModelReaderFactory;
 import br.ufscar.KDM_MANAGEMENT.readers.modelReaders.impl.readers.KDMModelReaderImpl;
+import br.ufscar.KDM_MANAGEMENT.readers.structureReaders.factory.KDMStructureReaderFactory;
 import br.ufscar.KDM_MANAGEMENT.readers.structureReaders.impl.readers.layers.KDMLayerReaderImpl;
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverHierarchy.factory.RecoverHierarchyFactory;
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverHierarchy.interfaces.RecoverHierarchy;
@@ -29,7 +34,7 @@ public class Test {
 
 		//RecuperarLayers();
 		//RecuperarStorables();
-		
+
 		RecuperarCaminhosDaHierarquia();
 	}
 
@@ -38,51 +43,39 @@ public class Test {
 
 		Segment raizKdmInitialMap = (Segment) kdmFileReader.getKdmRead();
 
-		KDMModelReaderImpl kdmModelReader = new KDMModelReaderImpl(raizKdmInitialMap);
-		
 		String name = "SystemExampleMVC-Simples";
-		List<KDMModel> todosOsModelosComNomeIgual = kdmModelReader.getCodeModel(name);
-		
+		List<KDMModel> todosOsModelosComNomeIgual = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getModelFromSegmentByName(raizKdmInitialMap, name);
+
 		for (KDMModel kdmModel : todosOsModelosComNomeIgual) {
-			
-			try {
-				KDMClassReaderImpl kdmClassReader = new KDMClassReaderImpl(kdmModel);
-				
-				Map<String, List<ClassUnit>> allClasses = kdmClassReader.getAllClasses();
-				for (String nome : allClasses.keySet()) {
 
-					System.out.println("Modelo nome: " + nome);
-				
-					for (ClassUnit classUnit : allClasses.get(nome)) {
-						
-						RecoverHierarchy recoverHierarchyComplete = RecoverHierarchyFactory.eINSTANCE.createRecoverHierarchyComplete();
+			Map<String, List<ClassUnit>> allClasses = KDMCodeReaderFactory.eINSTANCE.createKDMClassReader().getAllFromModel((CodeModel) kdmModel);
+			for (String nome : allClasses.keySet()) {
 
-						System.out.println("	Classe nome: " + classUnit.getName() + " ( " + recoverHierarchyComplete.getHierarchyOf(classUnit) + " )");
-						
-						KDMMethodReaderImpl kdmMethodReader = new KDMMethodReaderImpl(classUnit);
-						
-						Map<String, List<MethodUnit>> allMethodsClass = kdmMethodReader.getAllMethods();
-						
-						for (String nomeMetodo : allMethodsClass.keySet()) {
-							
-							for (MethodUnit methodUnit : allMethodsClass.get(nomeMetodo)) {
-								
-								System.out.println("		Metodos nome: " + methodUnit.getName() + " ( " + recoverHierarchyComplete.getHierarchyOf(methodUnit) + " )" );
-								
-							}
-							
+				System.out.println("Modelo nome: " + nome);
+
+				for (ClassUnit classUnit : allClasses.get(nome)) {
+
+					RecoverHierarchy recoverHierarchyComplete = RecoverHierarchyFactory.eINSTANCE.createRecoverHierarchyComplete();
+
+					System.out.println("	Classe nome: " + classUnit.getName() + " ( " + recoverHierarchyComplete.getHierarchyOf(classUnit) + " )");
+
+					Map<String, List<MethodUnit>> allMethodsClass = KDMCodeReaderFactory.eINSTANCE.createKDMMethodReader().getAllFromClassUnit(classUnit); 
+
+					for (String nomeMetodo : allMethodsClass.keySet()) {
+
+						for (MethodUnit methodUnit : allMethodsClass.get(nomeMetodo)) {
+
+							System.out.println("		Metodos nome: " + methodUnit.getName() + " ( " + recoverHierarchyComplete.getHierarchyOf(methodUnit) + " )" );
+
 						}
-						
+
 					}
-					
-					
+
 				}
-				
-				
-			} catch (KDMModelTypeException e) {
-				System.out.println("model não é structure");
-				e.printStackTrace();
+
+
 			}
+
 		}
 	}
 
@@ -91,35 +84,24 @@ public class Test {
 
 		Segment raizKdmInitialMap = (Segment) kdmFileReader.getKdmRead();
 
-		
-		KDMModelReaderImpl kdmModelReader = new KDMModelReaderImpl(raizKdmInitialMap);
-		
-		Map<String, List<KDMModel>> todosOsModelosCode = kdmModelReader.getAllCodeModel();
-		
+		Map<String, List<KDMModel>> todosOsModelosCode = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getAllCodeModelFromSegment(raizKdmInitialMap);
+
 		for (String codeModelName : todosOsModelosCode.keySet()) {
-			
+
 			System.out.println("CodeModel analisado: " + codeModelName);
-			
-			try {
-				KDMStorableReaderImpl kdmStorableReader = new KDMStorableReaderImpl(todosOsModelosCode.get(codeModelName).get(0));
-				
-				Map<String, List<StorableUnit>> allStorables = kdmStorableReader.getAllStorables();
-				for (String nome : allStorables.keySet()) {
-					
-					System.out.println("	Nome da vez: " + nome);
-					
-					for (StorableUnit storableUnit : allStorables.get(nome)) {
-						System.out.println("		Storable da vez: " + storableUnit.getName());
-					}
-					
+
+			Map<String, List<StorableUnit>> allStorables = KDMCodeReaderFactory.eINSTANCE.createKDMStorableReader().getAllFromModel((CodeModel) todosOsModelosCode.get(codeModelName).get(0));
+			for (String nome : allStorables.keySet()) {
+
+				System.out.println("	Nome da vez: " + nome);
+
+				for (StorableUnit storableUnit : allStorables.get(nome)) {
+					System.out.println("		Storable da vez: " + storableUnit.getName());
 				}
-			
-			} catch (KDMModelTypeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
 			}
 		}
-			
+
 	}
 
 	private static void RecuperarLayers() {
@@ -127,54 +109,42 @@ public class Test {
 
 		Segment raizKdmInitialMap = (Segment) kdmFileReader.getKdmRead();
 
-		KDMModelReaderImpl kdmModelReader = new KDMModelReaderImpl(raizKdmInitialMap);
-		
 		String name = "initialMap";
-		List<KDMModel> todosOsModelosComNomeIgual = kdmModelReader.getStructureModel(name);
-		
-		for (KDMModel kdmModel : todosOsModelosComNomeIgual) {
-			
-			try {
-			
-				KDMLayerReaderImpl kdmLayerReader = new KDMLayerReaderImpl(kdmModel);
-				Map<String, List<Layer>> allPerLayersModel = kdmLayerReader.getAllLayers();
-			
-				for (String modelName : allPerLayersModel.keySet()) {
-					
-					System.out.println("Modelo: " + modelName);
-					
-					for (Layer layer : allPerLayersModel.get(modelName)) {
-						System.out.println("	Layer:" + layer.getName());
-						
-						for (KDMEntity entity : layer.getImplementation()) {
-							if(entity instanceof Package){
-								System.out.println("		Implementation:P " + entity.getName() + " - " + entity.toString());
-								
-								for (AbstractCodeElement codeElement : ((Package) entity).getCodeElement()) {
-									System.out.println("			Content: " + codeElement.getName() + " - " + codeElement.toString());
-								}
-								
-							}else if(entity instanceof ClassUnit){
-								System.out.println("		Implementation:C " + entity.getName() + " - " + entity.toString());
-								for (AbstractCodeElement codeElement : ((ClassUnit) entity).getCodeElement()) {
-									System.out.println("			Content: " + codeElement.getName() + " - " + codeElement.toString());
-								}
-							}else{
-								System.out.println("		Implementation:O " + entity.getName() + " - " + entity.toString());
-							}
-							
-					}
-						
-					}
-					
-				}
-			
-			} catch (KDMModelTypeException e) {
-				System.out.println("model não é structure");
-				e.printStackTrace();
-			}
-			
+		List<KDMModel> todosOsModelosComNomeIgual = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getModelFromSegmentByName(raizKdmInitialMap, name);;
 
+		for (KDMModel kdmModel : todosOsModelosComNomeIgual) {
+
+			Map<String, List<Layer>> allPerLayersModel = KDMStructureReaderFactory.eINSTANCE.createKDMLayerReader().getAllFromModel((StructureModel) kdmModel);
+
+			for (String modelName : allPerLayersModel.keySet()) {
+
+				System.out.println("Modelo: " + modelName);
+
+				for (Layer layer : allPerLayersModel.get(modelName)) {
+					System.out.println("	Layer:" + layer.getName());
+
+					for (KDMEntity entity : layer.getImplementation()) {
+						if(entity instanceof Package){
+							System.out.println("		Implementation:P " + entity.getName() + " - " + entity.toString());
+
+							for (AbstractCodeElement codeElement : ((Package) entity).getCodeElement()) {
+								System.out.println("			Content: " + codeElement.getName() + " - " + codeElement.toString());
+							}
+
+						}else if(entity instanceof ClassUnit){
+							System.out.println("		Implementation:C " + entity.getName() + " - " + entity.toString());
+							for (AbstractCodeElement codeElement : ((ClassUnit) entity).getCodeElement()) {
+								System.out.println("			Content: " + codeElement.getName() + " - " + codeElement.toString());
+							}
+						}else{
+							System.out.println("		Implementation:O " + entity.getName() + " - " + entity.toString());
+						}
+
+					}
+
+				}
+
+			}
 		}
 	}
 

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
+import org.eclipse.gmt.modisco.omg.kdm.code.CodeModel;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.KDMModel;
@@ -14,9 +15,11 @@ import org.eclipse.modisco.infra.discovery.core.exception.DiscoveryException;
 
 import br.ufscar.KDM_MANAGEMENT.discoverer.KDMModelDiscover;
 import br.ufscar.KDM_MANAGEMENT.exception.KDMModelTypeException;
-import br.ufscar.KDM_MANAGEMENT.models.code.interfaces.KDMInterfaceReader;
+import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.factory.KDMCodeReaderFactory;
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.classes.KDMClassReaderImpl;
+import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.interfaces.KDMInterfaceReaderImpl;
 import br.ufscar.KDM_MANAGEMENT.readers.codeReaders.impl.readers.packages.KDMPackageReaderImpl;
+import br.ufscar.KDM_MANAGEMENT.readers.modelReaders.factory.KDMModelReaderFactory;
 import br.ufscar.KDM_MANAGEMENT.readers.modelReaders.impl.readers.KDMModelReaderImpl;
 
 public class ExampleOfUse {
@@ -124,13 +127,14 @@ public class ExampleOfUse {
 	private static void getKDMInterfacesByPackageName(Object kDMFile) throws KDMModelTypeException {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<KDMModel>> allCodeModels = new KDMModelReaderImpl(KDMTree).getAllCodeModel();
-
-		Map<String, List<Package>> allPackages = new KDMPackageReaderImpl(allCodeModels.get("LabSys").get(0)).getAllPackages();
-
-		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = new KDMInterfaceReaderImpl(allPackages.get("LabSys").get(0)).getInterfaceByName("RRSolicitation");
-
-
+		Map<String, List<KDMModel>> allCodeModels = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getAllCodeModelFromSegment(KDMTree); 
+				
+		KDMModel kdmModel = allCodeModels.get("LabSys").get(0);
+		
+		Map<String, List<Package>> allPackages = KDMCodeReaderFactory.eINSTANCE.createKDMPackageReader().getAllFromModel((CodeModel) kdmModel);
+				
+		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMInterfaceReaderWithFilter("RRSolicitation").getAllFromModel((CodeModel) kdmModel);
+				
 		for (String nameCodeModel : interfacesPerCodeModel.keySet()) {
 
 			List<InterfaceUnit> interfaces = interfacesPerCodeModel.get(nameCodeModel);
@@ -149,9 +153,10 @@ public class ExampleOfUse {
 	private static void getKDMInterfacesByModelName(Object kDMFile) throws KDMModelTypeException {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<KDMModel>> allCodeModels = new KDMModelReaderImpl(KDMTree).getAllCodeModel();
+		Map<String, List<KDMModel>> allCodeModels = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getAllCodeModelFromSegment(KDMTree);
 
-		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = new KDMInterfaceReaderImpl(allCodeModels.get("LabSys").get(0)).getInterfaceByName("URLEntity");
+		KDMModel kdmModel = allCodeModels.get("LabSys").get(0);
+		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMInterfaceReaderWithFilter("URLEntity").getAllFromModel((CodeModel) kdmModel ); 
 
 		for (String nameCodeModel : interfacesPerCodeModel.keySet()) {
 
@@ -170,7 +175,7 @@ public class ExampleOfUse {
 	private static void getKDMInterfacesName(Object kDMFile) {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = new KDMInterfaceReaderImpl(KDMTree).getInterfaceByName("RandomAccess");
+		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMInterfaceReaderWithFilter("RandomAccess").getAllFromSegment(KDMTree); 
 
 		for (String nameCodeModel : interfacesPerCodeModel.keySet()) {
 
@@ -189,12 +194,14 @@ public class ExampleOfUse {
 	private static void getKDMClassesByPackageName(Object kDMFile) throws KDMModelTypeException {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<KDMModel>> allCodeModels = new KDMModelReaderImpl(KDMTree).getAllCodeModel();
-
-		Map<String, List<Package>> allPackages = new KDMPackageReaderImpl(allCodeModels.get("LabSys").get(0)).getAllPackages();
-
-		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReaderImpl(allPackages.get("LabSys").get(0)).getClassByName("PatrimonyRepository");
-
+		Map<String, List<KDMModel>> allCodeModels = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getAllCodeModelFromSegment(KDMTree); 
+		
+		KDMModel kdmModel = allCodeModels.get("LabSys").get(0);
+		
+		Map<String, List<Package>> allPackages = KDMCodeReaderFactory.eINSTANCE.createKDMPackageReader().getAllFromModel((CodeModel) kdmModel);
+				
+		Package pakage = allPackages.get("LabSys").get(0);
+		Map<String, List<ClassUnit>> classesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMClassReaderWithFilter("PatrimonyRepository").getAllFromPackage(pakage);
 
 		for (String nameCodeModel : classesPerCodeModel.keySet()) {
 
@@ -214,9 +221,10 @@ public class ExampleOfUse {
 	private static void getKDMClassesByModelName(Object kDMFile) throws KDMModelTypeException {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<KDMModel>> allCodeModels = new KDMModelReaderImpl(KDMTree).getAllCodeModel();
-
-		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReaderImpl(allCodeModels.get("LabSys").get(0)).getClassByName("Token");
+		Map<String, List<KDMModel>> allCodeModels = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getAllCodeModelFromSegment(KDMTree); 
+		
+		KDMModel kdmModel = allCodeModels.get("LabSys").get(0);
+		Map<String, List<ClassUnit>> classesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMClassReaderWithFilter("Token").getAllFromModel((CodeModel) kdmModel);
 
 		for (String nameCodeModel : classesPerCodeModel.keySet()) {
 
@@ -235,7 +243,7 @@ public class ExampleOfUse {
 	private static void getKDMClassesName(Object kDMFile) {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReaderImpl(KDMTree).getClassByName("ChartBean");
+		Map<String, List<ClassUnit>> classesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMClassReaderWithFilter("ChartBean").getAllFromSegment(KDMTree);
 
 		for (String nameCodeModel : classesPerCodeModel.keySet()) {
 
@@ -254,9 +262,11 @@ public class ExampleOfUse {
 	private static void getKDMPackagesByModelName(Object kDMFile) throws KDMModelTypeException {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<KDMModel>> allCodeModels = new KDMModelReaderImpl(KDMTree).getAllCodeModel();
+		Map<String, List<KDMModel>> allCodeModels = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getAllCodeModelFromSegment(KDMTree);
 
-		Map<String, List<Package>> packagesPerCodeModel = new KDMPackageReaderImpl(allCodeModels.get("LabSys").get(0)).getPackageByName("nonExist");
+		KDMModel kdmModel = allCodeModels.get("LabSys").get(0);
+		
+		Map<String, List<Package>> packagesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMPackageReaderWithFilter("nonExist").getAllFromModel((CodeModel) kdmModel);
 
 		for (String nameCodeModel : packagesPerCodeModel.keySet()) {
 
@@ -275,7 +285,7 @@ public class ExampleOfUse {
 	private static void getKDMPackagesName(Object kDMFile) {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<Package>> packagesPerCodeModel = new KDMPackageReaderImpl(KDMTree).getPackageByName("security");
+		Map<String, List<Package>> packagesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMPackageReaderWithFilter("security").getAllFromSegment(KDMTree);
 
 		for (String nameCodeModel : packagesPerCodeModel.keySet()) {
 
@@ -295,12 +305,13 @@ public class ExampleOfUse {
 
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<KDMModel>> allCodeModels = new KDMModelReaderImpl(KDMTree).getAllCodeModel();
+		Map<String, List<KDMModel>> allCodeModels = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getAllCodeModelFromSegment(KDMTree);
 
-		Map<String, List<Package>> allPackages = new KDMPackageReaderImpl(allCodeModels.get("LabSys").get(0)).getAllPackages();
+		KDMModel kdmModel = allCodeModels.get("LabSys").get(0);
+		
+		Map<String, List<Package>> allPackages = KDMCodeReaderFactory.eINSTANCE.createKDMPackageReader().getAllFromModel((CodeModel) kdmModel);
 
-		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = new KDMInterfaceReaderImpl(allPackages.get("LabSys").get(0)).getAllInterfaces();
-
+		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMInterfaceReader().getAllFromModel((CodeModel) kdmModel);
 
 		for (String nameCodeModel : interfacesPerCodeModel.keySet()) {
 
@@ -319,9 +330,10 @@ public class ExampleOfUse {
 	private static void getKDMInterfacesByModel(Object kDMFile) throws KDMModelTypeException {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<KDMModel>> allCodeModels = new KDMModelReaderImpl(KDMTree).getAllCodeModel();
+		Map<String, List<KDMModel>> allCodeModels = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getAllCodeModelFromSegment(KDMTree);
 
-		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = new KDMInterfaceReaderImpl(allCodeModels.get("LabSys").get(0)).getAllInterfaces();
+		KDMModel kdmModel = allCodeModels.get("LabSys").get(0);
+		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMInterfaceReader().getAllFromModel((CodeModel) kdmModel );
 
 		for (String nameCodeModel : interfacesPerCodeModel.keySet()) {
 
@@ -340,7 +352,7 @@ public class ExampleOfUse {
 	private static void getKDMInterfaces(Object kDMFile) {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = new KDMInterfaceReaderImpl(KDMTree).getAllInterfaces();
+		Map<String, List<InterfaceUnit>> interfacesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMInterfaceReader().getAllFromSegment(KDMTree);
 
 		for (String nameCodeModel : interfacesPerCodeModel.keySet()) {
 
@@ -361,12 +373,12 @@ public class ExampleOfUse {
 
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<KDMModel>> allCodeModels = new KDMModelReaderImpl(KDMTree).getAllCodeModel();
+		Map<String, List<KDMModel>> allCodeModels = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getAllCodeModelFromSegment(KDMTree);
 
-		Map<String, List<Package>> allPackages = new KDMPackageReaderImpl(allCodeModels.get("LabSys").get(0)).getAllPackages();
+		KDMModel kdmModel = allCodeModels.get("LabSys").get(0);
+		Map<String, List<Package>> allPackages = KDMCodeReaderFactory.eINSTANCE.createKDMPackageReader().getAllFromModel((CodeModel) kdmModel ); 
 
-		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReaderImpl(allPackages.get("LabSys").get(0)).getAllClasses();
-
+		Map<String, List<ClassUnit>> classesPerCodeModel =  KDMCodeReaderFactory.eINSTANCE.createKDMClassReader().getAllFromModel((CodeModel) kdmModel );
 
 		for (String nameCodeModel : classesPerCodeModel.keySet()) {
 
@@ -385,9 +397,10 @@ public class ExampleOfUse {
 	private static void getKDMClassesByModel(Object kDMFile) throws KDMModelTypeException {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<KDMModel>> allCodeModels = new KDMModelReaderImpl(KDMTree).getAllCodeModel();
+		Map<String, List<KDMModel>> allCodeModels = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getAllCodeModelFromSegment(KDMTree);
 
-		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReaderImpl(allCodeModels.get("LabSys").get(0)).getAllClasses();
+		KDMModel kdmModel = allCodeModels.get("LabSys").get(0);
+		Map<String, List<ClassUnit>> classesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMClassReader().getAllFromModel((CodeModel) kdmModel ); 
 
 		for (String nameCodeModel : classesPerCodeModel.keySet()) {
 
@@ -406,7 +419,7 @@ public class ExampleOfUse {
 	private static void getKDMClasses(Object kDMFile) {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<ClassUnit>> classesPerCodeModel = new KDMClassReaderImpl(KDMTree).getAllClasses();
+		Map<String, List<ClassUnit>> classesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMClassReader().getAllFromSegment(KDMTree );
 
 		for (String nameCodeModel : classesPerCodeModel.keySet()) {
 
@@ -426,9 +439,10 @@ public class ExampleOfUse {
 	private static void getKDMPackagesByModel(Object kDMFile) throws KDMModelTypeException {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<KDMModel>> allCodeModels = new KDMModelReaderImpl(KDMTree).getAllCodeModel();
+		Map<String, List<KDMModel>> allCodeModels = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getAllCodeModelFromSegment(KDMTree);
 
-		Map<String, List<Package>> packagesPerCodeModel = new KDMPackageReaderImpl(allCodeModels.get("LabSys").get(0)).getAllPackages();
+		KDMModel kdmModel = allCodeModels.get("LabSys").get(0);
+		Map<String, List<Package>> packagesPerCodeModel =  KDMCodeReaderFactory.eINSTANCE.createKDMPackageReader().getAllFromModel((CodeModel) kdmModel );
 
 		for (String nameCodeModel : packagesPerCodeModel.keySet()) {
 
@@ -447,7 +461,7 @@ public class ExampleOfUse {
 	private static void getKDMPackages(Object kDMFile) {
 		Segment KDMTree = (Segment) kDMFile;
 
-		Map<String, List<Package>> packagesPerCodeModel = new KDMPackageReaderImpl(KDMTree).getAllPackages();
+		Map<String, List<Package>> packagesPerCodeModel = KDMCodeReaderFactory.eINSTANCE.createKDMPackageReader().getAllFromSegment(KDMTree ); 
 
 		for (String nameCodeModel : packagesPerCodeModel.keySet()) {
 
@@ -467,7 +481,7 @@ public class ExampleOfUse {
 
 	private static void getKDMModels(Object kDMFile) {
 		Segment KDMTree = (Segment) kDMFile;
-		Map<String, Map<String, List<KDMModel>>> allModels = new KDMModelReaderImpl(KDMTree).getAllModels();
+		Map<String, Map<String, List<KDMModel>>> allModels = KDMModelReaderFactory.eINSTANCE.createKDMModelReader().getAllFromSegment(KDMTree);
 		for (String key : allModels.keySet()) {
 			Map<String, List<KDMModel>> map = allModels.get(key);
 			if(map != null){
