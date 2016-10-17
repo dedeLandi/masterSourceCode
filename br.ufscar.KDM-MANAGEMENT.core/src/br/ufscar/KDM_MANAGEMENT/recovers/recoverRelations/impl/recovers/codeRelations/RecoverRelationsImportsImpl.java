@@ -8,6 +8,7 @@ import org.eclipse.gmt.modisco.omg.kdm.action.BlockUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeElement;
 import org.eclipse.gmt.modisco.omg.kdm.code.AbstractCodeRelationship;
 import org.eclipse.gmt.modisco.omg.kdm.code.ClassUnit;
+import org.eclipse.gmt.modisco.omg.kdm.code.CodeModel;
 import org.eclipse.gmt.modisco.omg.kdm.code.EnumeratedType;
 import org.eclipse.gmt.modisco.omg.kdm.code.Imports;
 import org.eclipse.gmt.modisco.omg.kdm.code.InterfaceUnit;
@@ -16,6 +17,7 @@ import org.eclipse.gmt.modisco.omg.kdm.code.Package;
 import org.eclipse.gmt.modisco.omg.kdm.code.ParameterUnit;
 import org.eclipse.gmt.modisco.omg.kdm.code.Signature;
 import org.eclipse.gmt.modisco.omg.kdm.code.StorableUnit;
+import org.eclipse.gmt.modisco.omg.kdm.kdm.Segment;
 
 import br.ufscar.KDM_MANAGEMENT.recovers.recoverRelations.interfaces.RecoverRelations;
 
@@ -114,6 +116,18 @@ public class RecoverRelationsImportsImpl implements RecoverRelations<Imports>{
 		}
 		
 		return importsRecovered;
+	}
+
+	@Override
+	public List<Imports> getRelationOf(Segment segmentToAvaliate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Imports> getRelationOf(CodeModel codeModelToAvaliate) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
